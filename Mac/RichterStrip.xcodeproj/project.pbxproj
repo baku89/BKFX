@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		232444D12574E2A60051E100 /* RichterStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 232444CF2574E2A60051E100 /* RichterStrip.cpp */; };
+		232444D22574E2A60051E100 /* RichterStripPiPL.r in Rez */ = {isa = PBXBuildFile; fileRef = 232444D02574E2A60051E100 /* RichterStripPiPL.r */; };
+		232445432574E8760051E100 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 232445422574E8760051E100 /* shaders */; };
 		232FA4942573B5DE0045CDF3 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */; };
 		23431DB825729B63003D3EA3 /* AEOGLInterop.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 23431DB725729B63003D3EA3 /* AEOGLInterop.hpp */; };
 		234B94D1256F51BF0094C117 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234B94D0256F51BF0094C117 /* OpenGL.framework */; };
@@ -14,34 +17,32 @@
 		237F3801256F2CE100C32611 /* Smart_Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 237F3800256F2CE100C32611 /* Smart_Utils.cpp */; };
 		237F3805256F2D3F00C32611 /* AEFX_SuiteHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 237F3804256F2D3F00C32611 /* AEFX_SuiteHelper.c */; };
 		23D2ACAD25736F1000BDCD8C /* AEUtils.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */; };
-		23D2ACD12573741F00BDCD8C /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 23D2ACD02573741F00BDCD8C /* shaders */; };
 		23D5FDC6256FEC1B00396409 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 23D5FDC5256FEC1B00396409 /* glad.c */; };
-		D0FE57600993C4E900139A60 /* RichterStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0FE575C0993C4E900139A60 /* RichterStrip.cpp */; };
-		D0FE57610993C4E900139A60 /* RichterStripPiPL.r in Rez */ = {isa = PBXBuildFile; fileRef = D0FE575E0993C4E900139A60 /* RichterStripPiPL.r */; };
 		D0FE579D0993C5E500139A60 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0FE579A0993C5E500139A60 /* AEGP_SuiteHandler.cpp */; };
 		D0FE579E0993C5E500139A60 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0FE579C0993C5E500139A60 /* MissingSuiteError.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		232444CD2574E2A60051E100 /* RichterStrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RichterStrip.h; path = ../../RichterStrip/RichterStrip.h; sourceTree = "<group>"; };
+		232444CE2574E2A60051E100 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = ../../RichterStrip/Settings.h; sourceTree = "<group>"; };
+		232444CF2574E2A60051E100 /* RichterStrip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RichterStrip.cpp; path = ../../RichterStrip/RichterStrip.cpp; sourceTree = "<group>"; };
+		232444D02574E2A60051E100 /* RichterStripPiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = RichterStripPiPL.r; path = ../../RichterStrip/RichterStripPiPL.r; sourceTree = "<group>"; };
+		232445122574E4810051E100 /* RichterStrip.plugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "RichterStrip.plugin-Info.plist"; path = "/Users/baku/Dropbox/AESDK/Examples/Baku/RichterStrip/RichterStrip/RichterStrip.plugin-Info.plist"; sourceTree = "<absolute>"; };
+		232445422574E8760051E100 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../RichterStrip/shaders; sourceTree = "<group>"; };
 		232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		23431DB725729B63003D3EA3 /* AEOGLInterop.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AEOGLInterop.hpp; path = ../AEOGLInterop.hpp; sourceTree = "<group>"; };
 		234B94D0256F51BF0094C117 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		234B94DC256F54C80094C117 /* OGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OGL.h; path = ../OGL.h; sourceTree = "<group>"; };
 		234B94E1256F57A90094C117 /* OGL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OGL.cpp; path = ../OGL.cpp; sourceTree = "<group>"; };
-		237F37FD256F29CE00C32611 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = ../Settings.h; sourceTree = "<group>"; };
 		237F37FF256F2CE100C32611 /* Smart_Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Smart_Utils.h; path = ../../../Util/Smart_Utils.h; sourceTree = "<group>"; };
 		237F3800256F2CE100C32611 /* Smart_Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Smart_Utils.cpp; path = ../../../Util/Smart_Utils.cpp; sourceTree = "<group>"; };
 		237F3803256F2D3F00C32611 /* AEFX_SuiteHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEFX_SuiteHelper.h; path = ../../../Util/AEFX_SuiteHelper.h; sourceTree = "<group>"; };
 		237F3804256F2D3F00C32611 /* AEFX_SuiteHelper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AEFX_SuiteHelper.c; path = ../../../Util/AEFX_SuiteHelper.c; sourceTree = "<group>"; };
 		23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AEUtils.hpp; path = ../AEUtils.hpp; sourceTree = "<group>"; };
-		23D2ACD02573741F00BDCD8C /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../shaders; sourceTree = "<group>"; };
 		23D5FDC5256FEC1B00396409 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = glad.c; path = ../glad/src/glad.c; sourceTree = "<group>"; };
 		7E76EECF1F707EF300536F9D /* AE_PluginData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AE_PluginData.h; path = ../../../Headers/AE_PluginData.h; sourceTree = "<group>"; };
 		7E76EED01F707F0400536F9D /* AE_Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AE_Effect.h; path = ../../../Headers/AE_Effect.h; sourceTree = "<group>"; };
-		7EF36FB816F29807002A3CB3 /* RichterStrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RichterStrip.h; path = ../RichterStrip.h; sourceTree = "<group>"; };
 		C4E618CC095A3CE80012CA3F /* RichterStrip.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RichterStrip.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0FE575C0993C4E900139A60 /* RichterStrip.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = RichterStrip.cpp; path = ../RichterStrip.cpp; sourceTree = SOURCE_ROOT; };
-		D0FE575E0993C4E900139A60 /* RichterStripPiPL.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; name = RichterStripPiPL.r; path = ../RichterStripPiPL.r; sourceTree = SOURCE_ROOT; };
 		D0FE579A0993C5E500139A60 /* AEGP_SuiteHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AEGP_SuiteHandler.cpp; path = ../../../Util/AEGP_SuiteHandler.cpp; sourceTree = SOURCE_ROOT; };
 		D0FE579B0993C5E500139A60 /* AEGP_SuiteHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AEGP_SuiteHandler.h; path = ../../../Util/AEGP_SuiteHandler.h; sourceTree = SOURCE_ROOT; };
 		D0FE579C0993C5E500139A60 /* MissingSuiteError.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MissingSuiteError.cpp; path = ../../../Util/MissingSuiteError.cpp; sourceTree = SOURCE_ROOT; };
@@ -60,10 +61,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		232444CA2574E25D0051E100 /* RichterStrip */ = {
+			isa = PBXGroup;
+			children = (
+				232445422574E8760051E100 /* shaders */,
+				232445122574E4810051E100 /* RichterStrip.plugin-Info.plist */,
+				232444CF2574E2A60051E100 /* RichterStrip.cpp */,
+				232444CD2574E2A60051E100 /* RichterStrip.h */,
+				232444D02574E2A60051E100 /* RichterStripPiPL.r */,
+				232444CE2574E2A60051E100 /* Settings.h */,
+			);
+			path = RichterStrip;
+			sourceTree = "<group>";
+		};
 		234B94CF256F51BF0094C117 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				23D2ACD02573741F00BDCD8C /* shaders */,
 				234B94D0256F51BF0094C117 /* OpenGL.framework */,
 				232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */,
 			);
@@ -73,14 +86,11 @@
 		C4E6187C095A3C800012CA3F = {
 			isa = PBXGroup;
 			children = (
+				232444CA2574E25D0051E100 /* RichterStrip */,
 				23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */,
 				23431DB725729B63003D3EA3 /* AEOGLInterop.hpp */,
 				234B94E1256F57A90094C117 /* OGL.cpp */,
 				234B94DC256F54C80094C117 /* OGL.h */,
-				237F37FD256F29CE00C32611 /* Settings.h */,
-				D0FE575C0993C4E900139A60 /* RichterStrip.cpp */,
-				7EF36FB816F29807002A3CB3 /* RichterStrip.h */,
-				D0FE575E0993C4E900139A60 /* RichterStripPiPL.r */,
 				23D5FDC5256FEC1B00396409 /* glad.c */,
 				D0FE57630993C4FD00139A60 /* Supporting Code */,
 				C4E6188C095A3C800012CA3F /* Products */,
@@ -139,6 +149,7 @@
 		C4E6187E095A3C800012CA3F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 0720;
 			};
 			buildConfigurationList = C4E6187F095A3C800012CA3F /* Build configuration list for PBXProject "RichterStrip" */;
@@ -163,7 +174,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23D2ACD12573741F00BDCD8C /* shaders in Resources */,
+				232445432574E8760051E100 /* shaders in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,7 +185,7 @@
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0FE57610993C4E900139A60 /* RichterStripPiPL.r in Rez */,
+				232444D22574E2A60051E100 /* RichterStripPiPL.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,7 +196,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0FE57600993C4E900139A60 /* RichterStrip.cpp in Sources */,
 				D0FE579D0993C5E500139A60 /* AEGP_SuiteHandler.cpp in Sources */,
 				23431DB825729B63003D3EA3 /* AEOGLInterop.hpp in Sources */,
 				237F3801256F2CE100C32611 /* Smart_Utils.cpp in Sources */,
@@ -194,6 +204,7 @@
 				23D2ACAD25736F1000BDCD8C /* AEUtils.hpp in Sources */,
 				D0FE579E0993C5E500139A60 /* MissingSuiteError.cpp in Sources */,
 				23D5FDC6256FEC1B00396409 /* glad.c in Sources */,
+				232444D12574E2A60051E100 /* RichterStrip.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,11 +214,14 @@
 		231FDE7B25749874009B0C14 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = "";
+				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
 				GCC_REUSE_STRINGS = NO;
@@ -222,57 +236,52 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../../../Headers,
-					../../../Util,
-					../../../Headers/SP,
-					../../../Resources,
-				);
-				ONLY_ACTIVE_ARCH = YES;
-				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
-				SDKROOT = macosx;
-				STRIP_INSTALLED_PRODUCT = NO;
-				WRAPPER_EXTENSION = plugin;
-			};
-			name = Release;
-		};
-		231FDE7C25749874009B0C14 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_MODEL_TUNING = G5;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					../../../Headers,
 					../../../Util,
 					../../../Headers/SP,
 					../../../Resources,
+				);
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
+				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
+				WRAPPER_EXTENSION = plugin;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		231FDE7C25749874009B0C14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"/usr/local/Cellar/glfw/3.3.2/include/**",
 					"\"$(SRCROOT)/../glad/include\"/**",
 				);
-				INFOPLIST_FILE = "RichterStrip.plugin-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INFOPLIST_FILE = "../RichterStrip/RichterStrip.plugin-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.2/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.baku89.AfterEffects.RichterStrip;
 				PRODUCT_NAME = RichterStrip;
-				SDKROOT = macosx;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
 		C4E61880095A3C800012CA3F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = "";
+				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
@@ -288,46 +297,38 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../../../Headers,
-					../../../Util,
-					../../../Headers/SP,
-					../../../Resources,
-				);
-				ONLY_ACTIVE_ARCH = YES;
-				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
-				SDKROOT = macosx;
-				STRIP_INSTALLED_PRODUCT = NO;
-				WRAPPER_EXTENSION = plugin;
-			};
-			name = Debug;
-		};
-		C4E618CF095A3CE90012CA3F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				COMBINE_HIDPI_IMAGES = YES;
-				GCC_MODEL_TUNING = G5;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					../../../Headers,
 					../../../Util,
 					../../../Headers/SP,
 					../../../Resources,
+				);
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
+				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
+				WRAPPER_EXTENSION = plugin;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		C4E618CF095A3CE90012CA3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"/usr/local/Cellar/glfw/3.3.2/include/**",
 					"\"$(SRCROOT)/../glad/include\"/**",
 				);
-				INFOPLIST_FILE = "RichterStrip.plugin-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INFOPLIST_FILE = "../RichterStrip/RichterStrip.plugin-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.2/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.baku89.AfterEffects.RichterStrip;
 				PRODUCT_NAME = RichterStrip;
-				SDKROOT = macosx;
-				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
