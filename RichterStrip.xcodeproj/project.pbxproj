@@ -10,45 +10,58 @@
 		232444D12574E2A60051E100 /* RichterStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 232444CF2574E2A60051E100 /* RichterStrip.cpp */; };
 		232444D22574E2A60051E100 /* RichterStripPiPL.r in Rez */ = {isa = PBXBuildFile; fileRef = 232444D02574E2A60051E100 /* RichterStripPiPL.r */; };
 		232445432574E8760051E100 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 232445422574E8760051E100 /* shaders */; };
+		2324454E2574E9490051E100 /* AEUtils.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */; };
+		2324456B2574E9870051E100 /* ChannelMatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 232445682574E9870051E100 /* ChannelMatte.cpp */; };
+		2324456C2574E9870051E100 /* ChannelMattePiPL.r in Rez */ = {isa = PBXBuildFile; fileRef = 2324456A2574E9870051E100 /* ChannelMattePiPL.r */; };
 		232FA4942573B5DE0045CDF3 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */; };
-		23431DB825729B63003D3EA3 /* AEOGLInterop.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 23431DB725729B63003D3EA3 /* AEOGLInterop.hpp */; };
 		234B94D1256F51BF0094C117 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234B94D0256F51BF0094C117 /* OpenGL.framework */; };
 		234B94E2256F57A90094C117 /* OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 234B94E1256F57A90094C117 /* OGL.cpp */; };
-		237F3801256F2CE100C32611 /* Smart_Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 237F3800256F2CE100C32611 /* Smart_Utils.cpp */; };
-		237F3805256F2D3F00C32611 /* AEFX_SuiteHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 237F3804256F2D3F00C32611 /* AEFX_SuiteHelper.c */; };
+		23BB777C2574EF7B007FEE14 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */; };
+		23BB77802574EF89007FEE14 /* AEFX_SuiteHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */; };
+		23BB77862574EFD9007FEE14 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */; };
+		23BB778A2574EFE9007FEE14 /* Smart_Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77892574EFE9007FEE14 /* Smart_Utils.cpp */; };
+		23BB77942574F0D8007FEE14 /* AEFX_SuiteHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */; };
+		23BB77972574F0DF007FEE14 /* Smart_Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77892574EFE9007FEE14 /* Smart_Utils.cpp */; };
+		23BB779A2574F0E6007FEE14 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */; };
+		23BB779D2574F0EA007FEE14 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */; };
 		23D2ACAD25736F1000BDCD8C /* AEUtils.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */; };
 		23D5FDC6256FEC1B00396409 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 23D5FDC5256FEC1B00396409 /* glad.c */; };
-		D0FE579D0993C5E500139A60 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0FE579A0993C5E500139A60 /* AEGP_SuiteHandler.cpp */; };
-		D0FE579E0993C5E500139A60 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0FE579C0993C5E500139A60 /* MissingSuiteError.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		232444CD2574E2A60051E100 /* RichterStrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RichterStrip.h; path = ../../RichterStrip/RichterStrip.h; sourceTree = "<group>"; };
-		232444CE2574E2A60051E100 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = ../../RichterStrip/Settings.h; sourceTree = "<group>"; };
-		232444CF2574E2A60051E100 /* RichterStrip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RichterStrip.cpp; path = ../../RichterStrip/RichterStrip.cpp; sourceTree = "<group>"; };
-		232444D02574E2A60051E100 /* RichterStripPiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = RichterStripPiPL.r; path = ../../RichterStrip/RichterStripPiPL.r; sourceTree = "<group>"; };
-		232445122574E4810051E100 /* RichterStrip.plugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "RichterStrip.plugin-Info.plist"; path = "/Users/baku/Dropbox/AESDK/Examples/Baku/RichterStrip/RichterStrip/RichterStrip.plugin-Info.plist"; sourceTree = "<absolute>"; };
-		232445422574E8760051E100 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../RichterStrip/shaders; sourceTree = "<group>"; };
+		232444CD2574E2A60051E100 /* RichterStrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RichterStrip.h; path = RichterStrip/RichterStrip.h; sourceTree = "<group>"; };
+		232444CE2574E2A60051E100 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = RichterStrip/Settings.h; sourceTree = "<group>"; };
+		232444CF2574E2A60051E100 /* RichterStrip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RichterStrip.cpp; path = RichterStrip/RichterStrip.cpp; sourceTree = "<group>"; };
+		232444D02574E2A60051E100 /* RichterStripPiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = RichterStripPiPL.r; path = RichterStrip/RichterStripPiPL.r; sourceTree = "<group>"; };
+		232445422574E8760051E100 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = RichterStrip/shaders; sourceTree = "<group>"; };
+		2324455A2574E9490051E100 /* ChannelMatte.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChannelMatte.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		232445682574E9870051E100 /* ChannelMatte.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ChannelMatte.cpp; path = RichterStrip/ChannelMatte/ChannelMatte.cpp; sourceTree = "<group>"; };
+		232445692574E9870051E100 /* ChannelMatte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelMatte.h; path = RichterStrip/ChannelMatte/ChannelMatte.h; sourceTree = "<group>"; };
+		2324456A2574E9870051E100 /* ChannelMattePiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = ChannelMattePiPL.r; path = RichterStrip/ChannelMatte/ChannelMattePiPL.r; sourceTree = "<group>"; };
 		232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
-		23431DB725729B63003D3EA3 /* AEOGLInterop.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AEOGLInterop.hpp; path = ../AEOGLInterop.hpp; sourceTree = "<group>"; };
+		233D33162574EB39009C7ED3 /* AEOGLInterop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AEOGLInterop.hpp; sourceTree = "<group>"; };
 		234B94D0256F51BF0094C117 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		234B94DC256F54C80094C117 /* OGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OGL.h; path = ../OGL.h; sourceTree = "<group>"; };
-		234B94E1256F57A90094C117 /* OGL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OGL.cpp; path = ../OGL.cpp; sourceTree = "<group>"; };
-		237F37FF256F2CE100C32611 /* Smart_Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Smart_Utils.h; path = ../../../Util/Smart_Utils.h; sourceTree = "<group>"; };
-		237F3800256F2CE100C32611 /* Smart_Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Smart_Utils.cpp; path = ../../../Util/Smart_Utils.cpp; sourceTree = "<group>"; };
-		237F3803256F2D3F00C32611 /* AEFX_SuiteHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEFX_SuiteHelper.h; path = ../../../Util/AEFX_SuiteHelper.h; sourceTree = "<group>"; };
-		237F3804256F2D3F00C32611 /* AEFX_SuiteHelper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AEFX_SuiteHelper.c; path = ../../../Util/AEFX_SuiteHelper.c; sourceTree = "<group>"; };
-		23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AEUtils.hpp; path = ../AEUtils.hpp; sourceTree = "<group>"; };
-		23D5FDC5256FEC1B00396409 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = glad.c; path = ../glad/src/glad.c; sourceTree = "<group>"; };
-		7E76EECF1F707EF300536F9D /* AE_PluginData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AE_PluginData.h; path = ../../../Headers/AE_PluginData.h; sourceTree = "<group>"; };
-		7E76EED01F707F0400536F9D /* AE_Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AE_Effect.h; path = ../../../Headers/AE_Effect.h; sourceTree = "<group>"; };
+		234B94DC256F54C80094C117 /* OGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OGL.h; sourceTree = "<group>"; };
+		234B94E1256F57A90094C117 /* OGL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OGL.cpp; sourceTree = "<group>"; };
+		23BB77782574EE38007FEE14 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
+		23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MissingSuiteError.cpp; path = ../../Util/MissingSuiteError.cpp; sourceTree = "<group>"; };
+		23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AEFX_SuiteHelper.c; path = ../../Util/AEFX_SuiteHelper.c; sourceTree = "<group>"; };
+		23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AEGP_SuiteHandler.cpp; path = ../../Util/AEGP_SuiteHandler.cpp; sourceTree = "<group>"; };
+		23BB77892574EFE9007FEE14 /* Smart_Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Smart_Utils.cpp; path = ../../Util/Smart_Utils.cpp; sourceTree = "<group>"; };
+		23BB77912574F058007FEE14 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = RichterStrip/ChannelMatte/Settings.h; sourceTree = "<group>"; };
+		23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AEUtils.hpp; sourceTree = "<group>"; };
+		23D5FDC5256FEC1B00396409 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = glad.c; path = glad/src/glad.c; sourceTree = "<group>"; };
 		C4E618CC095A3CE80012CA3F /* RichterStrip.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RichterStrip.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0FE579A0993C5E500139A60 /* AEGP_SuiteHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AEGP_SuiteHandler.cpp; path = ../../../Util/AEGP_SuiteHandler.cpp; sourceTree = SOURCE_ROOT; };
-		D0FE579B0993C5E500139A60 /* AEGP_SuiteHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AEGP_SuiteHandler.h; path = ../../../Util/AEGP_SuiteHandler.h; sourceTree = SOURCE_ROOT; };
-		D0FE579C0993C5E500139A60 /* MissingSuiteError.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MissingSuiteError.cpp; path = ../../../Util/MissingSuiteError.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		232445522574E9490051E100 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4E618CA095A3CE80012CA3F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -65,13 +78,25 @@
 			isa = PBXGroup;
 			children = (
 				232445422574E8760051E100 /* shaders */,
-				232445122574E4810051E100 /* RichterStrip.plugin-Info.plist */,
 				232444CF2574E2A60051E100 /* RichterStrip.cpp */,
 				232444CD2574E2A60051E100 /* RichterStrip.h */,
 				232444D02574E2A60051E100 /* RichterStripPiPL.r */,
 				232444CE2574E2A60051E100 /* Settings.h */,
 			);
-			path = RichterStrip;
+			name = RichterStrip;
+			path = ../RichterStrip;
+			sourceTree = "<group>";
+		};
+		2324455E2574E95F0051E100 /* ChannelMatte */ = {
+			isa = PBXGroup;
+			children = (
+				232445682574E9870051E100 /* ChannelMatte.cpp */,
+				232445692574E9870051E100 /* ChannelMatte.h */,
+				2324456A2574E9870051E100 /* ChannelMattePiPL.r */,
+				23BB77912574F058007FEE14 /* Settings.h */,
+			);
+			name = ChannelMatte;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		234B94CF256F51BF0094C117 /* Frameworks */ = {
@@ -86,10 +111,12 @@
 		C4E6187C095A3C800012CA3F = {
 			isa = PBXGroup;
 			children = (
+				2324455E2574E95F0051E100 /* ChannelMatte */,
 				232444CA2574E25D0051E100 /* RichterStrip */,
 				23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */,
-				23431DB725729B63003D3EA3 /* AEOGLInterop.hpp */,
+				233D33162574EB39009C7ED3 /* AEOGLInterop.hpp */,
 				234B94E1256F57A90094C117 /* OGL.cpp */,
+				23BB77782574EE38007FEE14 /* Debug.h */,
 				234B94DC256F54C80094C117 /* OGL.h */,
 				23D5FDC5256FEC1B00396409 /* glad.c */,
 				D0FE57630993C4FD00139A60 /* Supporting Code */,
@@ -102,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				C4E618CC095A3CE80012CA3F /* RichterStrip.plugin */,
+				2324455A2574E9490051E100 /* ChannelMatte.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -109,15 +137,10 @@
 		D0FE57630993C4FD00139A60 /* Supporting Code */ = {
 			isa = PBXGroup;
 			children = (
-				237F3804256F2D3F00C32611 /* AEFX_SuiteHelper.c */,
-				237F3803256F2D3F00C32611 /* AEFX_SuiteHelper.h */,
-				237F3800256F2CE100C32611 /* Smart_Utils.cpp */,
-				237F37FF256F2CE100C32611 /* Smart_Utils.h */,
-				7E76EED01F707F0400536F9D /* AE_Effect.h */,
-				7E76EECF1F707EF300536F9D /* AE_PluginData.h */,
-				D0FE579A0993C5E500139A60 /* AEGP_SuiteHandler.cpp */,
-				D0FE579B0993C5E500139A60 /* AEGP_SuiteHandler.h */,
-				D0FE579C0993C5E500139A60 /* MissingSuiteError.cpp */,
+				23BB77892574EFE9007FEE14 /* Smart_Utils.cpp */,
+				23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */,
+				23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */,
+				23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */,
 			);
 			name = "Supporting Code";
 			sourceTree = "<group>";
@@ -125,6 +148,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		232445452574E9490051E100 /* ChannelMatte */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 232445572574E9490051E100 /* Build configuration list for PBXNativeTarget "ChannelMatte" */;
+			buildPhases = (
+				232445462574E9490051E100 /* Resources */,
+				232445482574E9490051E100 /* Sources */,
+				232445522574E9490051E100 /* Frameworks */,
+				232445552574E9490051E100 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ChannelMatte;
+			productName = Skeleton.plugin;
+			productReference = 2324455A2574E9490051E100 /* ChannelMatte.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		C4E618CB095A3CE80012CA3F /* RichterStrip */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C4E618CE095A3CE90012CA3F /* Build configuration list for PBXNativeTarget "RichterStrip" */;
@@ -165,11 +206,19 @@
 			projectRoot = "";
 			targets = (
 				C4E618CB095A3CE80012CA3F /* RichterStrip */,
+				232445452574E9490051E100 /* ChannelMatte */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		232445462574E9490051E100 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4E618C8095A3CE80012CA3F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,6 +230,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXRezBuildPhase section */
+		232445552574E9490051E100 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2324456C2574E9870051E100 /* ChannelMattePiPL.r in Rez */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4E618EA095A3E040012CA3F /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
@@ -192,19 +249,31 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		232445482574E9490051E100 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2324454E2574E9490051E100 /* AEUtils.hpp in Sources */,
+				23BB77972574F0DF007FEE14 /* Smart_Utils.cpp in Sources */,
+				23BB779D2574F0EA007FEE14 /* MissingSuiteError.cpp in Sources */,
+				23BB779A2574F0E6007FEE14 /* AEGP_SuiteHandler.cpp in Sources */,
+				23BB77942574F0D8007FEE14 /* AEFX_SuiteHelper.c in Sources */,
+				2324456B2574E9870051E100 /* ChannelMatte.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4E618C9095A3CE80012CA3F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0FE579D0993C5E500139A60 /* AEGP_SuiteHandler.cpp in Sources */,
-				23431DB825729B63003D3EA3 /* AEOGLInterop.hpp in Sources */,
-				237F3801256F2CE100C32611 /* Smart_Utils.cpp in Sources */,
-				237F3805256F2D3F00C32611 /* AEFX_SuiteHelper.c in Sources */,
+				23BB777C2574EF7B007FEE14 /* MissingSuiteError.cpp in Sources */,
+				23BB77802574EF89007FEE14 /* AEFX_SuiteHelper.c in Sources */,
+				23D5FDC6256FEC1B00396409 /* glad.c in Sources */,
+				23BB77862574EFD9007FEE14 /* AEGP_SuiteHandler.cpp in Sources */,
 				234B94E2256F57A90094C117 /* OGL.cpp in Sources */,
 				23D2ACAD25736F1000BDCD8C /* AEUtils.hpp in Sources */,
-				D0FE579E0993C5E500139A60 /* MissingSuiteError.cpp in Sources */,
-				23D5FDC6256FEC1B00396409 /* glad.c in Sources */,
 				232444D12574E2A60051E100 /* RichterStrip.cpp in Sources */,
+				23BB778A2574EFE9007FEE14 /* Smart_Utils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,11 +307,12 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../../Headers,
-					../../../Util,
-					../../../Headers/SP,
-					../../../Resources,
+					"\"$(SRCROOT)/../../Headers\"",
+					"\"$(SRCROOT)/../../Resources\"",
+					"\"$(SRCROOT)/../../Headers/SP\"",
+					"\"$(SRCROOT)/../../Util\"",
 				);
+				INFOPLIST_FILE = "./Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				ONLY_ACTIVE_ARCH = YES;
 				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
@@ -259,15 +329,30 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"/usr/local/Cellar/glfw/3.3.2/include/**",
-					"\"$(SRCROOT)/../glad/include\"/**",
+					"\"$(SRCROOT)/glad/include\"",
 				);
-				INFOPLIST_FILE = "../RichterStrip/RichterStrip.plugin-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.2/lib,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.baku89.AfterEffects.RichterStrip;
 				PRODUCT_NAME = RichterStrip;
+			};
+			name = Release;
+		};
+		232445582574E9490051E100 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = com.baku89.AfterEffects.ChannelMatte;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		232445592574E9490051E100 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = com.baku89.AfterEffects.ChannelMatte;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -299,11 +384,12 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../../Headers,
-					../../../Util,
-					../../../Headers/SP,
-					../../../Resources,
+					"\"$(SRCROOT)/../../Headers\"",
+					"\"$(SRCROOT)/../../Resources\"",
+					"\"$(SRCROOT)/../../Headers/SP\"",
+					"\"$(SRCROOT)/../../Util\"",
 				);
+				INFOPLIST_FILE = "./Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				ONLY_ACTIVE_ARCH = YES;
 				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
@@ -320,9 +406,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"/usr/local/Cellar/glfw/3.3.2/include/**",
-					"\"$(SRCROOT)/../glad/include\"/**",
+					"\"$(SRCROOT)/glad/include\"",
 				);
-				INFOPLIST_FILE = "../RichterStrip/RichterStrip.plugin-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.2/lib,
@@ -335,6 +420,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		232445572574E9490051E100 /* Build configuration list for PBXNativeTarget "ChannelMatte" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				232445582574E9490051E100 /* Debug */,
+				232445592574E9490051E100 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C4E6187F095A3C800012CA3F /* Build configuration list for PBXProject "RichterStrip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

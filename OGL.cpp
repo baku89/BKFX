@@ -1,6 +1,6 @@
 #include "OGL.h"
 
-#include "Settings.h"
+#include "Debug.h"
 
 #include <atomic>
 #include <fstream>

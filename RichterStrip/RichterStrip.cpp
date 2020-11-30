@@ -7,6 +7,7 @@
 #include "AEUtils.hpp"
 
 #include "Settings.h"
+#include "../Debug.h"
 
 namespace {
 std::string VertShaderPath;
@@ -181,7 +182,7 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
 static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                           PF_SmartRenderExtra *extra) {
     FX_LOG("=====SmartRender=====");
-    FX_DEBUG_TIME_START(smartRenderTime);
+    FX_LOG_TIME_START(smartRenderTime);
 
     PF_Err err = PF_Err_NONE, err2 = PF_Err_NONE;
 
@@ -272,17 +273,17 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         OGL::setUniform2f(ctx, "center", paramInfo->center.x, paramInfo->center.y);
         OGL::setUniform1f(ctx, "aspectY", (float)ctx->height / (float)ctx->width);
 
-        FX_DEBUG_TIME_START(glRenderTime);
+        FX_LOG_TIME_START(glRenderTime);
         OGL::renderToBuffer(ctx, pixelsBufferP);
-        FX_DEBUG_TIME_END(glRenderTime, "GL rendering");
+        FX_LOG_TIME_END(glRenderTime, "GL rendering");
 
         // downloadTexture
 
-        FX_DEBUG_TIME_START(downloadTextureTime);
+        FX_LOG_TIME_START(downloadTextureTime);
         ERR(AEOGLInterop::downloadTexture(ctx,
                                           pixelsBufferP,
                                           output_worldP));
-        FX_DEBUG_TIME_END(downloadTextureTime, "Download texture");
+        FX_LOG_TIME_END(downloadTextureTime, "Download texture");
 
         handleSuite->host_unlock_handle(pixelsBufferH);
         handleSuite->host_dispose_handle(pixelsBufferH);
@@ -293,7 +294,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                            kPFWorldSuiteVersion2, "Couldn't release suite."));
     ERR2(extra->cb->checkin_layer_pixels(in_data->effect_ref, PARAM_INPUT));
 
-    FX_DEBUG_TIME_END(smartRenderTime, "SmartRender");
+    FX_LOG_TIME_END(smartRenderTime, "SmartRender");
 
     return err;
 }
