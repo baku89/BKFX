@@ -16,12 +16,12 @@ static const struct {
 
 GLint getInternalFormat(GLenum format) {
     switch (format) {
-    case GL_UNSIGNED_BYTE:
-        return GL_RGBA8;
-    case GL_UNSIGNED_SHORT:
-        return GL_RGBA16;
-    case GL_FLOAT:
-        return GL_RGBA32F;
+        case GL_UNSIGNED_BYTE:
+            return GL_RGBA8;
+        case GL_UNSIGNED_SHORT:
+            return GL_RGBA16;
+        case GL_FLOAT:
+            return GL_RGBA32F;
     }
     return 0;
 }
@@ -71,7 +71,6 @@ bool checkProgramLinked(GLuint program) {
 }
 
 GLuint initShader(std::string vertPath, std::string fragPath) {
-
     FX_LOG("Load shader file: vert='" << vertPath << "' frag='" << fragPath);
 
     // load shader text
@@ -178,7 +177,6 @@ void setupTexture(Texture *tex, size_t width, size_t height, GLenum format) {
 void disposeTexture(Texture *tex) { glDeleteTextures(1, &tex->texid); }
 
 bool globalSetup(GlobalContext *ctx) {
-
     if (!glfwInit()) {
         return false;
     }
@@ -233,7 +231,7 @@ std::atomic_int threadCounter;
 std::map<int, RenderContextPtr> renderContextMap;
 std::recursive_mutex renderContextMutex;
 
-#define MUTEX_LOCK                                                             \
+#define MUTEX_LOCK \
     std::lock_guard<std::recursive_mutex> func_locker(renderContextMutex)
 
 RenderContext *getCurrentThreadRenderContext() {
@@ -260,7 +258,6 @@ RenderContext *getCurrentThreadRenderContext() {
 void setupRenderContext(RenderContext *ctx, GLsizei width, GLsizei height,
                         GLenum format, std::string vertShaderPath,
                         std::string fragShaderPath) {
-
     bool sizeChanged = ctx->width != width || ctx->height != height;
     bool formatChanged = ctx->format != format;
 
@@ -325,7 +322,7 @@ void setupRenderContext(RenderContext *ctx, GLsizei width, GLsizei height,
 
     // Set the list of draw buffers.
     GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-    glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
+    glDrawBuffers(1, DrawBuffers);  // "1" is the size of DrawBuffers
 
     // Bind FBO
     glBindFramebuffer(GL_FRAMEBUFFER, ctx->frameBuffer);
@@ -376,4 +373,4 @@ void disposeAllRenderContexts() {
     renderContextMap.clear();
 }
 
-}; // namespace OGL
+};  // namespace OGL

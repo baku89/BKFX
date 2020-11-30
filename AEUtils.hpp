@@ -14,7 +14,6 @@
 
 namespace AEUtils {
 std::string getResourcesPath(PF_InData *in_data) {
-
     // initialize and compile the shader objects
     A_UTF16Char pluginFolderPath[AEFX_MAX_PATH];
     PF_GET_PLATFORM_DATA(PF_PlatData_EXE_FILE_PATH_W, &pluginFolderPath);
@@ -33,11 +32,12 @@ std::string getResourcesPath(PF_InData *in_data) {
         ++length;
     }
     NSString *newStr =
-        [[NSString alloc] initWithCharacters:pluginFolderPath length:length];
+        [[NSString alloc] initWithCharacters:pluginFolderPath
+                                      length:length];
     std::string resourcePath([newStr UTF8String]);
     resourcePath += "/Contents/Resources/";
 #endif
     return resourcePath;
 }
 
-} // namespace AEUtils
+}  // namespace AEUtils

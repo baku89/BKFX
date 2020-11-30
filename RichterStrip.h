@@ -45,7 +45,10 @@ typedef unsigned short PixelType;
 
 /* Parameter defaults */
 
-enum { PARAM_INPUT = 0, PARAM_CENTER, PARAM_ANGLE, PARAM_NUM_PARAMS };
+enum { PARAM_INPUT = 0,
+       PARAM_CENTER,
+       PARAM_ANGLE,
+       PARAM_NUM_PARAMS };
 
 struct GlobalData {
     OGL::GlobalContext globalContext;

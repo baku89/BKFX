@@ -11,7 +11,7 @@
 namespace {
 std::string VertShaderPath;
 std::string FragShaderPath;
-}
+}  // namespace
 
 static PF_Err About(PF_InData *in_data, PF_OutData *out_data,
                     PF_ParamDef *params[], PF_LayerDef *output) {
@@ -25,7 +25,6 @@ static PF_Err About(PF_InData *in_data, PF_OutData *out_data,
 
 static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
                           PF_ParamDef *params[], PF_LayerDef *output) {
-
     PF_Err err = PF_Err_NONE;
     AEGP_SuiteHandler suites(in_data->pica_basicP);
 
@@ -57,31 +56,29 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
     if (!OGL::globalSetup(&globalData->globalContext)) {
         err = PF_Err_OUT_OF_MEMORY;
     }
-    
+
     OGL::initTexture(&globalData->inputTexture);
-    
+
     handleSuite->host_unlock_handle(globalDataH);
-    
+
     // Retrieve shader path
     std::string resourcePath = AEUtils::getResourcesPath(in_data);
     VertShaderPath = resourcePath + "shaders/shader.vert";
     FragShaderPath = resourcePath + "shaders/shader.frag";
-    
 
     return err;
 }
 
 static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
                           PF_ParamDef *params[], PF_LayerDef *output) {
-
     PF_Err err = PF_Err_NONE;
-    
+
     // Define parameters
     PF_ParamDef def;
-    
+
     AEFX_CLR_STRUCT(def);
     PF_ADD_POINT("Center", 0, 0, false, PARAM_CENTER);
-    
+
     AEFX_CLR_STRUCT(def);
     PF_ADD_ANGLE("Angle", 0, PARAM_ANGLE);
 
@@ -108,7 +105,6 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
 
 static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
                             PF_ParamDef *params[], PF_LayerDef *output) {
-
     PF_Err err = PF_Err_NONE;
     AEGP_SuiteHandler suites(in_data->pica_basicP);
 
@@ -120,7 +116,7 @@ static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
     OGL::disposeTexture(&globalData->inputTexture);
 
     suites.HandleSuite1()->host_dispose_handle(in_data->global_data);
-    
+
     // Dispose static variables
     VertShaderPath.clear();
     FragShaderPath.clear();
@@ -159,7 +155,7 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
                                     out_data,
                                     PARAM_CENTER,
                                     &paramInfo->center));
-    
+
     ERR(AEOGLInterop::getAngleParam(in_data,
                                     out_data,
                                     PARAM_ANGLE,
@@ -188,12 +184,11 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
     FX_DEBUG_TIME_START(smartRenderTime);
 
     PF_Err err = PF_Err_NONE, err2 = PF_Err_NONE;
-    
+
     AEGP_SuiteHandler suites(in_data->pica_basicP);
 
     PF_EffectWorld *input_worldP = nullptr, *output_worldP = nullptr;
     PF_WorldSuite2 *wsP = nullptr;
-
 
     // Retrieve paramInfo
     auto handleSuite = suites.HandleSuite1();
@@ -211,7 +206,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
     ERR(AEFX_AcquireSuite(in_data, out_data, kPFWorldSuite,
                           kPFWorldSuiteVersion2, "Couldn't load suite.",
                           (void **)&wsP));
-    
+
     // Get pixel format
     PF_PixelFormat format = PF_PixelFormat_INVALID;
     ERR(wsP->PF_GetPixelFormat(input_worldP, &format));
@@ -221,7 +216,6 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
 
     // OpenGL
     if (!err) {
-
         OGL::makeGlobalContextCurrent(&globalData->globalContext);
 
         auto ctx = OGL::getCurrentThreadRenderContext();
@@ -243,7 +237,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                 pixelSize = sizeof(PF_PixelFloat);
                 break;
         }
-        
+
         // Setup render context
         OGL::setupRenderContext(ctx,
                                 input_worldP->width,
@@ -251,45 +245,45 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                                 glFormat,
                                 VertShaderPath,
                                 FragShaderPath);
-        
+
         FX_LOG("Size=(" << ctx->width << ", " << ctx->height << ")");
-        
+
         // Allocate pixels buffer
         PF_Handle pixelsBufferH =
             handleSuite->host_new_handle(ctx->width * ctx->height * pixelSize);
-        void *pixelsBufferP = reinterpret_cast<char*>(
+        void *pixelsBufferP = reinterpret_cast<char *>(
             handleSuite->host_lock_handle(pixelsBufferH));
-        
+
         // Upload buffer to OpenGL texture
         AEOGLInterop::uploadTexture(ctx,
                                     &globalData->inputTexture,
                                     input_worldP,
                                     pixelsBufferP);
-        
+
         // Set uniforms
         OGL::setUniformTexture(ctx,
                                "tex0",
                                &globalData->inputTexture,
                                0);
-        
+
         float multiplier16bit = ctx->format == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
         OGL::setUniform1f(ctx, "multiplier16bit", multiplier16bit);
         OGL::setUniform1f(ctx, "angle", paramInfo->angle);
         OGL::setUniform2f(ctx, "center", paramInfo->center.x, paramInfo->center.y);
         OGL::setUniform1f(ctx, "aspectY", (float)ctx->height / (float)ctx->width);
-        
+
         FX_DEBUG_TIME_START(glRenderTime);
         OGL::renderToBuffer(ctx, pixelsBufferP);
         FX_DEBUG_TIME_END(glRenderTime, "GL rendering");
-        
+
         // downloadTexture
-        
+
         FX_DEBUG_TIME_START(downloadTextureTime);
         ERR(AEOGLInterop::downloadTexture(ctx,
                                           pixelsBufferP,
                                           output_worldP));
         FX_DEBUG_TIME_END(downloadTextureTime, "Download texture");
-    
+
         handleSuite->host_unlock_handle(pixelsBufferH);
         handleSuite->host_dispose_handle(pixelsBufferH);
     }
@@ -298,7 +292,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
     ERR2(AEFX_ReleaseSuite(in_data, out_data, kPFWorldSuite,
                            kPFWorldSuiteVersion2, "Couldn't release suite."));
     ERR2(extra->cb->checkin_layer_pixels(in_data->effect_ref, PARAM_INPUT));
-    
+
     FX_DEBUG_TIME_END(smartRenderTime, "SmartRender");
 
     return err;
@@ -313,7 +307,7 @@ extern "C" DllExport PF_Err PluginDataEntryFunction(
     result =
         PF_REGISTER_EFFECT(inPtr, inPluginDataCallBackPtr, FX_SETTINGS_NAME,
                            FX_SETTINGS_MATCH_NAME, FX_SETTINGS_CATEGORY,
-                           AE_RESERVED_INFO); // Reserved Info
+                           AE_RESERVED_INFO);  // Reserved Info
 
     return result;
 }
@@ -324,35 +318,35 @@ PF_Err EffectMain(PF_Cmd cmd, PF_InData *in_data, PF_OutData *out_data,
 
     try {
         switch (cmd) {
-        case PF_Cmd_ABOUT:
-            err = About(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_ABOUT:
+                err = About(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_GLOBAL_SETUP:
-            err = GlobalSetup(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_GLOBAL_SETUP:
+                err = GlobalSetup(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_PARAMS_SETUP:
-            err = ParamsSetup(in_data, out_data, params, output);
-            break;
-    
-//        case PF_Cmd_UPDATE_PARAMS_UI:
-//            err = UpdateParamsUI(in_data, out_data, params, output);
-//            break;
+            case PF_Cmd_PARAMS_SETUP:
+                err = ParamsSetup(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_GLOBAL_SETDOWN:
-            err = GlobalSetdown(in_data, out_data, params, output);
-            break;
+                //        case PF_Cmd_UPDATE_PARAMS_UI:
+                //            err = UpdateParamsUI(in_data, out_data, params, output);
+                //            break;
 
-        case PF_Cmd_SMART_PRE_RENDER:
-            err = PreRender(in_data, out_data,
-                            reinterpret_cast<PF_PreRenderExtra *>(extra));
-            break;
+            case PF_Cmd_GLOBAL_SETDOWN:
+                err = GlobalSetdown(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_SMART_RENDER:
-            err = SmartRender(in_data, out_data,
-                              reinterpret_cast<PF_SmartRenderExtra *>(extra));
-            break;
+            case PF_Cmd_SMART_PRE_RENDER:
+                err = PreRender(in_data, out_data,
+                                reinterpret_cast<PF_PreRenderExtra *>(extra));
+                break;
+
+            case PF_Cmd_SMART_RENDER:
+                err = SmartRender(in_data, out_data,
+                                  reinterpret_cast<PF_SmartRenderExtra *>(extra));
+                break;
         }
     } catch (PF_Err &thrown_err) {
         err = thrown_err;

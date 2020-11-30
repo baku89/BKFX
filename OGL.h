@@ -40,7 +40,6 @@ bool globalSetdown(GlobalContext *ctx);
 // Per render/thread supporting OpenGL variables
 */
 struct RenderContext {
-
     int threadIndex;
 
     GLuint frameBuffer = 0;
@@ -84,4 +83,4 @@ void setUniform2f(RenderContext *ctx, std::string name, float x, float y);
 void renderToBuffer(RenderContext *ctx, void *pixels);
 void disposeAllRenderContexts();
 
-} // namespace OGL
+}  // namespace OGL
