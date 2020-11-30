@@ -1,5 +1,9 @@
 # AfterEffects RichterStrip
 
+[Demo](https://twitter.com/_baku89/status/1333261472839831553)
+
+Currently only supports AE CC 2020 on macOS.
+
 ## Supported Version
 
 - AfterEffects CC 2020 (macOS)
