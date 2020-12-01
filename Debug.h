@@ -5,7 +5,7 @@
 #endif
 
 #define FX_LOG(log) \
-    std::cout << "[BakuPlugins]" << log << std::endl
+    std::cout << "[BakuPlugin]" << log << std::endl
 
 #define FX_LOG_TIME_START(name) auto name = std::chrono::system_clock::now();
 #define FX_LOG_TIME_END(name, message)                                     \
