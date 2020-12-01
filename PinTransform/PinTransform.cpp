@@ -4,10 +4,16 @@
 
 #include "AEOGLInterop.hpp"
 #include "AEUtils.hpp"
-#include "Settings.h"
 
 #include "../Debug.h"
+#include "ComputeMat3.hpp"
 #include "Settings.h"
+
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/matrix_transform_2d.hpp>
+#include <glm/gtx/string_cast.hpp>
+
+#include <sstream>
 
 namespace {
 std::string VertShaderPath;
@@ -79,31 +85,33 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
 
     AEFX_CLR_STRUCT(def);
     def.flags |= PF_ParamFlag_SUPERVISE;
-    PF_ADD_POINT("Center", 0, 0, false, PARAM_CENTER);
+    PF_ADD_POPUP("Pin Type", 4, 1,
+                 "1 Pin (Translate)|"
+                 "2 Pins (Trans/Scale/Rot)|"
+                 "3 Pins (Pos/Scale/Rot/Skew)|"
+                 "4 Pins (Perspective)",
+                 PARAM_PINTYPE);
 
-    AEFX_CLR_STRUCT(def);
-    PF_ADD_ANGLE("Angle", 0, PARAM_ANGLE);
+    for (int i = 0; i < 4; i++) {
+        std::ostringstream label;
+        label << "Source Point " << (i + 1);
+        AEFX_CLR_STRUCT(def);
+        def.flags |= PF_ParamFlag_SUPERVISE;
+        PF_ADD_POINT(label.str().c_str(), 0, 0, false, PARAM_SRC_1 + i);
+    }
+
+    for (int i = 0; i < 4; i++) {
+        std::ostringstream label;
+        label << "Destination Point " << (i + 1);
+        AEFX_CLR_STRUCT(def);
+        def.flags |= PF_ParamFlag_SUPERVISE;
+        PF_ADD_POINT(label.str().c_str(), 0, 0, false, PARAM_DST_1 + i);
+    }
 
     out_data->num_params = PARAM_NUM_PARAMS;
 
     return err;
 }
-
-// static PF_Err UpdateParamsUI(PF_InData    *in_data,
-//                             PF_OutData   *out_data,
-//                             PF_ParamDef         *params[],
-//                             PF_LayerDef            *outputP) {
-//    PF_Err err = PF_Err_NONE;
-//
-//    AEGP_SuiteHandler        suites(in_data->pica_basicP);
-//    param_def.uu.change_flags = PF_ChangeFlag_CHANGED_VALUE;
-//    param_def.u.td.x_value = 100;
-//    param_def.u.td.y_value = 100;
-//
-//    suites.ParamUtilsSuite3()->PF_UpdateParamUI(in_data->effect_ref,
-//                                                paramId,
-//                                                &param_def);
-//}
 
 static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
                             PF_ParamDef *params[], PF_LayerDef *output) {
@@ -153,11 +161,90 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
     }
 
     // Assign latest param values
-    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_CENTER,
-                                    &paramInfo->center));
+    PF_ParamDef param_def;
+    AEFX_CLR_STRUCT(param_def);
+    ERR(PF_CHECKOUT_PARAM(in_data, PARAM_PINTYPE, in_data->current_time,
+                          in_data->time_step, in_data->time_scale, &param_def));
 
-    ERR(AEOGLInterop::getAngleParam(in_data, out_data, PARAM_ANGLE,
-                                    &paramInfo->angle));
+    A_long pinType = param_def.u.pd.value;
+
+    A_FloatPoint src1, src2, src3, src4;
+    A_FloatPoint dst1, dst2, dst3, dst4;
+
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_1, &src1));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_2, &src2));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_3, &src3));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_4, &src4));
+
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_1, &dst1));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_2, &dst2));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_3, &dst3));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_4, &dst4));
+
+    glm::mat3 xform = glm::mat3(1);
+
+    switch (pinType) {
+    case 1: { // Translate
+        glm::vec2 trans(dst1.x - src1.x, dst1.y - src1.y);
+        xform = glm::translate(xform, trans);
+        FX_LOG(glm::to_string(trans));
+        FX_LOG(glm::to_string(xform));
+        break;
+    }
+    case 2: { // PSR
+        glm::vec2 srcOrigin = glm::vec2(src1.x, src1.y);
+        glm::vec2 srcAxisX = glm::vec2(src2.x, src2.y) - srcOrigin;
+        glm::mat3 srcXform = glm::translate(glm::mat3(1), srcOrigin);
+        srcXform[0][0] = srcAxisX.x;
+        srcXform[0][1] = srcAxisX.y;
+
+        glm::vec2 dstOrigin = glm::vec2(dst1.x, dst1.y);
+        glm::vec2 dstAxisX = glm::vec2(dst2.x, dst2.y) - dstOrigin;
+        glm::mat3 dstXform = glm::translate(glm::mat3(1), dstOrigin);
+        dstXform[0][0] = dstAxisX.x;
+        dstXform[0][1] = dstAxisX.y;
+
+        xform = glm::inverse(srcXform) * dstXform;
+        
+        xform[1][0] = -xform[0][1];
+        xform[1][1] = xform[0][0];
+        break;
+    }
+    case 3: { // Affine transform
+        glm::vec2 srcOrigin = glm::vec2(src1.x, src1.y);
+        glm::vec2 srcAxisX = glm::vec2(src2.x, src2.y) - srcOrigin;
+        glm::vec2 srcAxisY = glm::vec2(src3.x, src3.y) - srcOrigin;
+        glm::mat3 srcXform = glm::translate(glm::mat3(1), srcOrigin);
+        srcXform[0][0] = srcAxisX.x;
+        srcXform[0][1] = srcAxisX.y;
+        srcXform[1][0] = srcAxisY.x;
+        srcXform[1][1] = srcAxisY.y;
+
+        glm::vec2 dstOrigin = glm::vec2(dst1.x, dst1.y);
+        glm::vec2 dstAxisX = glm::vec2(dst2.x, dst2.y) - dstOrigin;
+        glm::vec2 dstAxisY = glm::vec2(dst3.x, dst3.y) - dstOrigin;
+        glm::mat3 dstXform = glm::translate(glm::mat3(1), dstOrigin);
+        dstXform[0][0] = dstAxisX.x;
+        dstXform[0][1] = dstAxisX.y;
+        dstXform[1][0] = dstAxisY.x;
+        dstXform[1][1] = dstAxisY.y;
+
+        xform = glm::inverse(srcXform) * dstXform;
+        break;
+    }
+    case 4: { // Homogeneous transformations
+        glm::vec2 src[4] = {
+            glm::vec2(src1.x, src1.y), glm::vec2(src2.x, src2.y),
+            glm::vec2(src3.x, src3.y), glm::vec2(src4.x, src4.y)};
+        glm::vec2 dst[4] = {
+            glm::vec2(dst1.x, dst1.y), glm::vec2(dst2.x, dst2.y),
+            glm::vec2(dst3.x, dst3.y), glm::vec2(dst4.x, dst4.y)};
+
+        xform = ComputeMat3::computePerspective(src, dst);
+    }
+    }
+
+    std::memcpy(&paramInfo->xform, &xform, sizeof(glm::mat3));
 
     handleSuite->host_unlock_handle(paramInfoH);
 
@@ -258,11 +345,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         float multiplier16bit =
             ctx->format == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
         OGL::setUniform1f(ctx, "multiplier16bit", multiplier16bit);
-        OGL::setUniform1f(ctx, "angle", paramInfo->angle);
-        OGL::setUniform2f(ctx, "center", paramInfo->center.x,
-                          paramInfo->center.y);
-        OGL::setUniform1f(ctx, "aspectY",
-                          (float)ctx->height / (float)ctx->width);
+        OGL::setUniformMatrix3f(ctx, "xform", &paramInfo->xform);
 
         FX_LOG_TIME_START(glRenderTime);
         OGL::renderToBuffer(ctx, pixelsBufferP);
@@ -291,22 +374,6 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
 static PF_Err UpdateParameterUI(PF_InData *in_data, PF_OutData *out_data,
                                 PF_ParamDef *params[], PF_LayerDef *outputP) {
     PF_Err err = PF_Err_NONE;
-
-    PF_ParamDef param_def;
-    AEFX_CLR_STRUCT(param_def);
-    ERR(PF_CHECKOUT_PARAM(in_data, PARAM_CENTER, in_data->current_time,
-                          in_data->time_step, in_data->time_scale, &param_def));
-
-    PF_ParamDef param_def_copy;
-    std::memcpy(&param_def_copy, &param_def, sizeof(PF_ParamDef));
-    //
-    AEGP_SuiteHandler suites(in_data->pica_basicP);
-    param_def_copy.uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
-    param_def_copy.u.td.x_value = 100;
-    param_def_copy.u.td.y_value = 100;
-
-    ERR(suites.ParamUtilsSuite3()->PF_UpdateParamUI(
-        in_data->effect_ref, PARAM_CENTER, &param_def_copy));
 
     return err;
 }

@@ -30,7 +30,9 @@ typedef unsigned short PixelType;
 #include "AEFX_ChannelDepthTpl.h"
 #include "AEGP_SuiteHandler.h"
 
-#include "OGL.h"
+#include "../OGL.h"
+
+#include <glm/glm.hpp>
 
 /* Other useful constants */
 #define PF_MAX_CHAN32 1.0f
@@ -46,8 +48,15 @@ typedef unsigned short PixelType;
 /* Parameter defaults */
 
 enum { PARAM_INPUT = 0,
-       PARAM_CENTER,
-       PARAM_ANGLE,
+       PARAM_PINTYPE,
+       PARAM_SRC_1,
+       PARAM_SRC_2,
+       PARAM_SRC_3,
+       PARAM_SRC_4,
+       PARAM_DST_1,
+       PARAM_DST_2,
+       PARAM_DST_3,
+       PARAM_DST_4,
        PARAM_NUM_PARAMS };
 
 struct GlobalData {
@@ -56,8 +65,8 @@ struct GlobalData {
 };
 
 struct ParamInfo {
-    A_FloatPoint center;
-    A_FpLong angle;
+    A_long      pinType; // = 2, 3, 4
+    glm::mat3x3 xform;
 };
 
 extern "C" {

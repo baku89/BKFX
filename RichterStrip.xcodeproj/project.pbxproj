@@ -50,6 +50,7 @@
 		232445682574E9870051E100 /* ChannelMatte.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ChannelMatte.cpp; path = RichterStrip/ChannelMatte/ChannelMatte.cpp; sourceTree = "<group>"; };
 		232445692574E9870051E100 /* ChannelMatte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelMatte.h; path = RichterStrip/ChannelMatte/ChannelMatte.h; sourceTree = "<group>"; };
 		2324456A2574E9870051E100 /* ChannelMattePiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = ChannelMattePiPL.r; path = RichterStrip/ChannelMatte/ChannelMattePiPL.r; sourceTree = "<group>"; };
+		232DF69D25768B39005A4AB2 /* ComputeMat3.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ComputeMat3.hpp; sourceTree = "<group>"; };
 		232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		233D33162574EB39009C7ED3 /* AEOGLInterop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AEOGLInterop.hpp; sourceTree = "<group>"; };
 		234B94D0256F51BF0094C117 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -138,6 +139,7 @@
 		2392D4BB257666C6000970F9 /* PinTransform */ = {
 			isa = PBXGroup;
 			children = (
+				232DF69D25768B39005A4AB2 /* ComputeMat3.hpp */,
 				2392D4D8257666E9000970F9 /* shaders */,
 				2392D4BC257666C6000970F9 /* PinTransform.h */,
 				2392D4BD257666C6000970F9 /* Settings.h */,
@@ -404,7 +406,7 @@
 					"\"$(SRCROOT)/../../Headers/SP\"",
 					"\"$(SRCROOT)/../../Util\"",
 				);
-				INFOPLIST_FILE = "./Common.plugin-Info.plist";
+				INFOPLIST_FILE = "Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				ONLY_ACTIVE_ARCH = YES;
 				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
@@ -458,7 +460,6 @@
 					"/usr/local/Cellar/glm/0.9.9.8/include/**",
 					"\"$(SRCROOT)/glad/include\"",
 				);
-				INFOPLIST_FILE = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.2/lib,
@@ -477,7 +478,6 @@
 					"/usr/local/Cellar/glm/0.9.9.8/include/**",
 					"\"$(SRCROOT)/glad/include\"",
 				);
-				INFOPLIST_FILE = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.2/lib,
@@ -520,7 +520,7 @@
 					"\"$(SRCROOT)/../../Headers/SP\"",
 					"\"$(SRCROOT)/../../Util\"",
 				);
-				INFOPLIST_FILE = "./Common.plugin-Info.plist";
+				INFOPLIST_FILE = "Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				ONLY_ACTIVE_ARCH = YES;
 				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
