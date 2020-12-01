@@ -47,9 +47,9 @@
 		232444D02574E2A60051E100 /* RichterStripPiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = RichterStripPiPL.r; path = RichterStrip/RichterStripPiPL.r; sourceTree = "<group>"; };
 		232445422574E8760051E100 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = RichterStrip/shaders; sourceTree = "<group>"; };
 		2324455A2574E9490051E100 /* ChannelMatte.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChannelMatte.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		232445682574E9870051E100 /* ChannelMatte.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ChannelMatte.cpp; path = RichterStrip/ChannelMatte/ChannelMatte.cpp; sourceTree = "<group>"; };
-		232445692574E9870051E100 /* ChannelMatte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelMatte.h; path = RichterStrip/ChannelMatte/ChannelMatte.h; sourceTree = "<group>"; };
-		2324456A2574E9870051E100 /* ChannelMattePiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = ChannelMattePiPL.r; path = RichterStrip/ChannelMatte/ChannelMattePiPL.r; sourceTree = "<group>"; };
+		232445682574E9870051E100 /* ChannelMatte.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ChannelMatte.cpp; path = ChannelMatte/ChannelMatte.cpp; sourceTree = "<group>"; };
+		232445692574E9870051E100 /* ChannelMatte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelMatte.h; path = ChannelMatte/ChannelMatte.h; sourceTree = "<group>"; };
+		2324456A2574E9870051E100 /* ChannelMattePiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = ChannelMattePiPL.r; path = ChannelMatte/ChannelMattePiPL.r; sourceTree = "<group>"; };
 		232DF69D25768B39005A4AB2 /* ComputeMat3.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ComputeMat3.hpp; sourceTree = "<group>"; };
 		232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		233D33162574EB39009C7ED3 /* AEOGLInterop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AEOGLInterop.hpp; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 		23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AEFX_SuiteHelper.c; path = ../../Util/AEFX_SuiteHelper.c; sourceTree = "<group>"; };
 		23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AEGP_SuiteHandler.cpp; path = ../../Util/AEGP_SuiteHandler.cpp; sourceTree = "<group>"; };
 		23BB77892574EFE9007FEE14 /* Smart_Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Smart_Utils.cpp; path = ../../Util/Smart_Utils.cpp; sourceTree = "<group>"; };
-		23BB77912574F058007FEE14 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = RichterStrip/ChannelMatte/Settings.h; sourceTree = "<group>"; };
+		23BB77912574F058007FEE14 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = ChannelMatte/Settings.h; sourceTree = "<group>"; };
 		23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AEUtils.hpp; sourceTree = "<group>"; };
 		23D5FDC5256FEC1B00396409 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = glad.c; path = glad/src/glad.c; sourceTree = "<group>"; };
 		C4E618CC095A3CE80012CA3F /* RichterStrip.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RichterStrip.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,7 +112,6 @@
 				232444CE2574E2A60051E100 /* Settings.h */,
 			);
 			name = RichterStrip;
-			path = ../RichterStrip;
 			sourceTree = "<group>";
 		};
 		2324455E2574E95F0051E100 /* ChannelMatte */ = {
@@ -124,7 +123,6 @@
 				23BB77912574F058007FEE14 /* Settings.h */,
 			);
 			name = ChannelMatte;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		234B94CF256F51BF0094C117 /* Frameworks */ = {
