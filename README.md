@@ -1,6 +1,13 @@
-# AfterEffects RichterStrip
+# BKFX
 
-[Demo](https://twitter.com/_baku89/status/1333261472839831553)
+Utility effects suite for After Effects.
+
+## Contents
+
+- **Channel Matte**: Creates luma/alpha matte from either channel quickly
+- **Richter Strip**: Stretches a line in layer like Gerhard Richter's [Strip](https://www.gerhard-richter.com/en/art/paintings/abstracts/strips-93) painting
+  - [Demo](https://twitter.com/_baku89/status/1333261472839831553)
+- **Pin Transform**: Transforms a layer by specifying sets of source and destination points
 
 Currently only supports AE CC 2020 on macOS.
 
@@ -15,9 +22,8 @@ Place this repo inside `$(AESDK_root)/Effect`.
 ### On macOS
 
 ```
-brew install glfw
+brew install glfw glm
 ```
-
 
 ## License
 
