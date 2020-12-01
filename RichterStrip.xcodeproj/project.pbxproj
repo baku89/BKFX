@@ -191,14 +191,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1220;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 1220;
 			};
 			buildConfigurationList = C4E6187F095A3C800012CA3F /* Build configuration list for PBXProject "RichterStrip" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
+				Base,
+				en,
 			);
 			mainGroup = C4E6187C095A3C800012CA3F;
 			productRefGroup = C4E6188C095A3C800012CA3F /* Products */;

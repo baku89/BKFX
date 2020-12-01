@@ -18,6 +18,8 @@
 #include "AEFX_ChannelDepthTpl.h"
 #include "AEGP_SuiteHandler.h"
 
+#include <memory>
+
 #define PI 3.14159265358979323864f
 
 namespace AEOGLInterop {
@@ -107,7 +109,7 @@ PF_Err getPointParam(PF_InData *in_data,
 
     PF_ParamDef param_def;
     AEFX_CLR_STRUCT(param_def);
-    ERR(PF_CHECKOUT_PARAM(in_data, PARAM_CENTER, in_data->current_time,
+    ERR(PF_CHECKOUT_PARAM(in_data, paramId, in_data->current_time,
                           in_data->time_step, in_data->time_scale,
                           &param_def));
 
