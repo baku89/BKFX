@@ -10,18 +10,20 @@
 #include <thread>
 #include <vector>
 
+#include <glm/gtc/type_ptr.hpp>
+
 static const struct {
     float x, y;
 } quadVertices[4] = {{0, 0}, {1, 0}, {0, 1}, {1, 1}};
 
 GLint getInternalFormat(GLenum format) {
     switch (format) {
-        case GL_UNSIGNED_BYTE:
-            return GL_RGBA8;
-        case GL_UNSIGNED_SHORT:
-            return GL_RGBA16;
-        case GL_FLOAT:
-            return GL_RGBA32F;
+    case GL_UNSIGNED_BYTE:
+        return GL_RGBA8;
+    case GL_UNSIGNED_SHORT:
+        return GL_RGBA16;
+    case GL_FLOAT:
+        return GL_RGBA32F;
     }
     return 0;
 }
@@ -231,7 +233,7 @@ std::atomic_int threadCounter;
 std::map<int, RenderContextPtr> renderContextMap;
 std::recursive_mutex renderContextMutex;
 
-#define MUTEX_LOCK \
+#define MUTEX_LOCK                                                             \
     std::lock_guard<std::recursive_mutex> func_locker(renderContextMutex)
 
 RenderContext *getCurrentThreadRenderContext() {
@@ -322,7 +324,7 @@ void setupRenderContext(RenderContext *ctx, GLsizei width, GLsizei height,
 
     // Set the list of draw buffers.
     GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-    glDrawBuffers(1, DrawBuffers);  // "1" is the size of DrawBuffers
+    glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
 
     // Bind FBO
     glBindFramebuffer(GL_FRAMEBUFFER, ctx->frameBuffer);
@@ -355,6 +357,12 @@ void setUniform2f(RenderContext *ctx, std::string name, float x, float y) {
     glUniform2f(location, x, y);
 }
 
+void setUniformMatrix3f(RenderContext *ctx, std::string name,
+                        glm::mat3x3 *value) {
+    GLuint location = glGetUniformLocation(ctx->program, name.c_str());
+    glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(*value));
+}
+
 void renderToBuffer(RenderContext *ctx, void *pixels) {
     // Render and flush
     glBindVertexArray(ctx->vao);
@@ -373,4 +381,4 @@ void disposeAllRenderContexts() {
     renderContextMap.clear();
 }
 
-};  // namespace OGL
+}; // namespace OGL

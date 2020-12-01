@@ -6,6 +6,8 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+#include <glm/glm.hpp>
+
 typedef unsigned short u_int16;
 
 namespace OGL {
@@ -80,7 +82,9 @@ void setUniformTexture(RenderContext *ctx, std::string name, Texture *tex,
                        GLint index);
 void setUniform1f(RenderContext *ctx, std::string name, float value);
 void setUniform2f(RenderContext *ctx, std::string name, float x, float y);
+void setUniformMatrix3f(RenderContext *ctx, std::string name,
+                        glm::mat3x3 *value);
 void renderToBuffer(RenderContext *ctx, void *pixels);
 void disposeAllRenderContexts();
 
-}  // namespace OGL
+} // namespace OGL
