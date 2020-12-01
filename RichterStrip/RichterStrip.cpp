@@ -2,17 +2,17 @@
 #include "AEFX_SuiteHelper.h"
 #include "Smart_Utils.h"
 
-#include "Settings.h"
 #include "AEOGLInterop.hpp"
 #include "AEUtils.hpp"
-
 #include "Settings.h"
+
 #include "../Debug.h"
+#include "Settings.h"
 
 namespace {
 std::string VertShaderPath;
 std::string FragShaderPath;
-}  // namespace
+} // namespace
 
 static PF_Err About(PF_InData *in_data, PF_OutData *out_data,
                     PF_ParamDef *params[], PF_LayerDef *output) {
@@ -34,13 +34,11 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
 
     // Enable 16bpc
     out_data->out_flags =
-        PF_OutFlag_DEEP_COLOR_AWARE |
-        PF_OutFlag_SEND_UPDATE_PARAMS_UI;
+        PF_OutFlag_DEEP_COLOR_AWARE | PF_OutFlag_SEND_UPDATE_PARAMS_UI;
 
     // Enable 32bpc and SmartFX
     out_data->out_flags2 =
-        PF_OutFlag2_FLOAT_COLOR_AWARE |
-        PF_OutFlag2_SUPPORTS_SMART_RENDER;
+        PF_OutFlag2_FLOAT_COLOR_AWARE | PF_OutFlag2_SUPPORTS_SMART_RENDER;
 
     // Initialize globalData
     auto handleSuite = suites.HandleSuite1();
@@ -91,7 +89,7 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
     return err;
 }
 
-//static PF_Err UpdateParamsUI(PF_InData    *in_data,
+// static PF_Err UpdateParamsUI(PF_InData    *in_data,
 //                             PF_OutData   *out_data,
 //                             PF_ParamDef         *params[],
 //                             PF_LayerDef            *outputP) {
@@ -155,15 +153,12 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
     }
 
     // Assign latest param values
-    ERR(AEOGLInterop::getPointParam(in_data,
-                                    out_data,
-                                    PARAM_CENTER,
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_CENTER,
+                                    AEOGLInterop::GL_SPACE,
                                     &paramInfo->center));
 
-    ERR(AEOGLInterop::getAngleParam(in_data,
-                                    out_data,
-                                    PARAM_ANGLE,
-                                    &paramInfo->angle));
+    ERR(AEOGLInterop::getAngleParam(in_data, out_data, PARAM_ANGLE,
+                                    AEOGLInterop::GL_SPACE, &paramInfo->angle));
 
     handleSuite->host_unlock_handle(paramInfoH);
 
@@ -228,27 +223,23 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         size_t pixelSize = 0;
 
         switch (format) {
-            case PF_PixelFormat_ARGB32:
-                glFormat = GL_UNSIGNED_BYTE;
-                pixelSize = sizeof(PF_Pixel8);
-                break;
-            case PF_PixelFormat_ARGB64:
-                glFormat = GL_UNSIGNED_SHORT;
-                pixelSize = sizeof(PF_Pixel16);
-                break;
-            case PF_PixelFormat_ARGB128:
-                glFormat = GL_FLOAT;
-                pixelSize = sizeof(PF_PixelFloat);
-                break;
+        case PF_PixelFormat_ARGB32:
+            glFormat = GL_UNSIGNED_BYTE;
+            pixelSize = sizeof(PF_Pixel8);
+            break;
+        case PF_PixelFormat_ARGB64:
+            glFormat = GL_UNSIGNED_SHORT;
+            pixelSize = sizeof(PF_Pixel16);
+            break;
+        case PF_PixelFormat_ARGB128:
+            glFormat = GL_FLOAT;
+            pixelSize = sizeof(PF_PixelFloat);
+            break;
         }
 
         // Setup render context
-        OGL::setupRenderContext(ctx,
-                                input_worldP->width,
-                                input_worldP->height,
-                                glFormat,
-                                VertShaderPath,
-                                FragShaderPath);
+        OGL::setupRenderContext(ctx, input_worldP->width, input_worldP->height,
+                                glFormat, VertShaderPath, FragShaderPath);
 
         FX_LOG("Size=(" << ctx->width << ", " << ctx->height << ")");
 
@@ -259,22 +250,20 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
             handleSuite->host_lock_handle(pixelsBufferH));
 
         // Upload buffer to OpenGL texture
-        AEOGLInterop::uploadTexture(ctx,
-                                    &globalData->inputTexture,
-                                    input_worldP,
-                                    pixelsBufferP);
+        AEOGLInterop::uploadTexture(ctx, &globalData->inputTexture,
+                                    input_worldP, pixelsBufferP);
 
         // Set uniforms
-        OGL::setUniformTexture(ctx,
-                               "tex0",
-                               &globalData->inputTexture,
-                               0);
+        OGL::setUniformTexture(ctx, "tex0", &globalData->inputTexture, 0);
 
-        float multiplier16bit = ctx->format == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
+        float multiplier16bit =
+            ctx->format == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
         OGL::setUniform1f(ctx, "multiplier16bit", multiplier16bit);
         OGL::setUniform1f(ctx, "angle", paramInfo->angle);
-        OGL::setUniform2f(ctx, "center", paramInfo->center.x, paramInfo->center.y);
-        OGL::setUniform1f(ctx, "aspectY", (float)ctx->height / (float)ctx->width);
+        OGL::setUniform2f(ctx, "center", paramInfo->center.x,
+                          paramInfo->center.y);
+        OGL::setUniform1f(ctx, "aspectY",
+                          (float)ctx->height / (float)ctx->width);
 
         FX_LOG_TIME_START(glRenderTime);
         OGL::renderToBuffer(ctx, pixelsBufferP);
@@ -283,9 +272,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         // downloadTexture
 
         FX_LOG_TIME_START(downloadTextureTime);
-        ERR(AEOGLInterop::downloadTexture(ctx,
-                                          pixelsBufferP,
-                                          output_worldP));
+        ERR(AEOGLInterop::downloadTexture(ctx, pixelsBufferP, output_worldP));
         FX_LOG_TIME_END(downloadTextureTime, "Download texture");
 
         handleSuite->host_unlock_handle(pixelsBufferH);
@@ -302,31 +289,26 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
     return err;
 }
 
-static PF_Err UpdateParameterUI(PF_InData            *in_data,
-                                PF_OutData            *out_data,
-                                PF_ParamDef            *params[],
-                                PF_LayerDef            *outputP) {
-    PF_Err                err = PF_Err_NONE;
-    
+static PF_Err UpdateParameterUI(PF_InData *in_data, PF_OutData *out_data,
+                                PF_ParamDef *params[], PF_LayerDef *outputP) {
+    PF_Err err = PF_Err_NONE;
+
     PF_ParamDef param_def;
     AEFX_CLR_STRUCT(param_def);
     ERR(PF_CHECKOUT_PARAM(in_data, PARAM_CENTER, in_data->current_time,
-                          in_data->time_step, in_data->time_scale,
-                          &param_def));
+                          in_data->time_step, in_data->time_scale, &param_def));
 
-    
     PF_ParamDef param_def_copy;
     std::memcpy(&param_def_copy, &param_def, sizeof(PF_ParamDef));
-//
+    //
     AEGP_SuiteHandler suites(in_data->pica_basicP);
     param_def_copy.uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
     param_def_copy.u.td.x_value = 100;
     param_def_copy.u.td.y_value = 100;
 
-    ERR(suites.ParamUtilsSuite3()->PF_UpdateParamUI(in_data->effect_ref,
-                                                PARAM_CENTER,
-                                                &param_def_copy));
-    
+    ERR(suites.ParamUtilsSuite3()->PF_UpdateParamUI(
+        in_data->effect_ref, PARAM_CENTER, &param_def_copy));
+
     return err;
 }
 
@@ -339,7 +321,7 @@ extern "C" DllExport PF_Err PluginDataEntryFunction(
     result =
         PF_REGISTER_EFFECT(inPtr, inPluginDataCallBackPtr, FX_SETTINGS_NAME,
                            FX_SETTINGS_MATCH_NAME, FX_SETTINGS_CATEGORY,
-                           AE_RESERVED_INFO);  // Reserved Info
+                           AE_RESERVED_INFO); // Reserved Info
 
     return result;
 }
@@ -350,34 +332,34 @@ PF_Err EffectMain(PF_Cmd cmd, PF_InData *in_data, PF_OutData *out_data,
 
     try {
         switch (cmd) {
-            case PF_Cmd_ABOUT:
-                err = About(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_ABOUT:
+            err = About(in_data, out_data, params, output);
+            break;
 
-            case PF_Cmd_GLOBAL_SETUP:
-                err = GlobalSetup(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_GLOBAL_SETUP:
+            err = GlobalSetup(in_data, out_data, params, output);
+            break;
 
-            case PF_Cmd_PARAMS_SETUP:
-                err = ParamsSetup(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_PARAMS_SETUP:
+            err = ParamsSetup(in_data, out_data, params, output);
+            break;
 
-            case PF_Cmd_GLOBAL_SETDOWN:
-                err = GlobalSetdown(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_GLOBAL_SETDOWN:
+            err = GlobalSetdown(in_data, out_data, params, output);
+            break;
 
-            case PF_Cmd_SMART_PRE_RENDER:
-                err = PreRender(in_data, out_data,
-                                reinterpret_cast<PF_PreRenderExtra *>(extra));
-                break;
+        case PF_Cmd_SMART_PRE_RENDER:
+            err = PreRender(in_data, out_data,
+                            reinterpret_cast<PF_PreRenderExtra *>(extra));
+            break;
 
-            case PF_Cmd_SMART_RENDER:
-                err = SmartRender(in_data, out_data,
-                                  reinterpret_cast<PF_SmartRenderExtra *>(extra));
-                break;
-            case PF_Cmd_UPDATE_PARAMS_UI:
-                err = UpdateParameterUI(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_SMART_RENDER:
+            err = SmartRender(in_data, out_data,
+                              reinterpret_cast<PF_SmartRenderExtra *>(extra));
+            break;
+        case PF_Cmd_UPDATE_PARAMS_UI:
+            err = UpdateParameterUI(in_data, out_data, params, output);
+            break;
         }
     } catch (PF_Err &thrown_err) {
         err = thrown_err;

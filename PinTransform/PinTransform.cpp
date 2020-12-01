@@ -171,15 +171,23 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
     A_FloatPoint src1, src2, src3, src4;
     A_FloatPoint dst1, dst2, dst3, dst4;
 
-    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_1, &src1));
-    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_2, &src2));
-    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_3, &src3));
-    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_4, &src4));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_1,
+                                    AEOGLInterop::AE_SPACE, &src1));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_2,
+                                    AEOGLInterop::AE_SPACE, &src2));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_3,
+                                    AEOGLInterop::AE_SPACE, &src3));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_SRC_4,
+                                    AEOGLInterop::AE_SPACE, &src4));
 
-    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_1, &dst1));
-    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_2, &dst2));
-    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_3, &dst3));
-    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_4, &dst4));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_1,
+                                    AEOGLInterop::AE_SPACE, &dst1));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_2,
+                                    AEOGLInterop::AE_SPACE, &dst2));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_3,
+                                    AEOGLInterop::AE_SPACE, &dst3));
+    ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_4,
+                                    AEOGLInterop::AE_SPACE, &dst4));
 
     glm::mat3 xform = glm::mat3(1);
 
@@ -205,7 +213,7 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
         dstXform[0][1] = dstAxisX.y;
 
         xform = glm::inverse(srcXform) * dstXform;
-        
+
         xform[1][0] = -xform[0][1];
         xform[1][1] = xform[0][0];
         break;
