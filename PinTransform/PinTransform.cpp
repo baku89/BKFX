@@ -353,6 +353,17 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         float multiplier16bit =
             ctx->format == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
         OGL::setUniform1f(ctx, "multiplier16bit", multiplier16bit);
+        
+        float actualWidth = (float)in_data->width * in_data->downsample_x.num /
+                      in_data->downsample_x.den;
+
+        float actualHeight = (float)in_data->height * in_data->downsample_y.num /
+                       in_data->downsample_y.den;
+        
+        FX_LOG("Actual size=(" << actualWidth << ", " << actualHeight);
+        
+        OGL::setUniform2f(ctx, "resolution", actualWidth, actualHeight);
+        
         OGL::setUniformMatrix3f(ctx, "xform", &paramInfo->xform);
 
         FX_LOG_TIME_START(glRenderTime);
