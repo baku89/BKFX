@@ -17,7 +17,7 @@
                BlueprintIdentifier = "2392D49E25766627000970F9"
                BuildableName = "PinTransform.plugin"
                BlueprintName = "PinTransform"
-               ReferencedContainer = "container:RichterStrip.xcodeproj">
+               ReferencedContainer = "container:BKFX.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -58,7 +58,7 @@
             BlueprintIdentifier = "2392D49E25766627000970F9"
             BuildableName = "PinTransform.plugin"
             BlueprintName = "PinTransform"
-            ReferencedContainer = "container:RichterStrip.xcodeproj">
+            ReferencedContainer = "container:BKFX.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

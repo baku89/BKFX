@@ -202,20 +202,42 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
     case 2: { // PSR
         glm::vec2 srcOrigin = glm::vec2(src1.x, src1.y);
         glm::vec2 srcAxisX = glm::vec2(src2.x, src2.y) - srcOrigin;
-        glm::mat3 srcXform = glm::translate(glm::mat3(1), srcOrigin);
-        srcXform[0][0] = srcAxisX.x;
-        srcXform[0][1] = srcAxisX.y;
+        
+        glm::mat3 srcRot = glm::mat3(1);
+        srcRot[0][0] = srcAxisX.x;
+        srcRot[1][0] = srcAxisX.y;
+        srcRot[0][1] = srcAxisX.y;
+        srcRot[1][1] = -srcAxisX.x;
+        
+        glm::mat3 srcTrans = glm::translate(glm::mat3(1), srcOrigin);
+        glm::mat3 srcXform = srcTrans * srcRot;
+        
+        FX_LOG("srcXform=" << glm::to_string(srcXform));
 
         glm::vec2 dstOrigin = glm::vec2(dst1.x, dst1.y);
         glm::vec2 dstAxisX = glm::vec2(dst2.x, dst2.y) - dstOrigin;
-        glm::mat3 dstXform = glm::translate(glm::mat3(1), dstOrigin);
-        dstXform[0][0] = dstAxisX.x;
-        dstXform[0][1] = dstAxisX.y;
+        
+        glm::mat3 dstRot = glm::mat3(1);
+        dstRot[0][0] = dstAxisX.x;
+        dstRot[1][0] = dstAxisX.y;
+        dstRot[0][1] = dstAxisX.y;
+        dstRot[1][1] = -dstAxisX.x;
+        
+        glm::mat3 dstTrans = glm::translate(glm::mat3(1), dstOrigin);
+        glm::mat3 dstXform = dstTrans * dstRot;
+        
+        FX_LOG("dstTrans=" << glm::to_string(dstTrans));
+        FX_LOG("dstRot=" << glm::to_string(dstRot));
+        FX_LOG("dstXform=" << glm::to_string(dstXform));
+        
+        
+        FX_LOG("srcXformInv=" << glm::to_string(glm::inverse(dstXform)));
+        
 
-        xform = glm::inverse(srcXform) * dstXform;
-
-        xform[1][0] = -xform[0][1];
-        xform[1][1] = xform[0][0];
+        xform = dstXform * glm::inverse(srcXform);
+        
+        FX_LOG("xform=" << glm::to_string(xform));
+        
         break;
     }
     case 3: { // Affine transform
@@ -354,13 +376,11 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
             ctx->format == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
         OGL::setUniform1f(ctx, "multiplier16bit", multiplier16bit);
         
-        float actualWidth = (float)in_data->width * in_data->downsample_x.num /
-                      in_data->downsample_x.den;
-
-        float actualHeight = (float)in_data->height * in_data->downsample_y.num /
-                       in_data->downsample_y.den;
+        float actualWidth = (float)in_data->width;
+        float actualHeight = (float)in_data->height;
         
-        FX_LOG("Actual size=(" << actualWidth << ", " << actualHeight);
+        FX_LOG("Actual size=(" << actualWidth << ", " << actualHeight << ")");
+        FX_LOG("Matrix=" << glm::to_string(paramInfo->xform));
         
         OGL::setUniform2f(ctx, "resolution", actualWidth, actualHeight);
         

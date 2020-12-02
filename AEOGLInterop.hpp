@@ -116,21 +116,26 @@ PF_Err getPointParam(PF_InData *in_data, PF_OutData *out_data, int paramId,
     ERR(AEFX_AcquireSuite(in_data, out_data, kPFPointParamSuite,
                           kPFPointParamSuiteVersion1, "Couldn't load suite.",
                           (void **)&pointSuite));
-
+    
+    // value takes downsampled coord
     ERR(pointSuite->PF_GetFloatingPointValueFromPointDef(in_data->effect_ref,
                                                          &param_def, value));
 
-    // Scale size by downsample ratio
-
-    float width = (float)in_data->width * in_data->downsample_x.num /
-                  in_data->downsample_x.den;
-
-    float height = (float)in_data->height * in_data->downsample_y.num /
-                   in_data->downsample_y.den;
-
+    float downsampleX = (float)in_data->downsample_x.num / in_data->downsample_x.den;
+    float downsampleY = (float)in_data->downsample_y.num / in_data->downsample_y.den;
+    
     if (space == GL_SPACE) {
+        // Scale size by downsample ratio
+        float width = (float)in_data->width * downsampleX;
+        float height = (float)in_data->height * downsampleY;
+        
         value->x /= width;
         value->y = 1.0f - value->y / height;
+    } else { // AE_SPACE
+        // Convert to actual size
+        value->x /= downsampleX;
+        value->y /= downsampleY;
+        
     }
 
     ERR2(PF_CHECKIN_PARAM(in_data, &param_def));
