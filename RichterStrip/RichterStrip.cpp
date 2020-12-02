@@ -89,22 +89,6 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
     return err;
 }
 
-// static PF_Err UpdateParamsUI(PF_InData    *in_data,
-//                             PF_OutData   *out_data,
-//                             PF_ParamDef         *params[],
-//                             PF_LayerDef            *outputP) {
-//    PF_Err err = PF_Err_NONE;
-//
-//    AEGP_SuiteHandler        suites(in_data->pica_basicP);
-//    param_def.uu.change_flags = PF_ChangeFlag_CHANGED_VALUE;
-//    param_def.u.td.x_value = 100;
-//    param_def.u.td.y_value = 100;
-//
-//    suites.ParamUtilsSuite3()->PF_UpdateParamUI(in_data->effect_ref,
-//                                                paramId,
-//                                                &param_def);
-//}
-
 static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
                             PF_ParamDef *params[], PF_LayerDef *output) {
     PF_Err err = PF_Err_NONE;
