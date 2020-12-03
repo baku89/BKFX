@@ -50,28 +50,56 @@ void gaussianElimination(float *input, int n) {
         }
     }
 }
-} // namespace
+}  // namespace
 
 namespace ComputeMat3 {
+
+glm::mat3 computeAB(glm::mat3 &a, glm::mat3 &b) {
+    glm::mat2 m2a = glm::mat2{
+        a[0][0],
+        a[0][1],
+        a[1][0],
+        a[1][1],
+    };
+
+    glm::mat2 m2b = glm::mat2{
+        b[0][0],
+        b[0][1],
+        b[1][0],
+        b[1][1],
+    };
+
+    glm::vec2 ta = glm::vec2(a[2][0], a[2][1]);
+    glm::vec2 tb = glm::vec2(b[2][0], b[2][1]);
+
+    glm::mat2 axes = m2b * glm::inverse(m2a);
+    glm::vec2 trans = tb - ta;
+
+    return glm::mat3{
+        axes[0][0], axes[0][1], 0,
+        axes[1][0], axes[1][1], 0,
+        trans[0], trans[1], 1};
+}
+
 glm::mat3 computePerspective(const glm::vec2 src[4],
                              const glm::vec2 dst[4]) {
     float p[8][9] = {
         {-src[0][0], -src[0][1], -1, 0, 0, 0, src[0][0] * dst[0][0],
-         src[0][1] * dst[0][0], -dst[0][0]}, // h11
+         src[0][1] * dst[0][0], -dst[0][0]},  // h11
         {0, 0, 0, -src[0][0], -src[0][1], -1, src[0][0] * dst[0][1],
-         src[0][1] * dst[0][1], -dst[0][1]}, // h12
+         src[0][1] * dst[0][1], -dst[0][1]},  // h12
         {-src[1][0], -src[1][1], -1, 0, 0, 0, src[1][0] * dst[1][0],
-         src[1][1] * dst[1][0], -dst[1][0]}, // h13
+         src[1][1] * dst[1][0], -dst[1][0]},  // h13
         {0, 0, 0, -src[1][0], -src[1][1], -1, src[1][0] * dst[1][1],
-         src[1][1] * dst[1][1], -dst[1][1]}, // h21
+         src[1][1] * dst[1][1], -dst[1][1]},  // h21
         {-src[2][0], -src[2][1], -1, 0, 0, 0, src[2][0] * dst[2][0],
-         src[2][1] * dst[2][0], -dst[2][0]}, // h22
+         src[2][1] * dst[2][0], -dst[2][0]},  // h22
         {0, 0, 0, -src[2][0], -src[2][1], -1, src[2][0] * dst[2][1],
-         src[2][1] * dst[2][1], -dst[2][1]}, // h23
+         src[2][1] * dst[2][1], -dst[2][1]},  // h23
         {-src[3][0], -src[3][1], -1, 0, 0, 0, src[3][0] * dst[3][0],
-         src[3][1] * dst[3][0], -dst[3][0]}, // h31
+         src[3][1] * dst[3][0], -dst[3][0]},  // h31
         {0, 0, 0, -src[3][0], -src[3][1], -1, src[3][0] * dst[3][1],
-         src[3][1] * dst[3][1], -dst[3][1]}, // h32
+         src[3][1] * dst[3][1], -dst[3][1]},  // h32
     };
 
     gaussianElimination(&p[0][0], 9);
@@ -81,4 +109,4 @@ glm::mat3 computePerspective(const glm::vec2 src[4],
                      p[2][8], p[5][8], 1);
 }
 
-} // namespace ComputeMat3
+}  // namespace ComputeMat3
