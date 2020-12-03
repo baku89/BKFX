@@ -34,7 +34,7 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
 
     // Enable 16bpc
     out_data->out_flags =
-        PF_OutFlag_DEEP_COLOR_AWARE | PF_OutFlag_SEND_UPDATE_PARAMS_UI;
+        PF_OutFlag_DEEP_COLOR_AWARE;
 
     // Enable 32bpc and SmartFX
     out_data->out_flags2 =
@@ -79,7 +79,7 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
 
     AEFX_CLR_STRUCT(def);
     def.flags |= PF_ParamFlag_SUPERVISE;
-    PF_ADD_POINT("Center", 0, 0, false, PARAM_CENTER);
+    PF_ADD_POINT("Center", 50, 50, false, PARAM_CENTER);
 
     AEFX_CLR_STRUCT(def);
     PF_ADD_ANGLE("Angle", 0, PARAM_ANGLE);
@@ -273,29 +273,6 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
     return err;
 }
 
-static PF_Err UpdateParameterUI(PF_InData *in_data, PF_OutData *out_data,
-                                PF_ParamDef *params[], PF_LayerDef *outputP) {
-    PF_Err err = PF_Err_NONE;
-
-    PF_ParamDef param_def;
-    AEFX_CLR_STRUCT(param_def);
-    ERR(PF_CHECKOUT_PARAM(in_data, PARAM_CENTER, in_data->current_time,
-                          in_data->time_step, in_data->time_scale, &param_def));
-
-    PF_ParamDef param_def_copy;
-    std::memcpy(&param_def_copy, &param_def, sizeof(PF_ParamDef));
-    //
-    AEGP_SuiteHandler suites(in_data->pica_basicP);
-    param_def_copy.uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
-    param_def_copy.u.td.x_value = 100;
-    param_def_copy.u.td.y_value = 100;
-
-    ERR(suites.ParamUtilsSuite3()->PF_UpdateParamUI(
-        in_data->effect_ref, PARAM_CENTER, &param_def_copy));
-
-    return err;
-}
-
 extern "C" DllExport PF_Err PluginDataEntryFunction(
     PF_PluginDataPtr inPtr, PF_PluginDataCB inPluginDataCallBackPtr,
     SPBasicSuite *inSPBasicSuitePtr, const char *inHostName,
@@ -342,7 +319,6 @@ PF_Err EffectMain(PF_Cmd cmd, PF_InData *in_data, PF_OutData *out_data,
                               reinterpret_cast<PF_SmartRenderExtra *>(extra));
             break;
         case PF_Cmd_UPDATE_PARAMS_UI:
-            err = UpdateParameterUI(in_data, out_data, params, output);
             break;
         }
     } catch (PF_Err &thrown_err) {
