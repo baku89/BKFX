@@ -36,12 +36,6 @@
 		23BB77972574F0DF007FEE14 /* Smart_Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77892574EFE9007FEE14 /* Smart_Utils.cpp */; };
 		23BB779A2574F0E6007FEE14 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */; };
 		23BB779D2574F0EA007FEE14 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */; };
-		23C26F382578D60100D3D5FF /* libopencv_imgproc.4.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C26F232578D35D00D3D5FF /* libopencv_imgproc.4.5.0.dylib */; };
-		23C26F392578D60100D3D5FF /* libopencv_core.4.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C26F222578D35C00D3D5FF /* libopencv_core.4.5.0.dylib */; };
-		23C26F3A2578D60100D3D5FF /* libopencv_core.4.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C26F222578D35C00D3D5FF /* libopencv_core.4.5.0.dylib */; };
-		23C26F3B2578D60100D3D5FF /* libopencv_core.4.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C26F222578D35C00D3D5FF /* libopencv_core.4.5.0.dylib */; };
-		23C26F3C2578D60100D3D5FF /* libopencv_imgproc.4.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C26F232578D35D00D3D5FF /* libopencv_imgproc.4.5.0.dylib */; };
-		23C26F3D2578D60100D3D5FF /* libopencv_imgproc.4.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23C26F232578D35D00D3D5FF /* libopencv_imgproc.4.5.0.dylib */; };
 		23D2ACAD25736F1000BDCD8C /* AEUtils.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */; };
 		23D5FDC6256FEC1B00396409 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 23D5FDC5256FEC1B00396409 /* glad.c */; };
 /* End PBXBuildFile section */
@@ -67,6 +61,8 @@
 		2392D4BE257666C6000970F9 /* PinTransformPiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = PinTransformPiPL.r; sourceTree = "<group>"; };
 		2392D4C2257666C6000970F9 /* PinTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PinTransform.cpp; sourceTree = "<group>"; };
 		2392D4D8257666E9000970F9 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		2396BAEA25791D6C00DE2A6C /* libopencv_imgproc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgproc.dylib; path = ../../../../../../../usr/local/Cellar/opencv/4.5.0_5/lib/libopencv_imgproc.dylib; sourceTree = "<group>"; };
+		2396BAEF25791D8700DE2A6C /* libopencv_core.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.dylib; path = ../../../../../../../usr/local/Cellar/opencv/4.5.0_5/lib/libopencv_core.dylib; sourceTree = "<group>"; };
 		23BB77782574EE38007FEE14 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MissingSuiteError.cpp; path = ../../Util/MissingSuiteError.cpp; sourceTree = "<group>"; };
 		23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AEFX_SuiteHelper.c; path = ../../Util/AEFX_SuiteHelper.c; sourceTree = "<group>"; };
@@ -212,12 +208,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23C26F382578D60100D3D5FF /* libopencv_imgproc.4.5.0.dylib in Frameworks */,
-				23C26F392578D60100D3D5FF /* libopencv_core.4.5.0.dylib in Frameworks */,
-				23C26F3A2578D60100D3D5FF /* libopencv_core.4.5.0.dylib in Frameworks */,
-				23C26F3B2578D60100D3D5FF /* libopencv_core.4.5.0.dylib in Frameworks */,
-				23C26F3C2578D60100D3D5FF /* libopencv_imgproc.4.5.0.dylib in Frameworks */,
-				23C26F3D2578D60100D3D5FF /* libopencv_imgproc.4.5.0.dylib in Frameworks */,
 				2392D4AB25766627000970F9 /* OpenGL.framework in Frameworks */,
 				2392D4AC25766627000970F9 /* libglfw.3.3.dylib in Frameworks */,
 			);
@@ -261,6 +251,8 @@
 		234B94CF256F51BF0094C117 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2396BAEF25791D8700DE2A6C /* libopencv_core.dylib */,
+				2396BAEA25791D6C00DE2A6C /* libopencv_imgproc.dylib */,
 				23C26FAB2578D60600D3D5FF /* cmake */,
 				23C26F432578D60200D3D5FF /* libade.a */,
 				23C26F4F2578D60200D3D5FF /* libcorrespondence.a */,
@@ -735,6 +727,11 @@
 					/usr/local/Cellar/glfw/3.3.2/lib,
 					/usr/local/Cellar/opencv/4.5.0_5/lib,
 				);
+				OTHER_LDFLAGS = (
+					"-lopencv_imgproc",
+					"-lopencv_core",
+					"-lopencv_calib3d",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.baku89.AfterEffects.PinTransform;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -754,6 +751,11 @@
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.2/lib,
 					/usr/local/Cellar/opencv/4.5.0_5/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lopencv_imgproc",
+					"-lopencv_core",
+					"-lopencv_calib3d",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.baku89.AfterEffects.PinTransform;
 				PRODUCT_NAME = "$(TARGET_NAME)";
