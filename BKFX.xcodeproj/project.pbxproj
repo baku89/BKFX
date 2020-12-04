@@ -606,7 +606,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "yes | cp -rf ${BUILT_PRODUCTS_DIR}/${APPLICATION_NAME} \"/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/Debug\"\n\n";
+			shellScript = "rm -rf \"/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/Debug/PinTransform.plugin\"\n\nyes | cp -rf ${BUILT_PRODUCTS_DIR}/${APPLICATION_NAME} \"/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/Debug\"\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

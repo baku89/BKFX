@@ -203,49 +203,27 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
         case 1: {  // Translate
             glm::vec2 trans(dst1.x - src1.x, dst1.y - src1.y);
             xform = glm::translate(xform, trans);
-            FX_LOG(glm::to_string(trans));
-            FX_LOG(glm::to_string(xform));
             break;
         }
         case 2:
         case 3: {  // Affine transformation
-            glm::vec2 srcOrigin = glm::vec2(src1.x, src1.y);
-            glm::vec2 srcAxisX = glm::vec2(src2.x, src2.y) - srcOrigin;
-            glm::vec2 srcAxisY = pinType == 2
-                                     ? glm::vec2(-srcAxisX.y, srcAxisX.x)
-                                     : glm::vec2(src3.x, src3.y) - srcOrigin;
+            std::vector<cv::Point2f> srcPoints(3);
+            srcPoints[0] = cv::Point2f(src1.x, src1.y);
+            srcPoints[1] = cv::Point2f(src2.x, src2.y);
+            srcPoints[2] = cv::Point2f(src3.x, src3.y);
 
-            glm::mat3 srcXform = glm::mat3{
-                srcAxisX.x,
-                srcAxisY.x,
-                0,
-                srcAxisX.y,
-                srcAxisY.y,
-                0,
-                srcOrigin.x,
-                srcOrigin.y,
-                1,
-            };
+            std::vector<cv::Point2f> dstPoints(3);
+            dstPoints[0] = cv::Point2f(dst1.x, dst1.y);
+            dstPoints[1] = cv::Point2f(dst2.x, dst2.y);
+            dstPoints[2] = cv::Point2f(dst3.x, dst3.y);
 
-            glm::vec2 dstOrigin = glm::vec2(dst1.x, dst1.y);
-            glm::vec2 dstAxisX = glm::vec2(dst2.x, dst2.y) - dstOrigin;
-            glm::vec2 dstAxisY = pinType == 2
-                                     ? glm::vec2(-dstAxisX.y, dstAxisX.x)
-                                     : glm::vec2(dst3.x, dst3.y) - dstOrigin;
+            cv::Mat mat = cv::getAffineTransform(srcPoints, dstPoints);
 
-            glm::mat3 dstXform = glm::mat3{
-                dstAxisX.x,
-                dstAxisY.x,
-                0,
-                dstAxisX.y,
-                dstAxisY.y,
-                0,
-                dstOrigin.x,
-                dstOrigin.y,
-                1,
-            };
-
-            xform = dstXform * glm::inverse(srcXform);
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 2; j++) {
+                    xform[i][j] = (float)mat.at<double>(j, i);
+                }
+            }
             break;
         }
         case 4: {  // Homogeneous transformation
@@ -263,9 +241,6 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
 
             cv::Mat mat = cv::getPerspectiveTransform(srcPoints, dstPoints);
 
-            FX_LOG("M=" << std::endl
-                        << cv::format(mat, cv::Formatter::FMT_PYTHON));
-
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     xform[i][j] = (float)mat.at<double>(j, i);
@@ -273,7 +248,6 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
             }
         }
     }
-
     std::memcpy(&paramInfo->xform, &xform, sizeof(glm::mat3));
 
     handleSuite->host_unlock_handle(paramInfoH);
@@ -296,7 +270,6 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
 static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                           PF_SmartRenderExtra *extra) {
     FX_LOG("=====SmartRender=====");
-    FX_LOG_TIME_START(smartRenderTime);
 
     PF_Err err = PF_Err_NONE, err2 = PF_Err_NONE;
 
@@ -357,8 +330,6 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         OGL::setupRenderContext(ctx, input_worldP->width, input_worldP->height,
                                 glFormat, VertShaderPath, FragShaderPath);
 
-        FX_LOG("Size=(" << ctx->width << ", " << ctx->height << ")");
-
         // Allocate pixels buffer
         PF_Handle pixelsBufferH =
             handleSuite->host_new_handle(ctx->width * ctx->height * pixelSize);
@@ -379,22 +350,18 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         float actualWidth = (float)in_data->width;
         float actualHeight = (float)in_data->height;
 
-        FX_LOG("Actual size=(" << actualWidth << ", " << actualHeight << ")");
-        FX_LOG("Matrix=" << glm::to_string(paramInfo->xform));
-
         OGL::setUniform2f(ctx, "resolution", actualWidth, actualHeight);
 
+        FX_LOG(glm::to_string(paramInfo->xform));
+
+        glm::mat3 xformInv = glm::inverse(paramInfo->xform);
         OGL::setUniformMatrix3f(ctx, "xform", &paramInfo->xform);
+        OGL::setUniformMatrix3f(ctx, "xformInv", &xformInv);
 
-        FX_LOG_TIME_START(glRenderTime);
         OGL::renderToBuffer(ctx, pixelsBufferP);
-        FX_LOG_TIME_END(glRenderTime, "GL rendering");
 
-        // downloadTexture
-
-        FX_LOG_TIME_START(downloadTextureTime);
+        // downloadTextur
         ERR(AEOGLInterop::downloadTexture(ctx, pixelsBufferP, output_worldP));
-        FX_LOG_TIME_END(downloadTextureTime, "Download texture");
 
         handleSuite->host_unlock_handle(pixelsBufferH);
         handleSuite->host_dispose_handle(pixelsBufferH);
@@ -404,8 +371,6 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
     ERR2(AEFX_ReleaseSuite(in_data, out_data, kPFWorldSuite,
                            kPFWorldSuiteVersion2, "Couldn't release suite."));
     ERR2(extra->cb->checkin_layer_pixels(in_data->effect_ref, PARAM_INPUT));
-
-    FX_LOG_TIME_END(smartRenderTime, "SmartRender");
 
     return err;
 }
