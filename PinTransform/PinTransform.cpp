@@ -355,7 +355,6 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         FX_LOG(glm::to_string(paramInfo->xform));
 
         glm::mat3 xformInv = glm::inverse(paramInfo->xform);
-        OGL::setUniformMatrix3f(ctx, "xform", &paramInfo->xform);
         OGL::setUniformMatrix3f(ctx, "xformInv", &xformInv);
 
         OGL::renderToBuffer(ctx, pixelsBufferP);

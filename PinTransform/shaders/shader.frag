@@ -1,7 +1,6 @@
 #version 400
 
 uniform sampler2D tex0;
-
 uniform mat3 xformInv;
 uniform vec2 resolution;
 
