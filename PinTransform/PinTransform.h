@@ -29,6 +29,9 @@ typedef unsigned short PixelType;
 #include "AE_GeneralPlug.h"
 #include "AEFX_ChannelDepthTpl.h"
 #include "AEGP_SuiteHandler.h"
+#include "AEFX_SuiteHelper.h"
+#include "Smart_Utils.h"
+
 
 #include "../OGL.h"
 
@@ -49,20 +52,24 @@ typedef unsigned short PixelType;
 
 #define SLIDER_PRECISION 1
 
-enum { PARAM_INPUT = 0,
-       PARAM_PINTYPE,
-       PARAM_SRC_1,
-       PARAM_SRC_2,
-       PARAM_SRC_3,
-       PARAM_SRC_4,
-       PARAM_DST_1,
-       PARAM_DST_2,
-       PARAM_DST_3,
-       PARAM_DST_4,
-       PARAM_BLEND_POS,
-       PARAM_BUTTON_COPY_SRC_TO_DST,
-       PARAM_BUTTON_SWAP_SRC_DST,
-       PARAM_NUM_PARAMS };
+enum { PARAM_VIEWING_MODE_ORIGINAL = 1, PARAM_VIEWING_MODE_RESULT };
+
+enum {
+    PARAM_INPUT = 0,
+    PARAM_VIEWING_MODE,
+    PARAM_PINCOUNT,
+    PARAM_SRC_1,
+    PARAM_SRC_2,
+    PARAM_SRC_3,
+    PARAM_SRC_4,
+    PARAM_DST_1,
+    PARAM_DST_2,
+    PARAM_DST_3,
+    PARAM_DST_4,
+    PARAM_COPY_SRC_TO_DST,
+    PARAM_SWAP_SRC_DST,
+    PARAM_NUM_PARAMS
+};
 
 struct GlobalData {
     OGL::GlobalContext globalContext;
@@ -70,7 +77,7 @@ struct GlobalData {
 };
 
 struct ParamInfo {
-    A_long pinType;  // = 2, 3, 4
+    A_long pinCount;
     glm::mat3x3 xform;
 };
 

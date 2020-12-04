@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -478,7 +478,7 @@
 				2392D4A125766627000970F9 /* Sources */,
 				2392D4AA25766627000970F9 /* Frameworks */,
 				2392D4AD25766627000970F9 /* Rez */,
-				233BA54A2579E68B006B0B3C /* ShellScript */,
+				23BC4F98257A4D380038F223 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -590,9 +590,8 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		233BA54A2579E68B006B0B3C /* ShellScript */ = {
+		23BC4F98257A4D380038F223 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -600,13 +599,14 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/Debug/PinTransform.plugin\"\n\nyes | cp -rf ${BUILT_PRODUCTS_DIR}/${APPLICATION_NAME} \"/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/Debug\"\n\n";
+			shellScript = "rm -rf \"/Users/baku/Dropbox/Application/After Effects CC/Plugins/Baku/BKFX_Debug/${FULL_PRODUCT_NAME}\"\ncp -a \"${BUILT_PRODUCTS_DIR}/${APPLICATION_NAME}/${FULL_PRODUCT_NAME}\" \"/Users/baku/Dropbox/Application/After Effects CC/Plugins/Baku/BKFX_Debug/${FULL_PRODUCT_NAME}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
