@@ -47,6 +47,8 @@ typedef unsigned short PixelType;
 
 /* Parameter defaults */
 
+#define SLIDER_PRECISION 1
+
 enum { PARAM_INPUT = 0,
        PARAM_PINTYPE,
        PARAM_SRC_1,
@@ -57,6 +59,9 @@ enum { PARAM_INPUT = 0,
        PARAM_DST_2,
        PARAM_DST_3,
        PARAM_DST_4,
+       PARAM_BLEND_POS,
+       PARAM_BUTTON_COPY_SRC_TO_DST,
+       PARAM_BUTTON_SWAP_SRC_DST,
        PARAM_NUM_PARAMS };
 
 struct GlobalData {
@@ -65,7 +70,7 @@ struct GlobalData {
 };
 
 struct ParamInfo {
-    A_long      pinType; // = 2, 3, 4
+    A_long pinType;  // = 2, 3, 4
     glm::mat3x3 xform;
 };
 

@@ -100,7 +100,6 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
         std::ostringstream label;
         label << "Source Point " << (i + 1);
         AEFX_CLR_STRUCT(def);
-        def.flags |= PF_ParamFlag_SUPERVISE;
         int x = pointDefaults[i][0];
         int y = pointDefaults[i][1];
         PF_ADD_POINT(label.str().c_str(), x, y, false, PARAM_SRC_1 + i);
@@ -110,11 +109,36 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
         std::ostringstream label;
         label << "Destination Point " << (i + 1);
         AEFX_CLR_STRUCT(def);
-        def.flags |= PF_ParamFlag_SUPERVISE;
         int x = pointDefaults[i][0];
         int y = pointDefaults[i][1];
         PF_ADD_POINT(label.str().c_str(), x, y, false, PARAM_DST_1 + i);
     }
+
+    AEFX_CLR_STRUCT(def);
+    PF_ADD_FLOAT_SLIDERX("Transform Intensity",
+                         0,    // VALID_MIN
+                         100,  // VALID_MAX
+                         0,    // SLIDER_MIN
+                         100,  // SLIDER_MAX
+                         100,  // DFLT
+                         SLIDER_PRECISION,
+                         PF_ValueDisplayFlag_PERCENT,
+                         0,
+                         PORTABLE_DISK_ID);
+
+    AEFX_CLR_STRUCT(def);
+    PF_ADD_BUTTON("Copy Source -> Destination",
+                  PARAM_BUTTON_COPY_SRC_TO_DST,
+                  0,
+                  PF_ParamFlag_SUPERVISE,
+                  PARAM_BUTTON_COPY_SRC_TO_DST);
+
+    AEFX_CLR_STRUCT(def);
+    PF_ADD_BUTTON("Swap Source <-> Destination",
+                  PARAM_BUTTON_SWAP_SRC_DST,
+                  0,
+                  PF_ParamFlag_SUPERVISE,
+                  PARAM_BUTTON_SWAP_SRC_DST);
 
     out_data->num_params = PARAM_NUM_PARAMS;
 
@@ -169,12 +193,8 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
     }
 
     // Assign latest param values
-    PF_ParamDef param_def;
-    AEFX_CLR_STRUCT(param_def);
-    ERR(PF_CHECKOUT_PARAM(in_data, PARAM_PINTYPE, in_data->current_time,
-                          in_data->time_step, in_data->time_scale, &param_def));
-
-    A_long pinType = param_def.u.pd.value;
+    A_long pinType;
+    ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_PINTYPE, &pinType));
 
     A_FloatPoint src1, src2, src3, src4;
     A_FloatPoint dst1, dst2, dst3, dst4;
@@ -196,6 +216,8 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
                                     AEOGLInterop::AE_SPACE, &dst3));
     ERR(AEOGLInterop::getPointParam(in_data, out_data, PARAM_DST_4,
                                     AEOGLInterop::AE_SPACE, &dst4));
+
+    ERR(AEOGLInterop::getSliderParam(in_data, out_data, PARAM_BLEND_POS, &));
 
     glm::mat3 xform = glm::mat3(1);
 
@@ -374,9 +396,46 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
     return err;
 }
 
-static PF_Err UpdateParameterUI(PF_InData *in_data, PF_OutData *out_data,
-                                PF_ParamDef *params[], PF_LayerDef *outputP) {
+static PF_Err
+UserChangedParam(PF_InData *in_data,
+                 PF_OutData *out_data,
+                 PF_ParamDef *params[],
+                 const PF_UserChangedParamExtra *which_hitP) {
     PF_Err err = PF_Err_NONE;
+
+    if (which_hitP->param_index == PARAM_PINTYPE) {
+        AEGP_SuiteHandler suites(in_data->pica_basicP);
+
+        A_long pinType;
+        ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_PINTYPE, &pinType));
+
+        // Copy All ParamDef
+        PF_ParamDef paramsCopy[PARAM_NUM_PARAMS];
+
+        for (size_t i = 0; i < PARAM_NUM_PARAMS; i++) {
+            AEFX_CLR_STRUCT(paramsCopy[i])
+            paramsCopy[i] = *params[i];
+        }
+
+        for (int i = 0; i < 4; i++) {
+            if (i + 1 <= pinType) {
+                paramsCopy[PARAM_SRC_1 + i].ui_flags &= (~PF_PUI_DISABLED);
+                paramsCopy[PARAM_DST_1 + i].ui_flags &= (~PF_PUI_DISABLED);
+            } else {
+                paramsCopy[PARAM_SRC_1 + i].ui_flags |= PF_PUI_DISABLED;
+                paramsCopy[PARAM_DST_1 + i].ui_flags |= PF_PUI_DISABLED;
+            }
+
+            ERR(suites.ParamUtilsSuite3()->PF_UpdateParamUI(
+                in_data->effect_ref,
+                PARAM_SRC_1 + i,
+                &paramsCopy[PARAM_SRC_1 + i]));
+            ERR(suites.ParamUtilsSuite3()->PF_UpdateParamUI(
+                in_data->effect_ref,
+                PARAM_DST_1 + i,
+                &paramsCopy[PARAM_DST_1 + i]));
+        }
+    }
 
     return err;
 }
@@ -426,8 +485,11 @@ PF_Err EffectMain(PF_Cmd cmd, PF_InData *in_data, PF_OutData *out_data,
                 err = SmartRender(in_data, out_data,
                                   reinterpret_cast<PF_SmartRenderExtra *>(extra));
                 break;
-            case PF_Cmd_UPDATE_PARAMS_UI:
-                err = UpdateParameterUI(in_data, out_data, params, output);
+            case PF_Cmd_USER_CHANGED_PARAM:
+                err = UserChangedParam(in_data,
+                                       out_data,
+                                       params,
+                                       reinterpret_cast<const PF_UserChangedParamExtra *>(extra));
                 break;
         }
     } catch (PF_Err &thrown_err) {
