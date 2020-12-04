@@ -223,12 +223,16 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
         std::vector<cv::Point2f> srcPoints(3);
         srcPoints[0] = cv::Point2f(src1.x, src1.y);
         srcPoints[1] = cv::Point2f(src2.x, src2.y);
-        srcPoints[2] = cv::Point2f(src3.x, src3.y);
+        srcPoints[2] = pinCount == 2 ? cv::Point2f(src1.x - (src2.y - src1.y),
+                                                   src1.y + (src2.x - src1.x))
+                                     : cv::Point2f(src3.x, src3.y);
 
         std::vector<cv::Point2f> dstPoints(3);
         dstPoints[0] = cv::Point2f(dst1.x, dst1.y);
         dstPoints[1] = cv::Point2f(dst2.x, dst2.y);
-        dstPoints[2] = cv::Point2f(dst3.x, dst3.y);
+        dstPoints[2] = pinCount == 2 ? cv::Point2f(dst1.x - (dst2.y - dst1.y),
+                                                   dst1.y + (dst2.x - dst1.x))
+                                     : cv::Point2f(dst3.x, dst3.y);
 
         cv::Mat mat = cv::getAffineTransform(srcPoints, dstPoints);
 
