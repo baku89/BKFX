@@ -12,15 +12,16 @@
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <glm/gtx/string_cast.hpp>
 
-#include <opencv2/core/core.hpp>
+#include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/calib3d.hpp>
 
 #include <sstream>
 
 namespace {
 std::string VertShaderPath;
 std::string FragShaderPath;
-}  // namespace
+} // namespace
 
 static PF_Err About(PF_InData *in_data, PF_OutData *out_data,
                     PF_ParamDef *params[], PF_LayerDef *output) {
@@ -87,19 +88,23 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
 
     AEFX_CLR_STRUCT(def);
     def.flags |= PF_ParamFlag_SUPERVISE;
-    PF_ADD_POPUP("Pin Type", 4, 1,
+    PF_ADD_POPUP("Pin Type", 4, 4,
                  "1 Pin (Translate)|"
                  "2 Pins (Trans/Scale/Rot)|"
                  "3 Pins (Pos/Scale/Rot/Skew)|"
                  "4 Pins (Perspective)",
                  PARAM_PINTYPE);
 
+    int pointDefaults[4][2]{{0, 0}, {100, 0}, {0, 100}, {100, 100}};
+
     for (int i = 0; i < 4; i++) {
         std::ostringstream label;
         label << "Source Point " << (i + 1);
         AEFX_CLR_STRUCT(def);
         def.flags |= PF_ParamFlag_SUPERVISE;
-        PF_ADD_POINT(label.str().c_str(), 0, 0, false, PARAM_SRC_1 + i);
+        int x = pointDefaults[i][0];
+        int y = pointDefaults[i][1];
+        PF_ADD_POINT(label.str().c_str(), x, y, false, PARAM_SRC_1 + i);
     }
 
     for (int i = 0; i < 4; i++) {
@@ -107,7 +112,9 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
         label << "Destination Point " << (i + 1);
         AEFX_CLR_STRUCT(def);
         def.flags |= PF_ParamFlag_SUPERVISE;
-        PF_ADD_POINT(label.str().c_str(), 0, 0, false, PARAM_DST_1 + i);
+        int x = pointDefaults[i][0];
+        int y = pointDefaults[i][1];
+        PF_ADD_POINT(label.str().c_str(), x, y, false, PARAM_DST_1 + i);
     }
 
     out_data->num_params = PARAM_NUM_PARAMS;
@@ -194,78 +201,66 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
     glm::mat3 xform = glm::mat3(1);
 
     switch (pinType) {
-        case 1: {  // Translate
-            glm::vec2 trans(dst1.x - src1.x, dst1.y - src1.y);
-            xform = glm::translate(xform, trans);
-            FX_LOG(glm::to_string(trans));
-            FX_LOG(glm::to_string(xform));
-            break;
-        }
-        case 2:
-        case 3: {  // Affine
-            glm::vec2 srcOrigin = glm::vec2(src1.x, src1.y);
-            glm::vec2 srcAxisX = glm::vec2(src2.x, src2.y) - srcOrigin;
-            glm::vec2 srcAxisY = pinType == 2 ? glm::vec2(-srcAxisX.y, srcAxisX.x)
-                                              : glm::vec2(src3.x, src3.y) - srcOrigin;
+    case 1: { // Translate
+        glm::vec2 trans(dst1.x - src1.x, dst1.y - src1.y);
+        xform = glm::translate(xform, trans);
+        FX_LOG(glm::to_string(trans));
+        FX_LOG(glm::to_string(xform));
+        break;
+    }
+    case 2:
+    case 3: { // Affine transformation
+        glm::vec2 srcOrigin = glm::vec2(src1.x, src1.y);
+        glm::vec2 srcAxisX = glm::vec2(src2.x, src2.y) - srcOrigin;
+        glm::vec2 srcAxisY = pinType == 2
+                                 ? glm::vec2(-srcAxisX.y, srcAxisX.x)
+                                 : glm::vec2(src3.x, src3.y) - srcOrigin;
 
-            glm::mat3 srcXform = glm::mat3{
-                srcAxisX.x,
-                srcAxisX.y,
-                0,
-                srcAxisY.x,
-                srcAxisY.y,
-                0,
-                srcOrigin.x,
-                srcOrigin.y,
-                1,
-            };
+        glm::mat3 srcXform = glm::mat3{
+            srcAxisX.x, srcAxisY.x,  0,           srcAxisX.y, srcAxisY.y,
+            0,          srcOrigin.x, srcOrigin.y, 1,
+        };
 
-            glm::vec2 dstOrigin = glm::vec2(dst1.x, dst1.y);
-            glm::vec2 dstAxisX = glm::vec2(dst2.x, dst2.y) - dstOrigin;
-            glm::vec2 dstAxisY = pinType == 2 ? glm::vec2(-dstAxisX.y, dstAxisX.x)
-                                              : glm::vec2(dst3.x, dst3.y) - dstOrigin;
+        glm::vec2 dstOrigin = glm::vec2(dst1.x, dst1.y);
+        glm::vec2 dstAxisX = glm::vec2(dst2.x, dst2.y) - dstOrigin;
+        glm::vec2 dstAxisY = pinType == 2
+                                 ? glm::vec2(-dstAxisX.y, dstAxisX.x)
+                                 : glm::vec2(dst3.x, dst3.y) - dstOrigin;
 
-            glm::mat3 dstXform = glm::mat3{
-                dstAxisX.x,
-                dstAxisX.y,
-                0,
-                dstAxisY.x,
-                dstAxisY.y,
-                0,
-                dstOrigin.x,
-                dstOrigin.y,
-                1,
-            };
+        glm::mat3 dstXform = glm::mat3{
+            dstAxisX.x, dstAxisY.x,  0,           dstAxisX.y, dstAxisY.y,
+            0,          dstOrigin.x, dstOrigin.y, 1,
+        };
 
-            xform = dstXform * glm::inverse(srcXform);
-            break;
-        }
-        case 4: {  // Homogeneous transformations
-            
-            cv::Point2f srcPoints[] = {
-                cv::Point2f(src1.x, src1.y),
-                cv::Point2f(src2.x, src2.y),
-                cv::Point2f(src3.x, src3.y),
-                cv::Point2f(src4.x, src4.y),
-            };
-            
-            cv::Point2f dstPoints[] = {
-                cv::Point2f(dst1.x, dst1.y),
-                cv::Point2f(dst2.x, dst2.y),
-                cv::Point2f(dst3.x, dst3.y),
-                cv::Point2f(dst4.x, dst4.y),
-            };
-            
-            cv::Mat cvmat = cv::getPerspectiveTransform(srcPoints, dstPoints);
-            
-            // https://stackoverflow.com/a/45106875
-            if (cvmat.cols != 3 || cvmat.rows != 3 || cvmat.type() != CV_32FC1) {
-                 
-            } else {
-                memcpy(glm::value_ptr(xform), cvmat.data, 9 * sizeof(float));
+        xform = dstXform * glm::inverse(srcXform);
+        break;
+    }
+    case 4: { // Homogeneous transformation
+
+        std::vector<cv::Point2f> srcPoints(4);
+        srcPoints[0] = cv::Point2f(src1.x, src1.y);
+        srcPoints[1] = cv::Point2f(src2.x, src2.y);
+        srcPoints[2] = cv::Point2f(src4.x, src4.y);
+        srcPoints[3] = cv::Point2f(src3.x, src3.y);
+
+        std::vector<cv::Point2f> dstPoints(4);
+        dstPoints[0] = cv::Point2f(dst1.x, dst1.y);
+        dstPoints[1] = cv::Point2f(dst2.x, dst2.y);
+        dstPoints[2] = cv::Point2f(dst4.x, dst4.y);
+        dstPoints[3] = cv::Point2f(dst3.x, dst3.y);
+
+//        cv::Mat mat = cv::getRotationMatrix2D(cv::Point2f(100, 100), 30, 1);
+        cv::Mat mat = cv::findHomography(srcPoints, dstPoints, cv::RANSAC);
+        FX_LOG("TYPdsdfsd9023423423" << mat.type());
+
+        FX_LOG("M=" << std::endl << cv::format(mat, cv::Formatter::FMT_PYTHON));
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                xform[i][j] = (float)mat.at<double>(i, j);
             }
-
         }
+    }
     }
 
     std::memcpy(&paramInfo->xform, &xform, sizeof(glm::mat3));
@@ -333,18 +328,18 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         size_t pixelSize = 0;
 
         switch (format) {
-            case PF_PixelFormat_ARGB32:
-                glFormat = GL_UNSIGNED_BYTE;
-                pixelSize = sizeof(PF_Pixel8);
-                break;
-            case PF_PixelFormat_ARGB64:
-                glFormat = GL_UNSIGNED_SHORT;
-                pixelSize = sizeof(PF_Pixel16);
-                break;
-            case PF_PixelFormat_ARGB128:
-                glFormat = GL_FLOAT;
-                pixelSize = sizeof(PF_PixelFloat);
-                break;
+        case PF_PixelFormat_ARGB32:
+            glFormat = GL_UNSIGNED_BYTE;
+            pixelSize = sizeof(PF_Pixel8);
+            break;
+        case PF_PixelFormat_ARGB64:
+            glFormat = GL_UNSIGNED_SHORT;
+            pixelSize = sizeof(PF_Pixel16);
+            break;
+        case PF_PixelFormat_ARGB128:
+            glFormat = GL_FLOAT;
+            pixelSize = sizeof(PF_PixelFloat);
+            break;
         }
 
         // Setup render context
@@ -420,7 +415,7 @@ extern "C" DllExport PF_Err PluginDataEntryFunction(
     result =
         PF_REGISTER_EFFECT(inPtr, inPluginDataCallBackPtr, FX_SETTINGS_NAME,
                            FX_SETTINGS_MATCH_NAME, FX_SETTINGS_CATEGORY,
-                           AE_RESERVED_INFO);  // Reserved Info
+                           AE_RESERVED_INFO); // Reserved Info
 
     return result;
 }
@@ -431,34 +426,34 @@ PF_Err EffectMain(PF_Cmd cmd, PF_InData *in_data, PF_OutData *out_data,
 
     try {
         switch (cmd) {
-            case PF_Cmd_ABOUT:
-                err = About(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_ABOUT:
+            err = About(in_data, out_data, params, output);
+            break;
 
-            case PF_Cmd_GLOBAL_SETUP:
-                err = GlobalSetup(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_GLOBAL_SETUP:
+            err = GlobalSetup(in_data, out_data, params, output);
+            break;
 
-            case PF_Cmd_PARAMS_SETUP:
-                err = ParamsSetup(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_PARAMS_SETUP:
+            err = ParamsSetup(in_data, out_data, params, output);
+            break;
 
-            case PF_Cmd_GLOBAL_SETDOWN:
-                err = GlobalSetdown(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_GLOBAL_SETDOWN:
+            err = GlobalSetdown(in_data, out_data, params, output);
+            break;
 
-            case PF_Cmd_SMART_PRE_RENDER:
-                err = PreRender(in_data, out_data,
-                                reinterpret_cast<PF_PreRenderExtra *>(extra));
-                break;
+        case PF_Cmd_SMART_PRE_RENDER:
+            err = PreRender(in_data, out_data,
+                            reinterpret_cast<PF_PreRenderExtra *>(extra));
+            break;
 
-            case PF_Cmd_SMART_RENDER:
-                err = SmartRender(in_data, out_data,
-                                  reinterpret_cast<PF_SmartRenderExtra *>(extra));
-                break;
-            case PF_Cmd_UPDATE_PARAMS_UI:
-                err = UpdateParameterUI(in_data, out_data, params, output);
-                break;
+        case PF_Cmd_SMART_RENDER:
+            err = SmartRender(in_data, out_data,
+                              reinterpret_cast<PF_SmartRenderExtra *>(extra));
+            break;
+        case PF_Cmd_UPDATE_PARAMS_UI:
+            err = UpdateParameterUI(in_data, out_data, params, output);
+            break;
         }
     } catch (PF_Err &thrown_err) {
         err = thrown_err;
