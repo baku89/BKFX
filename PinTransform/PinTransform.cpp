@@ -89,8 +89,8 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
     AEFX_CLR_STRUCT(def);
     def.flags |= PF_ParamFlag_SUPERVISE;
     PF_ADD_POPUP("Pin Type", 4, 4,
-                 "1 Pin (Translate)|"
-                 "2 Pins (Trans/Scale/Rot)|"
+                 "1 Pin  (Translate)|"
+                 "2 Pins (Pos/Scale/Rot)|"
                  "3 Pins (Pos/Scale/Rot/Skew)|"
                  "4 Pins (Perspective)",
                  PARAM_PINCOUNT);
