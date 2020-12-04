@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -478,6 +478,7 @@
 				2392D4A125766627000970F9 /* Sources */,
 				2392D4AA25766627000970F9 /* Frameworks */,
 				2392D4AD25766627000970F9 /* Rez */,
+				233BA54A2579E68B006B0B3C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -587,6 +588,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		233BA54A2579E68B006B0B3C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "yes | cp -rf ${BUILT_PRODUCTS_DIR}/${APPLICATION_NAME} \"/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/Debug\"\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		232445482574E9490051E100 /* Sources */ = {
