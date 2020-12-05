@@ -22,6 +22,8 @@
 		236E13F3257BCC2600573495 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13EF257BCC2600573495 /* Texture.cpp */; };
 		236E1401257BCD5300573495 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1400257BCD5300573495 /* Common.cpp */; };
 		236E1402257BCD5300573495 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1400257BCD5300573495 /* Common.cpp */; };
+		236E1407257BD0FA00573495 /* GlobalContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1406257BD0FA00573495 /* GlobalContext.cpp */; };
+		236E1408257BD0FA00573495 /* GlobalContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1406257BD0FA00573495 /* GlobalContext.cpp */; };
 		2392D4A225766627000970F9 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */; };
 		2392D4A325766627000970F9 /* AEFX_SuiteHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */; };
 		2392D4A525766627000970F9 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */; };
@@ -66,6 +68,7 @@
 		236E13F0257BCC2600573495 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		236E13F1257BCC2600573495 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		236E1400257BCD5300573495 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
+		236E1406257BD0FA00573495 /* GlobalContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlobalContext.cpp; sourceTree = "<group>"; };
 		2392D4B225766627000970F9 /* PinTransform.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PinTransform.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		2392D4BC257666C6000970F9 /* PinTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinTransform.h; sourceTree = "<group>"; };
 		2392D4BD257666C6000970F9 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -446,6 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				236E1400257BCD5300573495 /* Common.cpp */,
+				236E1406257BD0FA00573495 /* GlobalContext.cpp */,
 				236E13EE257BCC2600573495 /* Shader.h */,
 				236E13EF257BCC2600573495 /* Texture.cpp */,
 				236E13F0257BCC2600573495 /* Common.h */,
@@ -733,6 +737,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				236E1408257BD0FA00573495 /* GlobalContext.cpp in Sources */,
 				2392D4A225766627000970F9 /* MissingSuiteError.cpp in Sources */,
 				2392D4A325766627000970F9 /* AEFX_SuiteHelper.c in Sources */,
 				236E1402257BCD5300573495 /* Common.cpp in Sources */,
@@ -749,6 +754,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				236E1407257BD0FA00573495 /* GlobalContext.cpp in Sources */,
 				23BB777C2574EF7B007FEE14 /* MissingSuiteError.cpp in Sources */,
 				23BB77802574EF89007FEE14 /* AEFX_SuiteHelper.c in Sources */,
 				236E1401257BCD5300573495 /* Common.cpp in Sources */,

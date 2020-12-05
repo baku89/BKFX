@@ -2,29 +2,16 @@
 
 #include <memory>
 
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-#include <glad/glad.h>
-
 #include <glm/glm.hpp>
 
 typedef unsigned short u_int16;
 
 #include "OGL/Common.h"
+#include "OGL/GlobalContext.h"
 #include "OGL/Texture.h"
 #include "OGL/Shader.h"
 
 namespace OGL {
-
-/*
-// Global (to the effect) supporting OpenGL contexts
-*/
-struct GlobalContext {
-    GLFWwindow *window;
-};
-bool globalSetup(GlobalContext *ctx);
-void makeGlobalContextCurrent(GlobalContext *ctx);
-bool globalSetdown(GlobalContext *ctx);
 
 /*
 // Per render/thread supporting OpenGL variables

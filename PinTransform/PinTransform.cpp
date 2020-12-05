@@ -55,19 +55,21 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
         handleSuite->host_lock_handle(globalDataH));
 
     // Initialize global OpenGL context
-    if (!OGL::globalSetup(&globalData->globalContext)) {
+    globalData->globalContext = *new OGL::GlobalContext();
+    if (!globalData->globalContext.initialized) {
         err = PF_Err_OUT_OF_MEMORY;
     }
 
-    OGL::makeGlobalContextCurrent(&globalData->globalContext);
+    globalData->globalContext.bind();
+
+    // Setup inputTexture
+    globalData->inputTexture = *new OGL::Texture();
 
     // Setup shader
     std::string resourcePath = AEUtils::getResourcesPath(in_data);
     std::string vertPath = resourcePath + "shaders/shader.vert";
     std::string fragPath = resourcePath + "shaders/shader.frag";
-    globalData->program = OGL::Shader(vertPath.c_str(), fragPath.c_str());
-
-    OGL::initTexture(&globalData->inputTexture);
+    globalData->program = *new OGL::Shader(vertPath.c_str(), fragPath.c_str());
 
     handleSuite->host_unlock_handle(globalDataH);
 
@@ -135,10 +137,9 @@ static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
     auto *globalData = reinterpret_cast<GlobalData *>(
         suites.HandleSuite1()->host_lock_handle(in_data->global_data));
 
-    OGL::globalSetdown(&globalData->globalContext);
-    OGL::disposeTexture(&globalData->inputTexture);
-
     delete &globalData->program;
+    delete &globalData->inputTexture;
+    delete &globalData->globalContext;
 
     suites.HandleSuite1()->host_dispose_handle(in_data->global_data);
 
@@ -317,7 +318,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
 
     // OpenGL
     if (!err) {
-        OGL::makeGlobalContextCurrent(&globalData->globalContext);
+        globalData->globalContext.bind();
 
         auto ctx = OGL::getCurrentThreadRenderContext();
 
@@ -342,7 +343,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         // Setup render context
         OGL::setupRenderContext(ctx, input_worldP->width, input_worldP->height,
                                 glFormat);
-        globalData->program.use();
+        globalData->program.bind();
 
         // Allocate pixels buffer
         PF_Handle pixelsBufferH =

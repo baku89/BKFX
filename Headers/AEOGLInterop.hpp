@@ -57,8 +57,8 @@ void uploadTexture(OGL::RenderContext *ctx, OGL::Texture *tex,
         aeP = (char *)layerDef->data + y * layerDef->rowbytes;
         std::memcpy(glP, aeP, width * pixelBytes);
     }
-
-    OGL::setupTexture(tex, width, height, ctx->format);
+    
+    tex->allocate(width, height, ctx->format);
 
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, ctx->format,
                     pixelsBufferP);

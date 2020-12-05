@@ -43,50 +43,6 @@ GLuint createQuadVAO(GLuint vbo) {
 
 namespace OGL {
 
-bool globalSetup(GlobalContext *ctx) {
-    if (!glfwInit()) {
-        return false;
-    }
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-    GLFWwindow *window = glfwCreateWindow(640, 480, "", nullptr, nullptr);
-
-    if (!window) {
-        glfwTerminate();
-        return false;
-    }
-
-    // Setup Shader
-    glfwMakeContextCurrent(window);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        FX_LOG("Failed to initialize GLAD");
-        return false;
-    }
-    //
-    ctx->window = window;
-
-    return true;
-}
-
-void makeGlobalContextCurrent(GlobalContext *ctx) {
-    glfwMakeContextCurrent(ctx->window);
-}
-
-bool globalSetdown(GlobalContext *ctx) {
-    glfwDestroyWindow(ctx->window);
-    glfwTerminate();
-
-    return true;
-}
-
 /**
   RenderContext
  */
