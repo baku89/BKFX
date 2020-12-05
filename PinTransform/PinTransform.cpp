@@ -134,12 +134,13 @@ static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
     AEGP_SuiteHandler suites(in_data->pica_basicP);
 
     // Dispose globalData
-    auto *globalData = reinterpret_cast<GlobalData *>(
+    auto globalData = reinterpret_cast<GlobalData *>(
         suites.HandleSuite1()->host_lock_handle(in_data->global_data));
-
-    delete &globalData->program;
-    delete &globalData->inputTexture;
-    delete &globalData->globalContext;
+    
+    // Explicitly call deconstructor
+    globalData->inputTexture.~Texture();
+    globalData->program.~Shader();
+    globalData->globalContext.~GlobalContext();
 
     suites.HandleSuite1()->host_dispose_handle(in_data->global_data);
 
