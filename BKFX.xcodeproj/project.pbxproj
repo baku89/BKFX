@@ -10,18 +10,17 @@
 		232444D12574E2A60051E100 /* RichterStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 232444CF2574E2A60051E100 /* RichterStrip.cpp */; };
 		232444D22574E2A60051E100 /* RichterStripPiPL.r in Rez */ = {isa = PBXBuildFile; fileRef = 232444D02574E2A60051E100 /* RichterStripPiPL.r */; };
 		232445432574E8760051E100 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 232445422574E8760051E100 /* shaders */; };
-		2324454E2574E9490051E100 /* AEUtils.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */; };
 		2324456B2574E9870051E100 /* ChannelMatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 232445682574E9870051E100 /* ChannelMatte.cpp */; };
 		2324456C2574E9870051E100 /* ChannelMattePiPL.r in Rez */ = {isa = PBXBuildFile; fileRef = 2324456A2574E9870051E100 /* ChannelMattePiPL.r */; };
 		232FA4942573B5DE0045CDF3 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */; };
 		234B94D1256F51BF0094C117 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234B94D0256F51BF0094C117 /* OpenGL.framework */; };
-		234B94E2256F57A90094C117 /* OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 234B94E1256F57A90094C117 /* OGL.cpp */; };
+		236E13D4257BAC7F00573495 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 236E13D2257BAC7400573495 /* glad.c */; };
+		236E13D8257BAC8200573495 /* OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13C7257BAC7400573495 /* OGL.cpp */; };
+		236E13E2257BACAF00573495 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 236E13D2257BAC7400573495 /* glad.c */; };
+		236E13E6257BACB300573495 /* OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13C7257BAC7400573495 /* OGL.cpp */; };
 		2392D4A225766627000970F9 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */; };
 		2392D4A325766627000970F9 /* AEFX_SuiteHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */; };
-		2392D4A425766627000970F9 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 23D5FDC5256FEC1B00396409 /* glad.c */; };
 		2392D4A525766627000970F9 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */; };
-		2392D4A625766627000970F9 /* OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 234B94E1256F57A90094C117 /* OGL.cpp */; };
-		2392D4A725766627000970F9 /* AEUtils.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */; };
 		2392D4A925766627000970F9 /* Smart_Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77892574EFE9007FEE14 /* Smart_Utils.cpp */; };
 		2392D4AB25766627000970F9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234B94D0256F51BF0094C117 /* OpenGL.framework */; };
 		2392D4AC25766627000970F9 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */; };
@@ -36,8 +35,6 @@
 		23BB77972574F0DF007FEE14 /* Smart_Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77892574EFE9007FEE14 /* Smart_Utils.cpp */; };
 		23BB779A2574F0E6007FEE14 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */; };
 		23BB779D2574F0EA007FEE14 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */; };
-		23D2ACAD25736F1000BDCD8C /* AEUtils.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */; };
-		23D5FDC6256FEC1B00396409 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 23D5FDC5256FEC1B00396409 /* glad.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,10 +48,15 @@
 		232445692574E9870051E100 /* ChannelMatte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelMatte.h; path = ChannelMatte/ChannelMatte.h; sourceTree = "<group>"; };
 		2324456A2574E9870051E100 /* ChannelMattePiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = ChannelMattePiPL.r; path = ChannelMatte/ChannelMattePiPL.r; sourceTree = "<group>"; };
 		232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
-		233D33162574EB39009C7ED3 /* AEOGLInterop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AEOGLInterop.hpp; sourceTree = "<group>"; };
 		234B94D0256F51BF0094C117 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		234B94DC256F54C80094C117 /* OGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OGL.h; sourceTree = "<group>"; };
-		234B94E1256F57A90094C117 /* OGL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OGL.cpp; sourceTree = "<group>"; };
+		236E13C7257BAC7400573495 /* OGL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OGL.cpp; sourceTree = "<group>"; };
+		236E13C8257BAC7400573495 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
+		236E13C9257BAC7400573495 /* AEUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AEUtils.hpp; sourceTree = "<group>"; };
+		236E13CA257BAC7400573495 /* AEOGLInterop.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AEOGLInterop.hpp; sourceTree = "<group>"; };
+		236E13CE257BAC7400573495 /* khrplatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = khrplatform.h; sourceTree = "<group>"; };
+		236E13D0257BAC7400573495 /* glad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glad.h; sourceTree = "<group>"; };
+		236E13D2257BAC7400573495 /* glad.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
+		236E13D3257BAC7400573495 /* OGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OGL.h; sourceTree = "<group>"; };
 		2392D4B225766627000970F9 /* PinTransform.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PinTransform.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		2392D4BC257666C6000970F9 /* PinTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinTransform.h; sourceTree = "<group>"; };
 		2392D4BD257666C6000970F9 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -63,7 +65,6 @@
 		2392D4D8257666E9000970F9 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
 		2396BAEA25791D6C00DE2A6C /* libopencv_imgproc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgproc.dylib; path = ../../../../../../../usr/local/Cellar/opencv/4.5.0_5/lib/libopencv_imgproc.dylib; sourceTree = "<group>"; };
 		2396BAEF25791D8700DE2A6C /* libopencv_core.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.dylib; path = ../../../../../../../usr/local/Cellar/opencv/4.5.0_5/lib/libopencv_core.dylib; sourceTree = "<group>"; };
-		23BB77782574EE38007FEE14 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MissingSuiteError.cpp; path = ../../Util/MissingSuiteError.cpp; sourceTree = "<group>"; };
 		23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = AEFX_SuiteHelper.c; path = ../../Util/AEFX_SuiteHelper.c; sourceTree = "<group>"; };
 		23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AEGP_SuiteHandler.cpp; path = ../../Util/AEGP_SuiteHandler.cpp; sourceTree = "<group>"; };
@@ -191,8 +192,6 @@
 		23C26FB82578D60700D3D5FF /* libopencv_photo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_photo.a; path = ../../../../../../../usr/local/Cellar/opencv/4.5.0_5/lib/libopencv_photo.a; sourceTree = "<group>"; };
 		23C26FB92578D60700D3D5FF /* libopencv_imgcodecs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_imgcodecs.a; path = ../../../../../../../usr/local/Cellar/opencv/4.5.0_5/lib/libopencv_imgcodecs.a; sourceTree = "<group>"; };
 		23C26FBA2578D60700D3D5FF /* libopencv_hfs.4.5.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_hfs.4.5.0.dylib; path = ../../../../../../../usr/local/Cellar/opencv/4.5.0_5/lib/libopencv_hfs.4.5.0.dylib; sourceTree = "<group>"; };
-		23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AEUtils.hpp; sourceTree = "<group>"; };
-		23D5FDC5256FEC1B00396409 /* glad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = glad.c; path = glad/src/glad.c; sourceTree = "<group>"; };
 		C4E618CC095A3CE80012CA3F /* RichterStrip.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RichterStrip.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -378,6 +377,61 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		236E13C6257BAC7400573495 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				236E13C7257BAC7400573495 /* OGL.cpp */,
+				236E13C8257BAC7400573495 /* Debug.h */,
+				236E13C9257BAC7400573495 /* AEUtils.hpp */,
+				236E13CA257BAC7400573495 /* AEOGLInterop.hpp */,
+				236E13CB257BAC7400573495 /* glad */,
+				236E13D3257BAC7400573495 /* OGL.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		236E13CB257BAC7400573495 /* glad */ = {
+			isa = PBXGroup;
+			children = (
+				236E13CC257BAC7400573495 /* include */,
+				236E13D1257BAC7400573495 /* src */,
+			);
+			path = glad;
+			sourceTree = "<group>";
+		};
+		236E13CC257BAC7400573495 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				236E13CD257BAC7400573495 /* KHR */,
+				236E13CF257BAC7400573495 /* glad */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		236E13CD257BAC7400573495 /* KHR */ = {
+			isa = PBXGroup;
+			children = (
+				236E13CE257BAC7400573495 /* khrplatform.h */,
+			);
+			path = KHR;
+			sourceTree = "<group>";
+		};
+		236E13CF257BAC7400573495 /* glad */ = {
+			isa = PBXGroup;
+			children = (
+				236E13D0257BAC7400573495 /* glad.h */,
+			);
+			path = glad;
+			sourceTree = "<group>";
+		};
+		236E13D1257BAC7400573495 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				236E13D2257BAC7400573495 /* glad.c */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		2392D4BB257666C6000970F9 /* PinTransform */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,14 +467,9 @@
 		C4E6187C095A3C800012CA3F = {
 			isa = PBXGroup;
 			children = (
+				236E13C6257BAC7400573495 /* Headers */,
 				2324455E2574E95F0051E100 /* ChannelMatte */,
 				232444CA2574E25D0051E100 /* RichterStrip */,
-				23D2ACAC25736F1000BDCD8C /* AEUtils.hpp */,
-				233D33162574EB39009C7ED3 /* AEOGLInterop.hpp */,
-				234B94E1256F57A90094C117 /* OGL.cpp */,
-				23BB77782574EE38007FEE14 /* Debug.h */,
-				234B94DC256F54C80094C117 /* OGL.h */,
-				23D5FDC5256FEC1B00396409 /* glad.c */,
 				D0FE57630993C4FD00139A60 /* Supporting Code */,
 				C4E6188C095A3C800012CA3F /* Products */,
 				234B94CF256F51BF0094C117 /* Frameworks */,
@@ -650,7 +699,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2324454E2574E9490051E100 /* AEUtils.hpp in Sources */,
 				23BB77972574F0DF007FEE14 /* Smart_Utils.cpp in Sources */,
 				23BB779D2574F0EA007FEE14 /* MissingSuiteError.cpp in Sources */,
 				23BB779A2574F0E6007FEE14 /* AEGP_SuiteHandler.cpp in Sources */,
@@ -665,12 +713,11 @@
 			files = (
 				2392D4A225766627000970F9 /* MissingSuiteError.cpp in Sources */,
 				2392D4A325766627000970F9 /* AEFX_SuiteHelper.c in Sources */,
-				2392D4A425766627000970F9 /* glad.c in Sources */,
 				2392D4A525766627000970F9 /* AEGP_SuiteHandler.cpp in Sources */,
 				2392D4C6257666C6000970F9 /* PinTransform.cpp in Sources */,
-				2392D4A625766627000970F9 /* OGL.cpp in Sources */,
-				2392D4A725766627000970F9 /* AEUtils.hpp in Sources */,
 				2392D4A925766627000970F9 /* Smart_Utils.cpp in Sources */,
+				236E13D8257BAC8200573495 /* OGL.cpp in Sources */,
+				236E13D4257BAC7F00573495 /* glad.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,12 +727,11 @@
 			files = (
 				23BB777C2574EF7B007FEE14 /* MissingSuiteError.cpp in Sources */,
 				23BB77802574EF89007FEE14 /* AEFX_SuiteHelper.c in Sources */,
-				23D5FDC6256FEC1B00396409 /* glad.c in Sources */,
 				23BB77862574EFD9007FEE14 /* AEGP_SuiteHandler.cpp in Sources */,
-				234B94E2256F57A90094C117 /* OGL.cpp in Sources */,
-				23D2ACAD25736F1000BDCD8C /* AEUtils.hpp in Sources */,
 				232444D12574E2A60051E100 /* RichterStrip.cpp in Sources */,
 				23BB778A2574EFE9007FEE14 /* Smart_Utils.cpp in Sources */,
+				236E13E6257BACB300573495 /* OGL.cpp in Sources */,
+				236E13E2257BACAF00573495 /* glad.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -723,6 +769,7 @@
 					"\"$(SRCROOT)/../../Resources\"",
 					"\"$(SRCROOT)/../../Headers/SP\"",
 					"\"$(SRCROOT)/../../Util\"",
+					"\"$(SRCROOT)/Headers\"/**",
 				);
 				INFOPLIST_FILE = "Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
@@ -852,6 +899,7 @@
 					"\"$(SRCROOT)/../../Resources\"",
 					"\"$(SRCROOT)/../../Headers/SP\"",
 					"\"$(SRCROOT)/../../Util\"",
+					"\"$(SRCROOT)/Headers\"/**",
 				);
 				INFOPLIST_FILE = "Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
