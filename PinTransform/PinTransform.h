@@ -32,7 +32,6 @@ typedef unsigned short PixelType;
 #include "AEFX_SuiteHelper.h"
 #include "Smart_Utils.h"
 
-
 #include "../OGL.h"
 
 #include <glm/glm.hpp>
@@ -52,7 +51,8 @@ typedef unsigned short PixelType;
 
 #define SLIDER_PRECISION 1
 
-enum { PARAM_VIEWING_MODE_ORIGINAL = 1, PARAM_VIEWING_MODE_RESULT };
+enum { PARAM_VIEWING_MODE_ORIGINAL = 1,
+       PARAM_VIEWING_MODE_RESULT };
 
 enum {
     PARAM_INPUT = 0,
@@ -74,6 +74,7 @@ enum {
 struct GlobalData {
     OGL::GlobalContext globalContext;
     OGL::Texture inputTexture;
+    OGL::Shader program;
 };
 
 struct ParamInfo {

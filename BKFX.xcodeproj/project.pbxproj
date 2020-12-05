@@ -18,6 +18,10 @@
 		236E13D8257BAC8200573495 /* OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13C7257BAC7400573495 /* OGL.cpp */; };
 		236E13E2257BACAF00573495 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 236E13D2257BAC7400573495 /* glad.c */; };
 		236E13E6257BACB300573495 /* OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13C7257BAC7400573495 /* OGL.cpp */; };
+		236E13F2257BCC2600573495 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13EF257BCC2600573495 /* Texture.cpp */; };
+		236E13F3257BCC2600573495 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13EF257BCC2600573495 /* Texture.cpp */; };
+		236E1401257BCD5300573495 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1400257BCD5300573495 /* Common.cpp */; };
+		236E1402257BCD5300573495 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1400257BCD5300573495 /* Common.cpp */; };
 		2392D4A225766627000970F9 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */; };
 		2392D4A325766627000970F9 /* AEFX_SuiteHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */; };
 		2392D4A525766627000970F9 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */; };
@@ -57,6 +61,11 @@
 		236E13D0257BAC7400573495 /* glad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glad.h; sourceTree = "<group>"; };
 		236E13D2257BAC7400573495 /* glad.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
 		236E13D3257BAC7400573495 /* OGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OGL.h; sourceTree = "<group>"; };
+		236E13EE257BCC2600573495 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		236E13EF257BCC2600573495 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
+		236E13F0257BCC2600573495 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		236E13F1257BCC2600573495 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		236E1400257BCD5300573495 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
 		2392D4B225766627000970F9 /* PinTransform.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PinTransform.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		2392D4BC257666C6000970F9 /* PinTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinTransform.h; sourceTree = "<group>"; };
 		2392D4BD257666C6000970F9 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -380,6 +389,7 @@
 		236E13C6257BAC7400573495 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				236E13ED257BCC2600573495 /* OGL */,
 				236E13C7257BAC7400573495 /* OGL.cpp */,
 				236E13C8257BAC7400573495 /* Debug.h */,
 				236E13C9257BAC7400573495 /* AEUtils.hpp */,
@@ -430,6 +440,18 @@
 				236E13D2257BAC7400573495 /* glad.c */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		236E13ED257BCC2600573495 /* OGL */ = {
+			isa = PBXGroup;
+			children = (
+				236E1400257BCD5300573495 /* Common.cpp */,
+				236E13EE257BCC2600573495 /* Shader.h */,
+				236E13EF257BCC2600573495 /* Texture.cpp */,
+				236E13F0257BCC2600573495 /* Common.h */,
+				236E13F1257BCC2600573495 /* Texture.h */,
+			);
+			path = OGL;
 			sourceTree = "<group>";
 		};
 		2392D4BB257666C6000970F9 /* PinTransform */ = {
@@ -713,9 +735,11 @@
 			files = (
 				2392D4A225766627000970F9 /* MissingSuiteError.cpp in Sources */,
 				2392D4A325766627000970F9 /* AEFX_SuiteHelper.c in Sources */,
+				236E1402257BCD5300573495 /* Common.cpp in Sources */,
 				2392D4A525766627000970F9 /* AEGP_SuiteHandler.cpp in Sources */,
 				2392D4C6257666C6000970F9 /* PinTransform.cpp in Sources */,
 				2392D4A925766627000970F9 /* Smart_Utils.cpp in Sources */,
+				236E13F3257BCC2600573495 /* Texture.cpp in Sources */,
 				236E13D8257BAC8200573495 /* OGL.cpp in Sources */,
 				236E13D4257BAC7F00573495 /* glad.c in Sources */,
 			);
@@ -727,9 +751,11 @@
 			files = (
 				23BB777C2574EF7B007FEE14 /* MissingSuiteError.cpp in Sources */,
 				23BB77802574EF89007FEE14 /* AEFX_SuiteHelper.c in Sources */,
+				236E1401257BCD5300573495 /* Common.cpp in Sources */,
 				23BB77862574EFD9007FEE14 /* AEGP_SuiteHandler.cpp in Sources */,
 				232444D12574E2A60051E100 /* RichterStrip.cpp in Sources */,
 				23BB778A2574EFE9007FEE14 /* Smart_Utils.cpp in Sources */,
+				236E13F2257BCC2600573495 /* Texture.cpp in Sources */,
 				236E13E6257BACB300573495 /* OGL.cpp in Sources */,
 				236E13E2257BACAF00573495 /* glad.c in Sources */,
 			);

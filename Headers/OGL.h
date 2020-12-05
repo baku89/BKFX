@@ -10,23 +10,11 @@
 
 typedef unsigned short u_int16;
 
+#include "OGL/Common.h"
+#include "OGL/Texture.h"
+#include "OGL/Shader.h"
+
 namespace OGL {
-
-/*
-// Texture
-*/
-struct Texture {
-    GLuint texid;
-    size_t width;
-    size_t height;
-    GLenum format;
-};
-
-void initTexture(Texture *tex);
-
-void setupTexture(Texture *tex, size_t width, size_t height, GLenum format);
-
-void disposeTexture(Texture *tex);
 
 /*
 // Global (to the effect) supporting OpenGL contexts
@@ -44,14 +32,15 @@ bool globalSetdown(GlobalContext *ctx);
 struct RenderContext {
     int threadIndex;
 
-    GLuint frameBuffer = 0;
+    GLuint fbo = 0;
+    GLuint multisampledFbo = 0;
 
     GLsizei width = 0;
     GLsizei height = 0;
     GLenum format = 0;
 
-    GLuint program = 0;
     GLuint outputTexture = 0;
+    GLuint multisampledTexture = 0;
 
     GLuint vao = 0;
     GLuint quad = 0;
@@ -60,11 +49,11 @@ struct RenderContext {
         if (outputTexture) {
             glDeleteTextures(1, &outputTexture);
         }
-        if (program) {
-            glDeleteProgram(program);
+        if (multisampledTexture) {
+            glDeleteTextures(1, &multisampledTexture);
         }
-        if (frameBuffer) {
-            glDeleteFramebuffers(1, &frameBuffer);
+        if (fbo) {
+            glDeleteFramebuffers(1, &fbo);
         }
         if (vao) {
             glDeleteBuffers(1, &quad);
@@ -76,8 +65,7 @@ struct RenderContext {
 RenderContext *getCurrentThreadRenderContext();
 
 void setupRenderContext(RenderContext *ctx, GLsizei width, GLsizei height,
-                        GLenum format, std::string vertShaderPath,
-                        std::string fragShaderPath);
+                        GLenum format);
 void setUniformTexture(RenderContext *ctx, std::string name, Texture *tex,
                        GLint index);
 void setUniform1f(RenderContext *ctx, std::string name, float value);
@@ -87,4 +75,4 @@ void setUniformMatrix3f(RenderContext *ctx, std::string name,
 void renderToBuffer(RenderContext *ctx, void *pixels);
 void disposeAllRenderContexts();
 
-} // namespace OGL
+}  // namespace OGL

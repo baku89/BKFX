@@ -15,11 +15,6 @@
 
 #include <sstream>
 
-namespace {
-std::string VertShaderPath;
-std::string FragShaderPath;
-}  // namespace
-
 static PF_Err About(PF_InData *in_data, PF_OutData *out_data,
                     PF_ParamDef *params[], PF_LayerDef *output) {
     AEGP_SuiteHandler suites(in_data->pica_basicP);
@@ -64,14 +59,17 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
         err = PF_Err_OUT_OF_MEMORY;
     }
 
+    OGL::makeGlobalContextCurrent(&globalData->globalContext);
+
+    // Setup shader
+    std::string resourcePath = AEUtils::getResourcesPath(in_data);
+    std::string vertPath = resourcePath + "shaders/shader.vert";
+    std::string fragPath = resourcePath + "shaders/shader.frag";
+    globalData->program = OGL::Shader(vertPath.c_str(), fragPath.c_str());
+
     OGL::initTexture(&globalData->inputTexture);
 
     handleSuite->host_unlock_handle(globalDataH);
-
-    // Retrieve shader path
-    std::string resourcePath = AEUtils::getResourcesPath(in_data);
-    VertShaderPath = resourcePath + "shaders/shader.vert";
-    FragShaderPath = resourcePath + "shaders/shader.frag";
 
     return err;
 }
@@ -140,11 +138,9 @@ static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
     OGL::globalSetdown(&globalData->globalContext);
     OGL::disposeTexture(&globalData->inputTexture);
 
-    suites.HandleSuite1()->host_dispose_handle(in_data->global_data);
+    delete &globalData->program;
 
-    // Dispose static variables
-    VertShaderPath.clear();
-    FragShaderPath.clear();
+    suites.HandleSuite1()->host_dispose_handle(in_data->global_data);
 
     return err;
 }
@@ -345,7 +341,8 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
 
         // Setup render context
         OGL::setupRenderContext(ctx, input_worldP->width, input_worldP->height,
-                                glFormat, VertShaderPath, FragShaderPath);
+                                glFormat);
+        globalData->program.use();
 
         // Allocate pixels buffer
         PF_Handle pixelsBufferH =
@@ -358,22 +355,22 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                                     input_worldP, pixelsBufferP);
 
         // Set uniforms
-        OGL::setUniformTexture(ctx, "tex0", &globalData->inputTexture, 0);
+        globalData->program.setTexture("tex0", &globalData->inputTexture, 0);
 
         float multiplier16bit =
             ctx->format == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
-        OGL::setUniform1f(ctx, "multiplier16bit", multiplier16bit);
+        globalData->program.setFloat("multiplier16bit", multiplier16bit);
 
         float actualWidth = (float)in_data->width;
         float actualHeight = (float)in_data->height;
 
-        OGL::setUniform2f(ctx, "resolution", actualWidth, actualHeight);
+        globalData->program.setVec2("resolution", actualWidth, actualHeight);
 
         FX_LOG(glm::to_string(paramInfo->xform));
 
         glm::mat3 xformInv = glm::inverse(paramInfo->xform);
-        OGL::setUniformMatrix3f(ctx, "xform", &paramInfo->xform);
-        OGL::setUniformMatrix3f(ctx, "xformInv", &xformInv);
+        globalData->program.setMat3("xform", paramInfo->xform);
+        globalData->program.setMat3("xformInv", xformInv);
 
         OGL::renderToBuffer(ctx, pixelsBufferP);
 
