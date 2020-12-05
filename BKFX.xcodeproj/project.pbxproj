@@ -460,6 +460,7 @@
 				232445482574E9490051E100 /* Sources */,
 				232445522574E9490051E100 /* Frameworks */,
 				232445552574E9490051E100 /* Rez */,
+				23778315257B5DAC005FD1F3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -478,7 +479,7 @@
 				2392D4A125766627000970F9 /* Sources */,
 				2392D4AA25766627000970F9 /* Frameworks */,
 				2392D4AD25766627000970F9 /* Rez */,
-				23BC4F98257A4D380038F223 /* Run Script */,
+				23778311257B5D54005FD1F3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -497,6 +498,7 @@
 				C4E618C9095A3CE80012CA3F /* Sources */,
 				C4E618CA095A3CE80012CA3F /* Frameworks */,
 				C4E618EA095A3E040012CA3F /* Rez */,
+				23778316257B5DB5005FD1F3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -590,7 +592,7 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		23BC4F98257A4D380038F223 /* Run Script */ = {
+		23778311257B5D54005FD1F3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -599,14 +601,47 @@
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"/Users/baku/Dropbox/Application/After Effects CC/Plugins/Baku/BKFX_Debug/${FULL_PRODUCT_NAME}\"\ncp -a \"${BUILT_PRODUCTS_DIR}/${APPLICATION_NAME}/${FULL_PRODUCT_NAME}\" \"/Users/baku/Dropbox/Application/After Effects CC/Plugins/Baku/BKFX_Debug/${FULL_PRODUCT_NAME}\"\n";
+			shellScript = "$SRCROOT/install-plugin.sh\n";
+		};
+		23778315257B5DAC005FD1F3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/install-plugin.sh\n";
+		};
+		23778316257B5DB5005FD1F3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/install-plugin.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -692,6 +727,7 @@
 				INFOPLIST_FILE = "Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				ONLY_ACTIVE_ARCH = YES;
+				PLUGIN_DIR = "/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/BKFX";
 				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -820,6 +856,7 @@
 				INFOPLIST_FILE = "Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				ONLY_ACTIVE_ARCH = YES;
+				PLUGIN_DIR = "/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/BKFX";
 				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
