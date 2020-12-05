@@ -18,7 +18,7 @@
 namespace {
 std::string VertShaderPath;
 std::string FragShaderPath;
-} // namespace
+}  // namespace
 
 static PF_Err About(PF_InData *in_data, PF_OutData *out_data,
                     PF_ParamDef *params[], PF_LayerDef *output) {
@@ -211,59 +211,59 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
     glm::mat3 xform = glm::mat3(1);
 
     switch (pinCount) {
-    case 0: // Original
-        break;
-    case 1: { // Translate
-        glm::vec2 trans(dst1.x - src1.x, dst1.y - src1.y);
-        xform = glm::translate(xform, trans);
-        break;
-    }
-    case 2:
-    case 3: { // Affine transformation
-        std::vector<cv::Point2f> srcPoints(3);
-        srcPoints[0] = cv::Point2f(src1.x, src1.y);
-        srcPoints[1] = cv::Point2f(src2.x, src2.y);
-        srcPoints[2] = pinCount == 2 ? cv::Point2f(src1.x - (src2.y - src1.y),
-                                                   src1.y + (src2.x - src1.x))
-                                     : cv::Point2f(src3.x, src3.y);
+        case 0:  // Original
+            break;
+        case 1: {  // Translate
+            glm::vec2 trans(dst1.x - src1.x, dst1.y - src1.y);
+            xform = glm::translate(xform, trans);
+            break;
+        }
+        case 2:
+        case 3: {  // Affine transformation
+            std::vector<cv::Point2f> srcPoints(3);
+            srcPoints[0] = cv::Point2f(src1.x, src1.y);
+            srcPoints[1] = cv::Point2f(src2.x, src2.y);
+            srcPoints[2] = pinCount == 2 ? cv::Point2f(src1.x - (src2.y - src1.y),
+                                                       src1.y + (src2.x - src1.x))
+                                         : cv::Point2f(src3.x, src3.y);
 
-        std::vector<cv::Point2f> dstPoints(3);
-        dstPoints[0] = cv::Point2f(dst1.x, dst1.y);
-        dstPoints[1] = cv::Point2f(dst2.x, dst2.y);
-        dstPoints[2] = pinCount == 2 ? cv::Point2f(dst1.x - (dst2.y - dst1.y),
-                                                   dst1.y + (dst2.x - dst1.x))
-                                     : cv::Point2f(dst3.x, dst3.y);
+            std::vector<cv::Point2f> dstPoints(3);
+            dstPoints[0] = cv::Point2f(dst1.x, dst1.y);
+            dstPoints[1] = cv::Point2f(dst2.x, dst2.y);
+            dstPoints[2] = pinCount == 2 ? cv::Point2f(dst1.x - (dst2.y - dst1.y),
+                                                       dst1.y + (dst2.x - dst1.x))
+                                         : cv::Point2f(dst3.x, dst3.y);
 
-        cv::Mat mat = cv::getAffineTransform(srcPoints, dstPoints);
+            cv::Mat mat = cv::getAffineTransform(srcPoints, dstPoints);
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 2; j++) {
-                xform[i][j] = (float)mat.at<double>(j, i);
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 2; j++) {
+                    xform[i][j] = (float)mat.at<double>(j, i);
+                }
+            }
+            break;
+        }
+        case 4: {  // Homogeneous transformation
+            std::vector<cv::Point2f> srcPoints(4);
+            srcPoints[0] = cv::Point2f(src1.x, src1.y);
+            srcPoints[1] = cv::Point2f(src2.x, src2.y);
+            srcPoints[2] = cv::Point2f(src4.x, src4.y);
+            srcPoints[3] = cv::Point2f(src3.x, src3.y);
+
+            std::vector<cv::Point2f> dstPoints(4);
+            dstPoints[0] = cv::Point2f(dst1.x, dst1.y);
+            dstPoints[1] = cv::Point2f(dst2.x, dst2.y);
+            dstPoints[2] = cv::Point2f(dst4.x, dst4.y);
+            dstPoints[3] = cv::Point2f(dst3.x, dst3.y);
+
+            cv::Mat mat = cv::getPerspectiveTransform(srcPoints, dstPoints);
+
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    xform[i][j] = (float)mat.at<double>(j, i);
+                }
             }
         }
-        break;
-    }
-    case 4: { // Homogeneous transformation
-        std::vector<cv::Point2f> srcPoints(4);
-        srcPoints[0] = cv::Point2f(src1.x, src1.y);
-        srcPoints[1] = cv::Point2f(src2.x, src2.y);
-        srcPoints[2] = cv::Point2f(src4.x, src4.y);
-        srcPoints[3] = cv::Point2f(src3.x, src3.y);
-
-        std::vector<cv::Point2f> dstPoints(4);
-        dstPoints[0] = cv::Point2f(dst1.x, dst1.y);
-        dstPoints[1] = cv::Point2f(dst2.x, dst2.y);
-        dstPoints[2] = cv::Point2f(dst4.x, dst4.y);
-        dstPoints[3] = cv::Point2f(dst3.x, dst3.y);
-
-        cv::Mat mat = cv::getPerspectiveTransform(srcPoints, dstPoints);
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                xform[i][j] = (float)mat.at<double>(j, i);
-            }
-        }
-    }
     }
     std::memcpy(&paramInfo->xform, &xform, sizeof(glm::mat3));
 
@@ -329,18 +329,18 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         size_t pixelSize = 0;
 
         switch (format) {
-        case PF_PixelFormat_ARGB32:
-            glFormat = GL_UNSIGNED_BYTE;
-            pixelSize = sizeof(PF_Pixel8);
-            break;
-        case PF_PixelFormat_ARGB64:
-            glFormat = GL_UNSIGNED_SHORT;
-            pixelSize = sizeof(PF_Pixel16);
-            break;
-        case PF_PixelFormat_ARGB128:
-            glFormat = GL_FLOAT;
-            pixelSize = sizeof(PF_PixelFloat);
-            break;
+            case PF_PixelFormat_ARGB32:
+                glFormat = GL_UNSIGNED_BYTE;
+                pixelSize = sizeof(PF_Pixel8);
+                break;
+            case PF_PixelFormat_ARGB64:
+                glFormat = GL_UNSIGNED_SHORT;
+                pixelSize = sizeof(PF_Pixel16);
+                break;
+            case PF_PixelFormat_ARGB128:
+                glFormat = GL_FLOAT;
+                pixelSize = sizeof(PF_PixelFloat);
+                break;
         }
 
         // Setup render context
@@ -372,6 +372,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         FX_LOG(glm::to_string(paramInfo->xform));
 
         glm::mat3 xformInv = glm::inverse(paramInfo->xform);
+        OGL::setUniformMatrix3f(ctx, "xform", &paramInfo->xform);
         OGL::setUniformMatrix3f(ctx, "xformInv", &xformInv);
 
         OGL::renderToBuffer(ctx, pixelsBufferP);
@@ -397,69 +398,69 @@ static PF_Err UserChangedParam(PF_InData *in_data, PF_OutData *out_data,
     PF_Err err = PF_Err_NONE;
 
     switch (which_hitP->param_index) {
-    case PARAM_PINCOUNT: {
-        AEGP_SuiteHandler suites(in_data->pica_basicP);
-        auto paramSuite = suites.ParamUtilsSuite3();
+        case PARAM_PINCOUNT: {
+            AEGP_SuiteHandler suites(in_data->pica_basicP);
+            auto paramSuite = suites.ParamUtilsSuite3();
 
-        A_long pinCount;
-        ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_PINCOUNT,
-                                        &pinCount));
+            A_long pinCount;
+            ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_PINCOUNT,
+                                            &pinCount));
 
-        // Copy All ParamDef
-        PF_ParamDef paramsCopy[PARAM_NUM_PARAMS];
+            // Copy All ParamDef
+            PF_ParamDef paramsCopy[PARAM_NUM_PARAMS];
 
-        for (size_t i = 0; i < PARAM_NUM_PARAMS; i++) {
-            AEFX_CLR_STRUCT(paramsCopy[i])
-            paramsCopy[i] = *params[i];
-        }
-
-        for (size_t i = 0; i < 4; i++) {
-            if (i + 1 <= pinCount) {
-                paramsCopy[PARAM_SRC_1 + i].ui_flags &= (~PF_PUI_DISABLED);
-                paramsCopy[PARAM_DST_1 + i].ui_flags &= (~PF_PUI_DISABLED);
-            } else {
-                paramsCopy[PARAM_SRC_1 + i].ui_flags |= PF_PUI_DISABLED;
-                paramsCopy[PARAM_DST_1 + i].ui_flags |= PF_PUI_DISABLED;
+            for (size_t i = 0; i < PARAM_NUM_PARAMS; i++) {
+                AEFX_CLR_STRUCT(paramsCopy[i])
+                paramsCopy[i] = *params[i];
             }
 
-            ERR(paramSuite->PF_UpdateParamUI(in_data->effect_ref,
-                                             PARAM_SRC_1 + i,
-                                             &paramsCopy[PARAM_SRC_1 + i]));
-            ERR(paramSuite->PF_UpdateParamUI(in_data->effect_ref,
-                                             PARAM_DST_1 + i,
-                                             &paramsCopy[PARAM_DST_1 + i]));
-        }
-    }
-    case PARAM_COPY_SRC_TO_DST: {
-        PF_ParamDef *paramSrc, *paramDst;
-        for (size_t i = 0; i < 4; i++) {
-            paramSrc = params[PARAM_SRC_1 + i];
-            paramDst = params[PARAM_DST_1 + i];
-            paramDst->u.td.x_value = paramSrc->u.td.x_value;
-            paramDst->u.td.y_value = paramSrc->u.td.y_value;
-            paramDst->uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
-            ;
-        }
-    }
-    case PARAM_SWAP_SRC_DST: {
-        PF_ParamDef *paramSrc, *paramDst;
-        for (size_t i = 0; i < 4; i++) {
-            paramSrc = params[PARAM_SRC_1 + i];
-            paramDst = params[PARAM_DST_1 + i];
+            for (size_t i = 0; i < 4; i++) {
+                if (i + 1 <= pinCount) {
+                    paramsCopy[PARAM_SRC_1 + i].ui_flags &= (~PF_PUI_DISABLED);
+                    paramsCopy[PARAM_DST_1 + i].ui_flags &= (~PF_PUI_DISABLED);
+                } else {
+                    paramsCopy[PARAM_SRC_1 + i].ui_flags |= PF_PUI_DISABLED;
+                    paramsCopy[PARAM_DST_1 + i].ui_flags |= PF_PUI_DISABLED;
+                }
 
-            A_long swap = paramDst->u.td.x_value;
-            paramDst->u.td.x_value = paramSrc->u.td.x_value;
-            paramSrc->u.td.x_value = swap;
-
-            swap = paramDst->u.td.y_value;
-            paramDst->u.td.y_value = paramSrc->u.td.y_value;
-            paramSrc->u.td.y_value = swap;
-
-            paramSrc->uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
-            paramDst->uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
-            ;
+                ERR(paramSuite->PF_UpdateParamUI(in_data->effect_ref,
+                                                 PARAM_SRC_1 + i,
+                                                 &paramsCopy[PARAM_SRC_1 + i]));
+                ERR(paramSuite->PF_UpdateParamUI(in_data->effect_ref,
+                                                 PARAM_DST_1 + i,
+                                                 &paramsCopy[PARAM_DST_1 + i]));
+            }
         }
-    }
+        case PARAM_COPY_SRC_TO_DST: {
+            PF_ParamDef *paramSrc, *paramDst;
+            for (size_t i = 0; i < 4; i++) {
+                paramSrc = params[PARAM_SRC_1 + i];
+                paramDst = params[PARAM_DST_1 + i];
+                paramDst->u.td.x_value = paramSrc->u.td.x_value;
+                paramDst->u.td.y_value = paramSrc->u.td.y_value;
+                paramDst->uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
+                ;
+            }
+        }
+        case PARAM_SWAP_SRC_DST: {
+            PF_ParamDef *paramSrc, *paramDst;
+            for (size_t i = 0; i < 4; i++) {
+                paramSrc = params[PARAM_SRC_1 + i];
+                paramDst = params[PARAM_DST_1 + i];
+
+                A_long swap = paramDst->u.td.x_value;
+                paramDst->u.td.x_value = paramSrc->u.td.x_value;
+                paramSrc->u.td.x_value = swap;
+
+                swap = paramDst->u.td.y_value;
+                paramDst->u.td.y_value = paramSrc->u.td.y_value;
+                paramSrc->u.td.y_value = swap;
+
+                paramSrc->uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
+                paramDst->uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
+                ;
+            }
+        }
     }
 
     return err;
@@ -474,7 +475,7 @@ extern "C" DllExport PF_Err PluginDataEntryFunction(
     result =
         PF_REGISTER_EFFECT(inPtr, inPluginDataCallBackPtr, FX_SETTINGS_NAME,
                            FX_SETTINGS_MATCH_NAME, FX_SETTINGS_CATEGORY,
-                           AE_RESERVED_INFO); // Reserved Info
+                           AE_RESERVED_INFO);  // Reserved Info
 
     return result;
 }
@@ -485,36 +486,36 @@ PF_Err EffectMain(PF_Cmd cmd, PF_InData *in_data, PF_OutData *out_data,
 
     try {
         switch (cmd) {
-        case PF_Cmd_ABOUT:
-            err = About(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_ABOUT:
+                err = About(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_GLOBAL_SETUP:
-            err = GlobalSetup(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_GLOBAL_SETUP:
+                err = GlobalSetup(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_PARAMS_SETUP:
-            err = ParamsSetup(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_PARAMS_SETUP:
+                err = ParamsSetup(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_GLOBAL_SETDOWN:
-            err = GlobalSetdown(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_GLOBAL_SETDOWN:
+                err = GlobalSetdown(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_SMART_PRE_RENDER:
-            err = PreRender(in_data, out_data,
-                            reinterpret_cast<PF_PreRenderExtra *>(extra));
-            break;
+            case PF_Cmd_SMART_PRE_RENDER:
+                err = PreRender(in_data, out_data,
+                                reinterpret_cast<PF_PreRenderExtra *>(extra));
+                break;
 
-        case PF_Cmd_SMART_RENDER:
-            err = SmartRender(in_data, out_data,
-                              reinterpret_cast<PF_SmartRenderExtra *>(extra));
-            break;
-        case PF_Cmd_USER_CHANGED_PARAM:
-            err = UserChangedParam(
-                in_data, out_data, params,
-                reinterpret_cast<const PF_UserChangedParamExtra *>(extra));
-            break;
+            case PF_Cmd_SMART_RENDER:
+                err = SmartRender(in_data, out_data,
+                                  reinterpret_cast<PF_SmartRenderExtra *>(extra));
+                break;
+            case PF_Cmd_USER_CHANGED_PARAM:
+                err = UserChangedParam(
+                    in_data, out_data, params,
+                    reinterpret_cast<const PF_UserChangedParamExtra *>(extra));
+                break;
         }
     } catch (PF_Err &thrown_err) {
         err = thrown_err;

@@ -23,8 +23,4 @@ void main() {
     vec2 newUv = vec2(x / resolution.x, 1.0 - y / resolution.y);
     
     fragColor = texture(tex0, newUv);
-
-    // Apply a mask
-    vec2 xyMask = step(vec2(0.0), newUv) * step(newUv, vec2(1.0));
-    fragColor.r *= xyMask.x * xyMask.y; // R = Alpha in ARGB
 }
