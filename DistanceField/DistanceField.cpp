@@ -33,7 +33,8 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
 
     // Enable 32bpc and SmartFX
     out_data->out_flags2 =
-        PF_OutFlag2_FLOAT_COLOR_AWARE | PF_OutFlag2_SUPPORTS_SMART_RENDER;
+        PF_OutFlag2_FLOAT_COLOR_AWARE | PF_OutFlag2_SUPPORTS_SMART_RENDER |
+        PF_OutFlag2_REVEALS_ZERO_ALPHA;
 
     // Initialize globalData
     auto handleSuite = suites.HandleSuite1();
@@ -105,6 +106,13 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
                         PARAM_WIDTH);  // ID
 
     AEFX_CLR_STRUCT(def);
+    PF_ADD_POPUP("Source Channel",
+                 2,
+                 1,
+                 "Luma|Alpha",
+                 PARAM_SOURCE);
+
+    AEFX_CLR_STRUCT(def);
     PF_ADD_CHECKBOX("Invert",
                     "Invert",
                     FALSE,
@@ -173,6 +181,9 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
 
     ERR(AEOGLInterop::getFloatSliderParam(in_data, out_data, PARAM_WIDTH,
                                           &paramInfo->width));
+
+    ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_SOURCE,
+                                    &paramInfo->source));
 
     ERR(AEOGLInterop::getCheckboxParam(in_data, out_data, PARAM_INVERT,
                                        &paramInfo->invert));
@@ -284,6 +295,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         globalData->thresholdShader.setTexture("tex0", &globalData->inputTexture, 0);
         globalData->thresholdShader.setFloat("multiplier16bit", multiplier16bit);
         globalData->thresholdShader.setFloat("infinity", infinityValue);
+        globalData->thresholdShader.setInt("source", paramInfo->source);
         globalData->quad.render();
 
         // Compute distance
