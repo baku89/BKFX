@@ -219,8 +219,8 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         size_t pixelBytes = AEOGLInterop::getPixelBytes(pixelType);
 
         // Setup render context
-        globalData->fbo.allocate(width, height, pixelType);
-        globalData->inputTexture.allocate(width, height, pixelType);
+        globalData->fbo.allocate(width, height, GL_RGBA, pixelType);
+        globalData->inputTexture.allocate(width, height, GL_RGBA, pixelType);
 
         // Allocate pixels buffer
         PF_Handle pixelsBufferH =
@@ -239,8 +239,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         // Set uniforms
         globalData->program.setTexture("tex0", &globalData->inputTexture, 0);
 
-        float multiplier16bit =
-            pixelType == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
+        float multiplier16bit = AEOGLInterop::getMultiplier16bit(pixelType);
         globalData->program.setFloat("multiplier16bit", multiplier16bit);
         globalData->program.setFloat("angle", paramInfo->angle);
         globalData->program.setVec2("center", paramInfo->center.x,
