@@ -143,14 +143,14 @@ class Shader {
             glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
             if (!success) {
                 glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-                FX_LOG("ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n"
+                FX_LOG("ERROR::SHADER_COMPILATION_ERROR of type: " << type << "|"
                                                                    << infoLog);
             }
         } else {
             glGetProgramiv(shader, GL_LINK_STATUS, &success);
             if (!success) {
                 glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-                FX_LOG("ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n"
+                FX_LOG("ERROR::PROGRAM_LINKING_ERROR of type: " << type << "|"
                                                                 << infoLog);
             }
         }

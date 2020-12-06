@@ -24,6 +24,10 @@
 
 namespace AEOGLInterop {
 
+float getMultiplier16bit(GLenum pixelType) {
+    return pixelType == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
+}
+
 size_t getPixelBytes(GLenum pixelType) {
     switch (pixelType) {
         case GL_UNSIGNED_BYTE:

@@ -10,6 +10,7 @@ class Texture {
     void allocate(GLsizei width, GLsizei height, GLenum pixelType);
     void bind();
     void unbind();
+    GLuint getID();
 
    private:
     GLuint ID = 0;

@@ -2,13 +2,14 @@
 
 namespace OGL {
 
+Fbo::Fbo() : texture() {
+}
+
 Fbo::~Fbo() {
     if (this->ID) {
         glDeleteFramebuffers(1, &this->ID);
     }
-    if (this->texture) {
-        glDeleteTextures(1, &this->texture);
-    }
+    this->texture.~Texture();
     if (this->multisampledFbo) {
         glDeleteFramebuffers(1, &this->multisampledFbo);
     }
@@ -37,21 +38,12 @@ void Fbo::allocate(GLsizei width, GLsizei height, GLenum pixelType, int numSampl
 
         GLint internalFormat = pixelType == GL_UNSIGNED_BYTE ? GL_RGBA8 : pixelType == GL_UNSIGNED_SHORT ? GL_RGBA16 : GL_RGBA32F;
 
-        glGenTextures(1, &this->texture);
-        glBindTexture(GL_TEXTURE_2D, this->texture);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, this->width, this->height,
-                     0, GL_RGBA, this->pixelType, nullptr);
+        this->texture.allocate(width, height, pixelType);
 
         // // Bind to fbo
         glBindFramebuffer(GL_FRAMEBUFFER, this->ID);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                               this->texture, 0);
+                               this->texture.getID(), 0);
 
         // Initialize multisampled FBO/texture
         if (this->numSamples > 0) {
@@ -95,7 +87,22 @@ void Fbo::unbind() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Fbo::readToPixels(void *pixels) {
+Texture* Fbo::getTexture() {
+    if (this->numSamples > 0) {
+        // Bind the multisampled FBO for reading
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, this->multisampledFbo);
+        // Bind the normal FBO for drawing
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->ID);
+        // Blit the multisampled FBO to the normal FBO
+        glBlitFramebuffer(0, 0, this->width, this->height,
+                          0, 0, this->width, this->height,
+                          GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    }
+
+    return &this->texture;
+}
+
+void Fbo::readToPixels(void* pixels) {
     if (this->numSamples > 0) {
         // Bind the multisampled FBO for reading
         glBindFramebuffer(GL_READ_FRAMEBUFFER, this->multisampledFbo);
