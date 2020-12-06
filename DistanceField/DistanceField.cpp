@@ -85,6 +85,13 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
     PF_ParamDef def;
 
     AEFX_CLR_STRUCT(def);
+    PF_ADD_POPUP("Mode",
+                 4,
+                 2,
+                 "Inside|Outside|Both (Signed)|Both (Absolute)",
+                 PARAM_MODE);
+
+    AEFX_CLR_STRUCT(def);
     PF_ADD_FLOAT_SLIDER("Width",       // NAME
                         0,             // VALID_MIN,
                         2000,          // VALID_MAX
@@ -96,6 +103,13 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
                         0,             // DISP
                         0,             // WANT_PHASE
                         PARAM_WIDTH);  // ID
+
+    AEFX_CLR_STRUCT(def);
+    PF_ADD_CHECKBOX("Invert",
+                    "Invert",
+                    FALSE,
+                    0,
+                    PARAM_INVERT);
 
     out_data->num_params = PARAM_NUM_PARAMS;
 
@@ -154,8 +168,14 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
     }
 
     // Assign latest param values
+    ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_MODE,
+                                    &paramInfo->mode));
+
     ERR(AEOGLInterop::getFloatSliderParam(in_data, out_data, PARAM_WIDTH,
                                           &paramInfo->width));
+
+    ERR(AEOGLInterop::getCheckboxParam(in_data, out_data, PARAM_INVERT,
+                                       &paramInfo->invert));
 
     handleSuite->host_unlock_handle(paramInfoH);
 
@@ -235,8 +255,8 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         //glGetMinmax(GL_MINMAX, GL_TRUE, GL_RGBA, GL_FLOAT, &maxValue);
 
         // Setup render context
-        globalData->fboA.allocate(width, height, GL_RED, GL_FLOAT);
-        globalData->fboB.allocate(width, height, GL_RED, GL_FLOAT);
+        globalData->fboA.allocate(width, height, GL_RG, GL_FLOAT);
+        globalData->fboB.allocate(width, height, GL_RG, GL_FLOAT);
         globalData->outputFbo.allocate(width, height, GL_RGBA, pixelType);
         globalData->inputTexture.allocate(width, height, GL_RGBA, pixelType);
 
@@ -251,10 +271,11 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                                     input_worldP, pixelsBufferP, pixelType);
 
         float multiplier16bit = AEOGLInterop::getMultiplier16bit(pixelType);
-        
+
+        // TODO: Support non-uniform downsampling
         float downsampleX = (float)in_data->downsample_x.num / in_data->downsample_x.den;
         // float downsampleY = (float)in_data->downsample_y.num / in_data->downsample_y.den;
-        
+
         int distanceWidth = paramInfo->width * downsampleX;
 
         // input -> float
@@ -270,7 +291,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
 
         OGL::Fbo *fboSrc = &globalData->fboA;
         OGL::Fbo *fboDst = &globalData->fboB;
-        
+
         // Horizontal
         for (int i = 0; i < distanceWidth; i++) {
             float beta = 2 * i + 1;
@@ -285,7 +306,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
             fboDst = fboSrc;
             fboSrc = swap;
         }
-        
+
         // Vertical
         for (int i = 0; i < distanceWidth; i++) {
             float beta = 2 * i + 1;
@@ -307,6 +328,8 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         globalData->outputShader.setTexture("tex0", fboSrc->getTexture(), 0);
         globalData->outputShader.setFloat("multiplier16bit", multiplier16bit);
         globalData->outputShader.setFloat("width", (float)distanceWidth);
+        globalData->outputShader.setInt("mode", paramInfo->mode);
+        globalData->outputShader.setInt("invert", paramInfo->invert ? 1 : 0);
         globalData->quad.render();
 
         // Read pixels

@@ -46,7 +46,9 @@ typedef unsigned short PixelType;
 /* Parameter defaults */
 
 enum { PARAM_INPUT = 0,
+       PARAM_MODE,
        PARAM_WIDTH,
+       PARAM_INVERT,
        PARAM_NUM_PARAMS };
 
 struct GlobalData {
@@ -59,7 +61,9 @@ struct GlobalData {
 };
 
 struct ParamInfo {
+    A_long mode;
     PF_FpLong width;
+    PF_Boolean invert;
 };
 
 extern "C" {

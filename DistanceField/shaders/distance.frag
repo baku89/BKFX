@@ -10,13 +10,14 @@ in vec2 uv;
 out vec4 fragColor;
 
 void main() {
-		// https://prideout.net/blog/distance_fields/distance.txt
+    // https://prideout.net/blog/distance_fields/distance.txt
 
-    float A = texture(tex0, uv).r;
-    float e = beta / SCALE + texture(tex0, uv + offset).r;
-    float w = beta / SCALE + texture(tex0, uv - offset).r;
+    vec2 scaledBeta = vec2(beta / SCALE);
 
-    float B = min(min(A, e), w);
+    vec2 A = texture(tex0, uv).rg;
+    vec2 e = scaledBeta + texture(tex0, uv + offset).rg;
+    vec2 w = scaledBeta + texture(tex0, uv - offset).rg;
+    vec2 B = min(min(A, e), w);
 
     // If there is no change, discard the pixel.
     // Convergence can be detected using GL_ANY_SAMPLES_PASSED.
@@ -24,5 +25,5 @@ void main() {
     //     discard;
     // }
 
-    fragColor = vec4(vec3(B), 1.0);
+    fragColor = vec4(B, 0.0, 1.0);
 }

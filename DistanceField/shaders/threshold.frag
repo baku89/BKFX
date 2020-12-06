@@ -13,5 +13,9 @@ vec4 fromAE(vec4 color) {
 
 void main() {
     vec4 color = fromAE(texture(tex0, uv));
-    fragColor = vec4(vec3(step(color.r, 0.5)) * infinity, 1.0);
+
+    float outside = step(color.r, 0.5);
+    vec2 mask = vec2(outside, 1.0 - outside);
+    
+    fragColor = vec4(mask * infinity, 0.0, 1.0);
 }
