@@ -53,15 +53,14 @@ void uploadTexture(OGL::Texture *tex,
         aeP = (char *)layerDef->data + y * layerDef->rowbytes;
         std::memcpy(glP, aeP, width * pixelBytes);
     }
-    
+
     // Uplaod to texture
-    tex->allocate(width, height, pixelType);
+    tex->bind();
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, pixelType,
                     pixelsBufferP);
-
-    // unbind all textures
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glBindTexture(GL_TEXTURE_2D, 0);
+
+    tex->unbind();
 }
 
 PF_Err downloadTexture(const void *pixelsBufferP,

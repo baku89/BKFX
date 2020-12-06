@@ -59,6 +59,7 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
     // Setup GL objects
     globalData->inputTexture = *new OGL::Texture();
     globalData->fbo = *new OGL::Fbo();
+    globalData->quad = *new OGL::QuadVao();
 
     std::string resourcePath = AEUtils::getResourcesPath(in_data);
     std::string vertPath = resourcePath + "shaders/shader.vert";
@@ -101,6 +102,7 @@ static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
     globalData->inputTexture.~Texture();
     globalData->program.~Shader();
     globalData->fbo.~Fbo();
+    globalData->quad.~QuadVao();
     globalData->globalContext.~GlobalContext();
 
     suites.HandleSuite1()->host_dispose_handle(in_data->global_data);
@@ -199,8 +201,6 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
     if (!err) {
         globalData->globalContext.bind();
 
-        auto ctx = OGL::getCurrentThreadRenderContext();
-
         GLenum pixelType;
         switch (format) {
             case PF_PixelFormat_ARGB32:
@@ -219,8 +219,8 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         size_t pixelBytes = AEOGLInterop::getPixelBytes(pixelType);
 
         // Setup render context
-        OGL::setupRenderContext(ctx, width, height, pixelType);
         globalData->fbo.allocate(width, height, pixelType);
+        globalData->inputTexture.allocate(width, height, pixelType);
 
         // Allocate pixels buffer
         PF_Handle pixelsBufferH =
@@ -248,7 +248,8 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         globalData->program.setFloat("aspectY",
                                      (float)height / (float)width);
 
-        OGL::render(ctx);
+        // Render
+        globalData->quad.render();
 
         // Read pixels
         globalData->fbo.readToPixels(pixelsBufferP);

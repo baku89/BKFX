@@ -3,7 +3,7 @@
 
 namespace OGL {
 
-void Texture::allocate(size_t width, size_t height, GLenum pixelType) {
+void Texture::allocate(GLsizei width, GLsizei height, GLenum pixelType) {
     bool configChanged = this->width != width || this->height != height;
     configChanged |= this->pixelType != pixelType;
 
@@ -35,4 +35,13 @@ void Texture::allocate(size_t width, size_t height, GLenum pixelType) {
 Texture::~Texture() {
     glDeleteTextures(1, &this->ID);
 }
+
+void Texture::bind() {
+    glBindTexture(GL_TEXTURE_2D, this->ID);
+}
+
+void Texture::unbind() {
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 }  // namespace OGL

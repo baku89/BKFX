@@ -15,9 +15,7 @@
 		232FA4942573B5DE0045CDF3 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */; };
 		234B94D1256F51BF0094C117 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 234B94D0256F51BF0094C117 /* OpenGL.framework */; };
 		236E13D4257BAC7F00573495 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 236E13D2257BAC7400573495 /* glad.c */; };
-		236E13D8257BAC8200573495 /* OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13C7257BAC7400573495 /* OGL.cpp */; };
 		236E13E2257BACAF00573495 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 236E13D2257BAC7400573495 /* glad.c */; };
-		236E13E6257BACB300573495 /* OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13C7257BAC7400573495 /* OGL.cpp */; };
 		236E13F2257BCC2600573495 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13EF257BCC2600573495 /* Texture.cpp */; };
 		236E13F3257BCC2600573495 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E13EF257BCC2600573495 /* Texture.cpp */; };
 		236E1401257BCD5300573495 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1400257BCD5300573495 /* Common.cpp */; };
@@ -26,6 +24,8 @@
 		236E1408257BD0FA00573495 /* GlobalContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1406257BD0FA00573495 /* GlobalContext.cpp */; };
 		236E1417257C94D900573495 /* Fbo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1416257C94D900573495 /* Fbo.cpp */; };
 		236E1418257C94D900573495 /* Fbo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E1416257C94D900573495 /* Fbo.cpp */; };
+		236E141D257C9D8600573495 /* QuadVao.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E141C257C9D8600573495 /* QuadVao.cpp */; };
+		236E141E257C9D8600573495 /* QuadVao.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 236E141C257C9D8600573495 /* QuadVao.cpp */; };
 		2392D4A225766627000970F9 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */; };
 		2392D4A325766627000970F9 /* AEFX_SuiteHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777F2574EF89007FEE14 /* AEFX_SuiteHelper.c */; };
 		2392D4A525766627000970F9 /* AEGP_SuiteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB77852574EFD9007FEE14 /* AEGP_SuiteHandler.cpp */; };
@@ -57,7 +57,6 @@
 		2324456A2574E9870051E100 /* ChannelMattePiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = ChannelMattePiPL.r; path = ChannelMatte/ChannelMattePiPL.r; sourceTree = "<group>"; };
 		232FA4932573B5DE0045CDF3 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		234B94D0256F51BF0094C117 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		236E13C7257BAC7400573495 /* OGL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OGL.cpp; sourceTree = "<group>"; };
 		236E13C8257BAC7400573495 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		236E13C9257BAC7400573495 /* AEUtils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AEUtils.hpp; sourceTree = "<group>"; };
 		236E13CA257BAC7400573495 /* AEOGLInterop.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AEOGLInterop.hpp; sourceTree = "<group>"; };
@@ -65,13 +64,11 @@
 		236E13D0257BAC7400573495 /* glad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glad.h; sourceTree = "<group>"; };
 		236E13D2257BAC7400573495 /* glad.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
 		236E13D3257BAC7400573495 /* OGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OGL.h; sourceTree = "<group>"; };
-		236E13EE257BCC2600573495 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		236E13EF257BCC2600573495 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
-		236E13F0257BCC2600573495 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		236E13F1257BCC2600573495 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		236E1400257BCD5300573495 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
 		236E1406257BD0FA00573495 /* GlobalContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlobalContext.cpp; sourceTree = "<group>"; };
 		236E1416257C94D900573495 /* Fbo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fbo.cpp; sourceTree = "<group>"; };
+		236E141C257C9D8600573495 /* QuadVao.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuadVao.cpp; sourceTree = "<group>"; };
 		2392D4B225766627000970F9 /* PinTransform.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PinTransform.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		2392D4BC257666C6000970F9 /* PinTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinTransform.h; sourceTree = "<group>"; };
 		2392D4BD257666C6000970F9 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -396,7 +393,6 @@
 			isa = PBXGroup;
 			children = (
 				236E13ED257BCC2600573495 /* OGL */,
-				236E13C7257BAC7400573495 /* OGL.cpp */,
 				236E13C8257BAC7400573495 /* Debug.h */,
 				236E13C9257BAC7400573495 /* AEUtils.hpp */,
 				236E13CA257BAC7400573495 /* AEOGLInterop.hpp */,
@@ -451,12 +447,10 @@
 		236E13ED257BCC2600573495 /* OGL */ = {
 			isa = PBXGroup;
 			children = (
+				236E141C257C9D8600573495 /* QuadVao.cpp */,
 				236E1400257BCD5300573495 /* Common.cpp */,
 				236E1406257BD0FA00573495 /* GlobalContext.cpp */,
-				236E13EE257BCC2600573495 /* Shader.h */,
 				236E13EF257BCC2600573495 /* Texture.cpp */,
-				236E13F0257BCC2600573495 /* Common.h */,
-				236E13F1257BCC2600573495 /* Texture.h */,
 				236E1416257C94D900573495 /* Fbo.cpp */,
 			);
 			path = OGL;
@@ -750,7 +744,7 @@
 				2392D4A925766627000970F9 /* Smart_Utils.cpp in Sources */,
 				236E1418257C94D900573495 /* Fbo.cpp in Sources */,
 				236E13F3257BCC2600573495 /* Texture.cpp in Sources */,
-				236E13D8257BAC8200573495 /* OGL.cpp in Sources */,
+				236E141E257C9D8600573495 /* QuadVao.cpp in Sources */,
 				236E13D4257BAC7F00573495 /* glad.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -768,7 +762,7 @@
 				23BB778A2574EFE9007FEE14 /* Smart_Utils.cpp in Sources */,
 				236E1417257C94D900573495 /* Fbo.cpp in Sources */,
 				236E13F2257BCC2600573495 /* Texture.cpp in Sources */,
-				236E13E6257BACB300573495 /* OGL.cpp in Sources */,
+				236E141D257C9D8600573495 /* QuadVao.cpp in Sources */,
 				236E13E2257BACAF00573495 /* glad.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

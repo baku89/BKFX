@@ -77,6 +77,7 @@ struct GlobalData {
     OGL::Texture inputTexture;
     OGL::Shader program;
     OGL::Fbo fbo;
+    OGL::QuadVao quad;
 };
 
 struct ParamInfo {

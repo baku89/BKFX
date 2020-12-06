@@ -126,7 +126,7 @@ class Shader {
                     GLint index) {
         if (tex) {
             glActiveTexture(GL_TEXTURE0 + index);
-            glBindTexture(GL_TEXTURE_2D, tex->ID);
+            tex->bind();
 
             GLuint location = glGetUniformLocation(this->ID, name.c_str());
             glUniform1i(location, index);
