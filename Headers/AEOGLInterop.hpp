@@ -184,4 +184,18 @@ PF_Err getFloatSliderParam(PF_InData *in_data, PF_OutData *out_data, int paramId
     return err;
 }
 
+PF_Err getCheckboxParam(PF_InData *in_data, PF_OutData *out_data, int paramId, PF_Boolean *value) {
+    PF_Err err = PF_Err_NONE, err2 = PF_Err_NONE;
+
+    PF_ParamDef param_def;
+    AEFX_CLR_STRUCT(param_def);
+    ERR(PF_CHECKOUT_PARAM(in_data, paramId, in_data->current_time,
+                          in_data->time_step, in_data->time_scale, &param_def));
+    *value = param_def.u.bd.value;
+
+    ERR2(PF_CHECKIN_PARAM(in_data, &param_def));
+
+    return err;
+}
+
 }  // namespace AEOGLInterop
