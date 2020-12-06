@@ -9,11 +9,6 @@
 #include "../Debug.h"
 #include "Settings.h"
 
-namespace {
-std::string VertShaderPath;
-std::string FragShaderPath;
-} // namespace
-
 static PF_Err About(PF_InData *in_data, PF_OutData *out_data,
                     PF_ParamDef *params[], PF_LayerDef *output) {
     AEGP_SuiteHandler suites(in_data->pica_basicP);
@@ -54,19 +49,23 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
         handleSuite->host_lock_handle(globalDataH));
 
     // Initialize global OpenGL context
-    if (!OGL::globalSetup(&globalData->globalContext)) {
+    globalData->globalContext = *new OGL::GlobalContext();
+    if (!globalData->globalContext.initialized) {
         err = PF_Err_OUT_OF_MEMORY;
     }
 
-    OGL::initTexture(&globalData->inputTexture);
+    globalData->globalContext.bind();
+
+    // Setup inputTexture
+    globalData->inputTexture = *new OGL::Texture();
+
+    // Setup shader
+    std::string resourcePath = AEUtils::getResourcesPath(in_data);
+    std::string vertPath = resourcePath + "shaders/shader.vert";
+    std::string fragPath = resourcePath + "shaders/shader.frag";
+    globalData->program = *new OGL::Shader(vertPath.c_str(), fragPath.c_str());
 
     handleSuite->host_unlock_handle(globalDataH);
-
-    // Retrieve shader path
-    std::string resourcePath = AEUtils::getResourcesPath(in_data);
-    VertShaderPath = resourcePath + "shaders/shader.vert";
-    FragShaderPath = resourcePath + "shaders/shader.frag";
-
     return err;
 }
 
@@ -98,14 +97,12 @@ static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
     auto *globalData = reinterpret_cast<GlobalData *>(
         suites.HandleSuite1()->host_lock_handle(in_data->global_data));
 
-    OGL::globalSetdown(&globalData->globalContext);
-    OGL::disposeTexture(&globalData->inputTexture);
+    // Explicitly call deconstructor
+    globalData->inputTexture.~Texture();
+    globalData->program.~Shader();
+    globalData->globalContext.~GlobalContext();
 
     suites.HandleSuite1()->host_dispose_handle(in_data->global_data);
-
-    // Dispose static variables
-    VertShaderPath.clear();
-    FragShaderPath.clear();
 
     return err;
 }
@@ -199,7 +196,7 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
 
     // OpenGL
     if (!err) {
-        OGL::makeGlobalContextCurrent(&globalData->globalContext);
+        globalData->globalContext.bind();
 
         auto ctx = OGL::getCurrentThreadRenderContext();
 
@@ -207,23 +204,24 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         size_t pixelSize = 0;
 
         switch (format) {
-        case PF_PixelFormat_ARGB32:
-            glFormat = GL_UNSIGNED_BYTE;
-            pixelSize = sizeof(PF_Pixel8);
-            break;
-        case PF_PixelFormat_ARGB64:
-            glFormat = GL_UNSIGNED_SHORT;
-            pixelSize = sizeof(PF_Pixel16);
-            break;
-        case PF_PixelFormat_ARGB128:
-            glFormat = GL_FLOAT;
-            pixelSize = sizeof(PF_PixelFloat);
-            break;
+            case PF_PixelFormat_ARGB32:
+                glFormat = GL_UNSIGNED_BYTE;
+                pixelSize = sizeof(PF_Pixel8);
+                break;
+            case PF_PixelFormat_ARGB64:
+                glFormat = GL_UNSIGNED_SHORT;
+                pixelSize = sizeof(PF_Pixel16);
+                break;
+            case PF_PixelFormat_ARGB128:
+                glFormat = GL_FLOAT;
+                pixelSize = sizeof(PF_PixelFloat);
+                break;
         }
 
         // Setup render context
         OGL::setupRenderContext(ctx, input_worldP->width, input_worldP->height,
-                                glFormat, VertShaderPath, FragShaderPath);
+                                glFormat);
+        globalData->program.bind();
 
         FX_LOG("Size=(" << ctx->width << ", " << ctx->height << ")");
 
@@ -238,16 +236,16 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                                     input_worldP, pixelsBufferP);
 
         // Set uniforms
-        OGL::setUniformTexture(ctx, "tex0", &globalData->inputTexture, 0);
+        globalData->program.setTexture("tex0", &globalData->inputTexture, 0);
 
         float multiplier16bit =
             ctx->format == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
-        OGL::setUniform1f(ctx, "multiplier16bit", multiplier16bit);
-        OGL::setUniform1f(ctx, "angle", paramInfo->angle);
-        OGL::setUniform2f(ctx, "center", paramInfo->center.x,
-                          paramInfo->center.y);
-        OGL::setUniform1f(ctx, "aspectY",
-                          (float)ctx->height / (float)ctx->width);
+        globalData->program.setFloat("multiplier16bit", multiplier16bit);
+        globalData->program.setFloat("angle", paramInfo->angle);
+        globalData->program.setVec2("center", paramInfo->center.x,
+                                    paramInfo->center.y);
+        globalData->program.setFloat("aspectY",
+                                     (float)ctx->height / (float)ctx->width);
 
         FX_LOG_TIME_START(glRenderTime);
         OGL::renderToBuffer(ctx, pixelsBufferP);
@@ -282,7 +280,7 @@ extern "C" DllExport PF_Err PluginDataEntryFunction(
     result =
         PF_REGISTER_EFFECT(inPtr, inPluginDataCallBackPtr, FX_SETTINGS_NAME,
                            FX_SETTINGS_MATCH_NAME, FX_SETTINGS_CATEGORY,
-                           AE_RESERVED_INFO); // Reserved Info
+                           AE_RESERVED_INFO);  // Reserved Info
 
     return result;
 }
@@ -293,33 +291,33 @@ PF_Err EffectMain(PF_Cmd cmd, PF_InData *in_data, PF_OutData *out_data,
 
     try {
         switch (cmd) {
-        case PF_Cmd_ABOUT:
-            err = About(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_ABOUT:
+                err = About(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_GLOBAL_SETUP:
-            err = GlobalSetup(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_GLOBAL_SETUP:
+                err = GlobalSetup(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_PARAMS_SETUP:
-            err = ParamsSetup(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_PARAMS_SETUP:
+                err = ParamsSetup(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_GLOBAL_SETDOWN:
-            err = GlobalSetdown(in_data, out_data, params, output);
-            break;
+            case PF_Cmd_GLOBAL_SETDOWN:
+                err = GlobalSetdown(in_data, out_data, params, output);
+                break;
 
-        case PF_Cmd_SMART_PRE_RENDER:
-            err = PreRender(in_data, out_data,
-                            reinterpret_cast<PF_PreRenderExtra *>(extra));
-            break;
+            case PF_Cmd_SMART_PRE_RENDER:
+                err = PreRender(in_data, out_data,
+                                reinterpret_cast<PF_PreRenderExtra *>(extra));
+                break;
 
-        case PF_Cmd_SMART_RENDER:
-            err = SmartRender(in_data, out_data,
-                              reinterpret_cast<PF_SmartRenderExtra *>(extra));
-            break;
-        case PF_Cmd_UPDATE_PARAMS_UI:
-            break;
+            case PF_Cmd_SMART_RENDER:
+                err = SmartRender(in_data, out_data,
+                                  reinterpret_cast<PF_SmartRenderExtra *>(extra));
+                break;
+            case PF_Cmd_UPDATE_PARAMS_UI:
+                break;
         }
     } catch (PF_Err &thrown_err) {
         err = thrown_err;

@@ -53,6 +53,7 @@ enum { PARAM_INPUT = 0,
 struct GlobalData {
     OGL::GlobalContext globalContext;
     OGL::Texture inputTexture;
+    OGL::Shader program;
 };
 
 struct ParamInfo {
