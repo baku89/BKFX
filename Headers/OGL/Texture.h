@@ -7,15 +7,16 @@ class Texture {
    public:
     ~Texture();
 
-    void allocate(GLsizei width, GLsizei height, GLenum pixelType);
+    void allocate(GLsizei width, GLsizei height, GLenum format, GLenum pixelType);
     void bind();
     void unbind();
     GLuint getID();
 
    private:
     GLuint ID = 0;
-    size_t width = 0;
-    size_t height = 0;
+    GLsizei width = 0;
+    GLsizei height = 0;
+    GLenum format = 0;
     GLenum pixelType = 0;
 };
 

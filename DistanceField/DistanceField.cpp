@@ -235,10 +235,10 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         //glGetMinmax(GL_MINMAX, GL_TRUE, GL_RGBA, GL_FLOAT, &maxValue);
 
         // Setup render context
-        globalData->fboA.allocate(width, height, GL_FLOAT);
-        globalData->fboB.allocate(width, height, GL_FLOAT);
-        globalData->outputFbo.allocate(width, height, pixelType);
-        globalData->inputTexture.allocate(width, height, pixelType);
+        globalData->fboA.allocate(width, height, GL_RED, GL_FLOAT);
+        globalData->fboB.allocate(width, height, GL_RED, GL_FLOAT);
+        globalData->outputFbo.allocate(width, height, GL_RGBA, pixelType);
+        globalData->inputTexture.allocate(width, height, GL_RGBA, pixelType);
 
         // Allocate pixels buffer
         PF_Handle pixelsBufferH =

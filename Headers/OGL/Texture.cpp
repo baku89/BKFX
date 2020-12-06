@@ -3,12 +3,15 @@
 
 namespace OGL {
 
-void Texture::allocate(GLsizei width, GLsizei height, GLenum pixelType) {
+void Texture::allocate(GLsizei width, GLsizei height,
+                       GLenum format, GLenum pixelType) {
     bool configChanged = this->width != width || this->height != height;
+    configChanged |= this->format != format;
     configChanged |= this->pixelType != pixelType;
 
     this->width = width;
     this->height = height;
+    this->format = format;
     this->pixelType = pixelType;
 
     if (configChanged) {
@@ -17,12 +20,10 @@ void Texture::allocate(GLsizei width, GLsizei height, GLenum pixelType) {
     }
 
     if (this->ID == 0) {
-        GLint internalFormat = OGL::getInternalFormat(this->pixelType);
-
         glGenTextures(1, &this->ID);
         glBindTexture(GL_TEXTURE_2D, this->ID);
-        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, this->width, this->height,
-                     0, GL_RGBA, this->pixelType, nullptr);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, this->width, this->height,
+                     0, format, this->pixelType, nullptr);
     }
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

@@ -18,13 +18,14 @@ Fbo::~Fbo() {
     }
 }
 
-void Fbo::allocate(GLsizei width, GLsizei height, GLenum pixelType, int numSamples) {
+void Fbo::allocate(GLsizei width, GLsizei height, GLenum format, GLenum pixelType, int numSamples) {
     bool configChanged = this->width != width || this->height != height;
     configChanged |= this->pixelType != pixelType;
     configChanged |= this->numSamples != numSamples;
 
     this->width = width;
     this->height = height;
+    this->format = format;
     this->pixelType = pixelType;
     this->numSamples = numSamples;
 
@@ -36,9 +37,7 @@ void Fbo::allocate(GLsizei width, GLsizei height, GLenum pixelType, int numSampl
     if (this->ID == 0) {
         glGenFramebuffers(1, &this->ID);
 
-        GLint internalFormat = pixelType == GL_UNSIGNED_BYTE ? GL_RGBA8 : pixelType == GL_UNSIGNED_SHORT ? GL_RGBA16 : GL_RGBA32F;
-
-        this->texture.allocate(width, height, pixelType);
+        this->texture.allocate(width, height, format, pixelType);
 
         // // Bind to fbo
         glBindFramebuffer(GL_FRAMEBUFFER, this->ID);
@@ -60,7 +59,7 @@ void Fbo::allocate(GLsizei width, GLsizei height, GLenum pixelType, int numSampl
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-            glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, this->numSamples, internalFormat,
+            glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, this->numSamples, format,
                                     this->width, this->height, GL_TRUE);
 
             // Bind the texture to FBo
@@ -118,7 +117,7 @@ void Fbo::readToPixels(void* pixels) {
     glBindFramebuffer(GL_FRAMEBUFFER, this->ID);
     // Read Ppxels
     glReadBuffer(GL_COLOR_ATTACHMENT0);
-    glReadPixels(0, 0, this->width, this->height, GL_RGBA, this->pixelType, pixels);
+    glReadPixels(0, 0, this->width, this->height, this->format, this->pixelType, pixels);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
