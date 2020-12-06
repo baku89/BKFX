@@ -62,10 +62,10 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
 
     globalData->globalContext.bind();
 
-    // Setup inputTexture
+    // Setup GL objects
     globalData->inputTexture = *new OGL::Texture();
+    globalData->fbo = *new OGL::Fbo();
 
-    // Setup shader
     std::string resourcePath = AEUtils::getResourcesPath(in_data);
     std::string vertPath = resourcePath + "shaders/shader.vert";
     std::string fragPath = resourcePath + "shaders/shader.frag";
@@ -141,6 +141,7 @@ static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
     // Explicitly call deconstructor
     globalData->inputTexture.~Texture();
     globalData->program.~Shader();
+    globalData->fbo.~Fbo();
     globalData->globalContext.~GlobalContext();
 
     suites.HandleSuite1()->host_dispose_handle(in_data->global_data);
@@ -324,44 +325,46 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
 
         auto ctx = OGL::getCurrentThreadRenderContext();
 
-        GLenum glFormat = 0;
-        size_t pixelSize = 0;
-
+        GLenum pixelType;
         switch (format) {
             case PF_PixelFormat_ARGB32:
-                glFormat = GL_UNSIGNED_BYTE;
-                pixelSize = sizeof(PF_Pixel8);
+                pixelType = GL_UNSIGNED_BYTE;
                 break;
             case PF_PixelFormat_ARGB64:
-                glFormat = GL_UNSIGNED_SHORT;
-                pixelSize = sizeof(PF_Pixel16);
+                pixelType = GL_UNSIGNED_SHORT;
                 break;
             case PF_PixelFormat_ARGB128:
-                glFormat = GL_FLOAT;
-                pixelSize = sizeof(PF_PixelFloat);
+                pixelType = GL_FLOAT;
                 break;
         }
 
+        GLsizei width = input_worldP->width;
+        GLsizei height = input_worldP->height;
+        size_t pixelBytes = AEOGLInterop::getPixelBytes(pixelType);
+
         // Setup render context
-        OGL::setupRenderContext(ctx, input_worldP->width, input_worldP->height,
-                                glFormat);
-        globalData->program.bind();
+        OGL::setupRenderContext(ctx, width, height, pixelType);
+        globalData->fbo.allocate(width, height, pixelType, 4);
 
         // Allocate pixels buffer
         PF_Handle pixelsBufferH =
-            handleSuite->host_new_handle(ctx->width * ctx->height * pixelSize);
+            handleSuite->host_new_handle(width * height * pixelBytes);
         void *pixelsBufferP = reinterpret_cast<char *>(
             handleSuite->host_lock_handle(pixelsBufferH));
 
         // Upload buffer to OpenGL texture
-        AEOGLInterop::uploadTexture(ctx, &globalData->inputTexture,
-                                    input_worldP, pixelsBufferP);
+        AEOGLInterop::uploadTexture(&globalData->inputTexture,
+                                    input_worldP, pixelsBufferP, pixelType);
+
+        // Bind
+        globalData->program.bind();
+        globalData->fbo.bind();
 
         // Set uniforms
         globalData->program.setTexture("tex0", &globalData->inputTexture, 0);
 
         float multiplier16bit =
-            ctx->format == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
+            pixelType == GL_UNSIGNED_SHORT ? (65535.0f / 32768.0f) : 1.0f;
         globalData->program.setFloat("multiplier16bit", multiplier16bit);
 
         float actualWidth = (float)in_data->width;
@@ -369,16 +372,19 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
 
         globalData->program.setVec2("resolution", actualWidth, actualHeight);
 
-        FX_LOG(glm::to_string(paramInfo->xform));
-
         glm::mat3 xformInv = glm::inverse(paramInfo->xform);
         globalData->program.setMat3("xform", paramInfo->xform);
         globalData->program.setMat3("xformInv", xformInv);
 
-        OGL::renderToBuffer(ctx, pixelsBufferP);
+        OGL::render(ctx);
 
-        // downloadTextur
-        ERR(AEOGLInterop::downloadTexture(ctx, pixelsBufferP, output_worldP));
+        // Read pixels
+        globalData->fbo.readToPixels(pixelsBufferP);
+        ERR(AEOGLInterop::downloadTexture(pixelsBufferP, output_worldP, pixelType));
+
+        // Unbind
+        globalData->program.unbind();
+        globalData->fbo.unbind();
 
         handleSuite->host_unlock_handle(pixelsBufferH);
         handleSuite->host_dispose_handle(pixelsBufferH);
