@@ -61,6 +61,49 @@
 		23BB779D2574F0EA007FEE14 /* MissingSuiteError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BB777B2574EF7B007FEE14 /* MissingSuiteError.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		23860A1C257CF7DA006A29B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4E6187E095A3C800012CA3F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4E618CB095A3CE80012CA3F;
+			remoteInfo = RichterStrip;
+		};
+		23860A1E257CF7DB006A29B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4E6187E095A3C800012CA3F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 236E1435257CA18400573495;
+			remoteInfo = DistanceField;
+		};
+		23860A20257CF7DD006A29B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4E6187E095A3C800012CA3F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 232445452574E9490051E100;
+			remoteInfo = ChannelMatte;
+		};
+		23860A22257CF7DE006A29B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4E6187E095A3C800012CA3F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2392D49E25766627000970F9;
+			remoteInfo = PinTransform;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		23860A04257CF7C1006A29B5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		232444CD2574E2A60051E100 /* RichterStrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RichterStrip.h; path = RichterStrip/RichterStrip.h; sourceTree = "<group>"; };
 		232444CE2574E2A60051E100 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = RichterStrip/Settings.h; sourceTree = "<group>"; };
@@ -86,6 +129,7 @@
 		236E1416257C94D900573495 /* Fbo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fbo.cpp; sourceTree = "<group>"; };
 		236E141C257C9D8600573495 /* QuadVao.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuadVao.cpp; sourceTree = "<group>"; };
 		236E144D257CA18400573495 /* DistanceField.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DistanceField.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		23860A06257CF7C1006A29B5 /* BuildAll */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BuildAll; sourceTree = BUILT_PRODUCTS_DIR; };
 		2392D4B225766627000970F9 /* PinTransform.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PinTransform.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		2392D4BC257666C6000970F9 /* PinTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinTransform.h; sourceTree = "<group>"; };
 		2392D4BD257666C6000970F9 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -243,6 +287,13 @@
 			files = (
 				236E1445257CA18400573495 /* OpenGL.framework in Frameworks */,
 				236E1446257CA18400573495 /* libglfw.3.3.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23860A03257CF7C1006A29B5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,6 +603,7 @@
 				2324455A2574E9490051E100 /* ChannelMatte.plugin */,
 				2392D4B225766627000970F9 /* PinTransform.plugin */,
 				236E144D257CA18400573495 /* DistanceField.plugin */,
+				23860A06257CF7C1006A29B5 /* BuildAll */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -608,6 +660,27 @@
 			productReference = 236E144D257CA18400573495 /* DistanceField.plugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		23860A05257CF7C1006A29B5 /* BuildAll */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23860A0A257CF7C1006A29B5 /* Build configuration list for PBXNativeTarget "BuildAll" */;
+			buildPhases = (
+				23860A02257CF7C1006A29B5 /* Sources */,
+				23860A03257CF7C1006A29B5 /* Frameworks */,
+				23860A04257CF7C1006A29B5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				23860A23257CF7DE006A29B5 /* PBXTargetDependency */,
+				23860A1D257CF7DA006A29B5 /* PBXTargetDependency */,
+				23860A1F257CF7DB006A29B5 /* PBXTargetDependency */,
+				23860A21257CF7DD006A29B5 /* PBXTargetDependency */,
+			);
+			name = BuildAll;
+			productName = BuildAll;
+			productReference = 23860A06257CF7C1006A29B5 /* BuildAll */;
+			productType = "com.apple.product-type.tool";
+		};
 		2392D49E25766627000970F9 /* PinTransform */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2392D4AF25766627000970F9 /* Build configuration list for PBXNativeTarget "PinTransform" */;
@@ -654,6 +727,12 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					23860A05257CF7C1006A29B5 = {
+						CreatedOnToolsVersion = 12.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = C4E6187F095A3C800012CA3F /* Build configuration list for PBXProject "BKFX" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -672,6 +751,7 @@
 				236E1435257CA18400573495 /* DistanceField */,
 				232445452574E9490051E100 /* ChannelMatte */,
 				2392D49E25766627000970F9 /* PinTransform */,
+				23860A05257CF7C1006A29B5 /* BuildAll */,
 			);
 		};
 /* End PBXProject section */
@@ -848,6 +928,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		23860A02257CF7C1006A29B5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2392D4A125766627000970F9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -886,6 +973,29 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		23860A1D257CF7DA006A29B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4E618CB095A3CE80012CA3F /* RichterStrip */;
+			targetProxy = 23860A1C257CF7DA006A29B5 /* PBXContainerItemProxy */;
+		};
+		23860A1F257CF7DB006A29B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 236E1435257CA18400573495 /* DistanceField */;
+			targetProxy = 23860A1E257CF7DB006A29B5 /* PBXContainerItemProxy */;
+		};
+		23860A21257CF7DD006A29B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 232445452574E9490051E100 /* ChannelMatte */;
+			targetProxy = 23860A20257CF7DD006A29B5 /* PBXContainerItemProxy */;
+		};
+		23860A23257CF7DE006A29B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2392D49E25766627000970F9 /* PinTransform */;
+			targetProxy = 23860A22257CF7DE006A29B5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		231FDE7B25749874009B0C14 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -923,7 +1033,7 @@
 				INFOPLIST_FILE = "Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				ONLY_ACTIVE_ARCH = YES;
-				PLUGIN_DIR = "/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore";
+				PLUGIN_DIR = "/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/BKFX";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.baku89.AfterEffects.${TARGET_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
@@ -991,6 +1101,101 @@
 					"$(inherited)",
 					/usr/local/Cellar/glfw/3.3.2/lib,
 				);
+			};
+			name = Release;
+		};
+		23860A0B257CF7C1006A29B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		23860A0C257CF7C1006A29B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -1077,7 +1282,7 @@
 				INFOPLIST_FILE = "Common.plugin-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				ONLY_ACTIVE_ARCH = YES;
-				PLUGIN_DIR = "/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore";
+				PLUGIN_DIR = "/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/BKFX";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.baku89.AfterEffects.${TARGET_NAME}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
@@ -1121,6 +1326,15 @@
 			buildConfigurations = (
 				236E144B257CA18400573495 /* Debug */,
 				236E144C257CA18400573495 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23860A0A257CF7C1006A29B5 /* Build configuration list for PBXNativeTarget "BuildAll" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23860A0B257CF7C1006A29B5 /* Debug */,
+				23860A0C257CF7C1006A29B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
