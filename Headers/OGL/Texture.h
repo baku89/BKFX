@@ -9,9 +9,9 @@ class Texture {
     GLuint ID = 0;
     size_t width = 0;
     size_t height = 0;
-    GLenum format = 0;
+    GLenum pixelType = 0;
 
-    void allocate(size_t width, size_t height, GLenum format);
+    void allocate(size_t width, size_t height, GLenum pixelType);
     ~Texture();
 };
 

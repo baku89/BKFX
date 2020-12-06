@@ -2,8 +2,8 @@
 
 namespace OGL {
 
-GLint getInternalFormat(GLenum format) {
-    switch (format) {
+GLint getInternalFormat(GLenum pixelType) {
+    switch (pixelType) {
         case GL_UNSIGNED_BYTE:
             return GL_RGBA8;
         case GL_UNSIGNED_SHORT:

@@ -3,5 +3,5 @@
 #include <glad/glad.h>
 
 namespace OGL {
-GLint getInternalFormat(GLenum format);
+GLint getInternalFormat(GLenum pixelType);
 }  // namespace OGL

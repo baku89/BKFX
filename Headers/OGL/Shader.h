@@ -67,10 +67,13 @@ class Shader {
         glDeleteShader(vertex);
         glDeleteShader(fragment);
     }
-    // activate the shader
+    // (de)activate the shader
     // ------------------------------------------------------------------------
     void bind() {
         glUseProgram(this->ID);
+    }
+    void unbind() {
+        glUseProgram(0);
     }
     // utility uniform functions
     // ------------------------------------------------------------------------

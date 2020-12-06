@@ -78,128 +78,23 @@ RenderContext *getCurrentThreadRenderContext() {
     return result.get();
 }
 
-void setupRenderContext(RenderContext *ctx, GLsizei width, GLsizei height, GLenum format) {
-    bool sizeChanged = ctx->width != width || ctx->height != height;
-    bool formatChanged = ctx->format != format;
-
-    ctx->width = width;
-    ctx->height = height;
-    ctx->format = format;
-
-    if (sizeChanged || formatChanged) {
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-        // release framebuffer resources
-        if (ctx->fbo) {
-            glDeleteFramebuffers(1, &ctx->fbo);
-            ctx->fbo = 0;
-        }
-        if (ctx->multisampledFbo) {
-            glDeleteFramebuffers(1, &ctx->multisampledFbo);
-            ctx->multisampledFbo = 0;
-        }
-        if (ctx->outputTexture) {
-            glDeleteTextures(1, &ctx->outputTexture);
-            ctx->outputTexture = 0;
-        }
-        if (ctx->multisampledTexture) {
-            glDeleteTextures(1, &ctx->multisampledTexture);
-            ctx->multisampledTexture = 0;
-        }
-    }
-
+void setupRenderContext(RenderContext *ctx, GLsizei width, GLsizei height, GLenum pixelType) {
     // Create bufffers
     if (ctx->vao == 0) {
         ctx->quad = createQuadVBO();
         ctx->vao = createQuadVAO(ctx->quad);
     }
 
-    // Create a frame-buffer object
-    if (ctx->fbo == 0) {
-        glGenFramebuffers(1, &ctx->fbo);
-    }
-    if (ctx->multisampledFbo == 0) {
-        glGenFramebuffers(1, &ctx->multisampledFbo);
-    }
-
-    // GLator effect specific OpenGL resource loading
-    // create an empty texture for the input surface
-    if (ctx->multisampledTexture == 0) {
-        GLint internalFormat = OGL::getInternalFormat(format);
-
-        glGenTextures(1, &ctx->multisampledTexture);
-        glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, ctx->multisampledTexture);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-        glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, internalFormat,
-                                ctx->width, ctx->height, GL_TRUE);
-
-        // Bind to fbo
-        glBindFramebuffer(GL_FRAMEBUFFER, ctx->multisampledFbo);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE,
-                               ctx->multisampledTexture, 0);
-    }
-
-    if (ctx->outputTexture == 0) {
-        GLint internalFormat = getInternalFormat(format);
-
-        glGenTextures(1, &ctx->outputTexture);
-        glBindTexture(GL_TEXTURE_2D, ctx->outputTexture);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, ctx->width, ctx->height,
-                     0, GL_RGBA, ctx->format, nullptr);
-
-        // // Bind to fbo
-        glBindFramebuffer(GL_FRAMEBUFFER, ctx->fbo);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                               ctx->outputTexture, 0);
-    }
-
-    // makeReadyToRender
-
     // Link attribute location
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(quadVertices[0]),
                           nullptr);
-
-    // Set the list of draw buffers.
-    GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-    glDrawBuffers(1, DrawBuffers);  // "1" is the size of DrawBuffers
-
-    // Bind FBO
-    glBindFramebuffer(GL_FRAMEBUFFER, ctx->multisampledFbo);
-    glViewport(0, 0, ctx->width, ctx->height);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void renderToBuffer(RenderContext *ctx, void *pixels) {
+void render(RenderContext *ctx) {
     // Render and flush
     glBindVertexArray(ctx->vao);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
-
-    // Bind the multisampled FBO for reading
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, ctx->multisampledFbo);
-    // Bind the normal FBO for drawing
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, ctx->fbo);
-    // Blit the multisampled FBO to the normal FBO
-    glBlitFramebuffer(0, 0, ctx->width, ctx->height, 0, 0, ctx->width, ctx->height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-    // Bing the normal FBO for reading
-    glBindFramebuffer(GL_FRAMEBUFFER, ctx->fbo);
-    // Read Ppxels
-    glReadBuffer(GL_COLOR_ATTACHMENT0);
-    glReadPixels(0, 0, ctx->width, ctx->height, GL_RGBA, ctx->format, pixels);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void disposeAllRenderContexts() {

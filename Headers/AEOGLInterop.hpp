@@ -24,31 +24,27 @@
 
 namespace AEOGLInterop {
 
-void uploadTexture(OGL::RenderContext *ctx, OGL::Texture *tex,
-                   PF_LayerDef *layerDef, void *pixelsBufferP) {
+size_t getPixelBytes(GLenum pixelType) {
+    switch (pixelType) {
+        case GL_UNSIGNED_BYTE:
+            return sizeof(PF_Pixel8);
+        case GL_UNSIGNED_SHORT:
+            return sizeof(PF_Pixel16);
+        default:  //case GL_FLOAT:
+            return sizeof(PF_PixelFloat);
+    }
+}
+
+void uploadTexture(OGL::Texture *tex,
+                   PF_LayerDef *layerDef,
+                   void *pixelsBufferP,
+                   GLenum pixelType) {
     GLsizei width = layerDef->width;
     GLsizei height = layerDef->height;
 
-    GLint internalFormat = 0;
-    size_t pixelBytes = 0;
-
-    switch (ctx->format) {
-        case GL_UNSIGNED_BYTE:
-            internalFormat = GL_RGBA8;
-            pixelBytes = sizeof(PF_Pixel8);
-            break;
-        case GL_UNSIGNED_SHORT:
-            internalFormat = GL_RGBA16;
-            pixelBytes = sizeof(PF_Pixel16);
-            break;
-        case GL_FLOAT:
-            internalFormat = GL_RGBA32F;
-            pixelBytes = sizeof(PF_PixelFloat);
-            break;
-    }
+    size_t pixelBytes = getPixelBytes(pixelType);
 
     // Copy to buffer per row
-
     char *glP = nullptr;  // OpenGL
     char *aeP = nullptr;  // AE
 
@@ -58,9 +54,9 @@ void uploadTexture(OGL::RenderContext *ctx, OGL::Texture *tex,
         std::memcpy(glP, aeP, width * pixelBytes);
     }
     
-    tex->allocate(width, height, ctx->format);
-
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, ctx->format,
+    // Uplaod to texture
+    tex->allocate(width, height, pixelType);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, pixelType,
                     pixelsBufferP);
 
     // unbind all textures
@@ -68,23 +64,12 @@ void uploadTexture(OGL::RenderContext *ctx, OGL::Texture *tex,
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-PF_Err downloadTexture(OGL::RenderContext *ctx, void *pixelsBufferP,
-                       PF_LayerDef *layerDef) {
+PF_Err downloadTexture(const void *pixelsBufferP,
+                       PF_LayerDef *layerDef,
+                       GLenum pixelType) {
     PF_Err err = PF_Err_NONE;
 
-    size_t pixelBytes = 0;
-
-    switch (ctx->format) {
-        case GL_UNSIGNED_BYTE:
-            pixelBytes = sizeof(PF_Pixel8);
-            break;
-        case GL_UNSIGNED_SHORT:
-            pixelBytes = sizeof(PF_Pixel16);
-            break;
-        case GL_FLOAT:
-            pixelBytes = sizeof(PF_PixelFloat);
-            break;
-    }
+    size_t pixelBytes = getPixelBytes(pixelType);
 
     size_t width = layerDef->width;
     size_t height = layerDef->height;
