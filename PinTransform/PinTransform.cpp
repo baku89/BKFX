@@ -84,7 +84,8 @@ static PF_Err ParamsSetup(PF_InData *in_data, PF_OutData *out_data,
     PF_ParamDef def;
 
     AEFX_CLR_STRUCT(def);
-    PF_ADD_POPUP("Vieweing Mode", 2, 2, "Original|Result", PARAM_VIEWING_MODE);
+    def.flags |= PF_ParamFlag_SUPERVISE;
+    PF_ADD_POPUP("Editing Mode", 3, 3, "Source|Destination|Both", PARAM_EDITING_MODE);
 
     AEFX_CLR_STRUCT(def);
     def.flags |= PF_ParamFlag_SUPERVISE;
@@ -136,7 +137,7 @@ static PF_Err GlobalSetdown(PF_InData *in_data, PF_OutData *out_data,
     // Dispose globalData
     auto globalData = reinterpret_cast<GlobalData *>(
         suites.HandleSuite1()->host_lock_handle(in_data->global_data));
-    
+
     // Explicitly call deconstructor
     globalData->inputTexture.~Texture();
     globalData->program.~Shader();
@@ -174,11 +175,11 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
     }
 
     A_long viewingMode;
-    ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_VIEWING_MODE,
+    ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_EDITING_MODE,
                                     &viewingMode));
     A_long pinCount;
 
-    if (viewingMode == PARAM_VIEWING_MODE_ORIGINAL) {
+    if (viewingMode == PARAM_EDITING_MODE_SRC) {
         pinCount = 0;
     } else {
         ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_PINCOUNT,
@@ -397,9 +398,16 @@ static PF_Err UserChangedParam(PF_InData *in_data, PF_OutData *out_data,
     PF_Err err = PF_Err_NONE;
 
     switch (which_hitP->param_index) {
+        case PARAM_EDITING_MODE:
         case PARAM_PINCOUNT: {
+            // Switch gray-out state of points
+
             AEGP_SuiteHandler suites(in_data->pica_basicP);
             auto paramSuite = suites.ParamUtilsSuite3();
+
+            A_long editingMode;
+            ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_EDITING_MODE,
+                                            &editingMode));
 
             A_long pinCount;
             ERR(AEOGLInterop::getPopupParam(in_data, out_data, PARAM_PINCOUNT,
@@ -414,11 +422,15 @@ static PF_Err UserChangedParam(PF_InData *in_data, PF_OutData *out_data,
             }
 
             for (size_t i = 0; i < 4; i++) {
-                if (i + 1 <= pinCount) {
+                bool availablePin = i + 1 <= pinCount;
+                if (availablePin && editingMode != PARAM_EDITING_MODE_DST) {
                     paramsCopy[PARAM_SRC_1 + i].ui_flags &= (~PF_PUI_DISABLED);
-                    paramsCopy[PARAM_DST_1 + i].ui_flags &= (~PF_PUI_DISABLED);
                 } else {
                     paramsCopy[PARAM_SRC_1 + i].ui_flags |= PF_PUI_DISABLED;
+                }
+                if (availablePin && editingMode != PARAM_EDITING_MODE_SRC) {
+                    paramsCopy[PARAM_DST_1 + i].ui_flags &= (~PF_PUI_DISABLED);
+                } else {
                     paramsCopy[PARAM_DST_1 + i].ui_flags |= PF_PUI_DISABLED;
                 }
 
@@ -429,6 +441,7 @@ static PF_Err UserChangedParam(PF_InData *in_data, PF_OutData *out_data,
                                                  PARAM_DST_1 + i,
                                                  &paramsCopy[PARAM_DST_1 + i]));
             }
+            break;
         }
         case PARAM_COPY_SRC_TO_DST: {
             PF_ParamDef *paramSrc, *paramDst;
@@ -440,6 +453,7 @@ static PF_Err UserChangedParam(PF_InData *in_data, PF_OutData *out_data,
                 paramDst->uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
                 ;
             }
+            break;
         }
         case PARAM_SWAP_SRC_DST: {
             PF_ParamDef *paramSrc, *paramDst;
@@ -457,8 +471,8 @@ static PF_Err UserChangedParam(PF_InData *in_data, PF_OutData *out_data,
 
                 paramSrc->uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
                 paramDst->uu.change_flags |= PF_ChangeFlag_CHANGED_VALUE;
-                ;
             }
+            break;
         }
     }
 
