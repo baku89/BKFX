@@ -288,8 +288,6 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
 
 static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                           PF_SmartRenderExtra *extra) {
-    FX_LOG("=====SmartRender=====");
-
     PF_Err err = PF_Err_NONE, err2 = PF_Err_NONE;
 
     AEGP_SuiteHandler suites(in_data->pica_basicP);

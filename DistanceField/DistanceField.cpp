@@ -207,9 +207,6 @@ static PF_Err PreRender(PF_InData *in_data, PF_OutData *out_data,
 
 static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
                           PF_SmartRenderExtra *extra) {
-    FX_LOG("=====SmartRender=====");
-    FX_LOG_TIME_START(smartRenderTime);
-
     PF_Err err = PF_Err_NONE, err2 = PF_Err_NONE;
 
     AEGP_SuiteHandler suites(in_data->pica_basicP);
@@ -356,8 +353,6 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
     ERR2(AEFX_ReleaseSuite(in_data, out_data, kPFWorldSuite,
                            kPFWorldSuiteVersion2, "Couldn't release suite."));
     ERR2(extra->cb->checkin_layer_pixels(in_data->effect_ref, PARAM_INPUT));
-
-    FX_LOG_TIME_END(smartRenderTime, "SmartRender");
 
     return err;
 }
