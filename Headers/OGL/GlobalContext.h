@@ -1,7 +1,7 @@
+#include <sstream>
 
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-#include <glad/glad.h>
+#include "common/system_utils.h"
+#include "util/egl_loader_autogen.h"
 
 namespace OGL {
 
@@ -13,7 +13,11 @@ class GlobalContext {
     void bind();
 
    private:
-    GLFWwindow *window;
+    EGLDisplay display;
+    EGLContext context;
+    EGLSurface surface;
+    
+    bool assertEGLError(const std::string& msg);
 };
 
 }  // namespace OGL

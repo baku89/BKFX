@@ -1,4 +1,5 @@
-#version 400
+precision highp float;
+precision highp int;
 
 uniform sampler2D tex0;
 uniform float multiplier16bit;
@@ -7,8 +8,7 @@ uniform vec2 center;
 uniform float angle;
 uniform float aspectY;
 
-in vec2 uv;
-out vec4 fragColor;
+varying vec2 uv;
 
 vec4 fromAE(vec4 color) {
     return color.gbar * multiplier16bit;
@@ -28,5 +28,5 @@ void main() {
     
     vec2 newUV = (c + dir * l) / vec2(1.0, aspectY);
     
-    fragColor = texture(tex0, newUV);
+    gl_FragColor = texture2D(tex0, newUV);
 }

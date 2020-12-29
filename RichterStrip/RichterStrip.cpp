@@ -53,18 +53,20 @@ static PF_Err GlobalSetup(PF_InData *in_data, PF_OutData *out_data,
     if (!globalData->globalContext.initialized) {
         err = PF_Err_OUT_OF_MEMORY;
     }
+    
+    if (err == PF_Err_NONE) {
+        globalData->globalContext.bind();
 
-    globalData->globalContext.bind();
+        // Setup GL objects
+        globalData->inputTexture = *new OGL::Texture();
+        globalData->fbo = *new OGL::Fbo();
+        globalData->quad = *new OGL::QuadVao();
 
-    // Setup GL objects
-    globalData->inputTexture = *new OGL::Texture();
-    globalData->fbo = *new OGL::Fbo();
-    globalData->quad = *new OGL::QuadVao();
-
-    std::string resourcePath = AEUtils::getResourcesPath(in_data);
-    std::string vertPath = resourcePath + "shaders/shader.vert";
-    std::string fragPath = resourcePath + "shaders/shader.frag";
-    globalData->program = *new OGL::Shader(vertPath.c_str(), fragPath.c_str());
+        std::string resourcePath = AEUtils::getResourcesPath(in_data);
+        std::string vertPath = resourcePath + "shaders/shader.vert";
+        std::string fragPath = resourcePath + "shaders/shader.frag";
+        globalData->program = *new OGL::Shader(vertPath.c_str(), fragPath.c_str());
+    }
 
     handleSuite->host_unlock_handle(globalDataH);
     return err;
@@ -252,8 +254,8 @@ static PF_Err SmartRender(PF_InData *in_data, PF_OutData *out_data,
         ERR(AEOGLInterop::downloadTexture(pixelsBufferP, output_worldP, pixelType));
 
         // Unbind
-        globalData->program.unbind();
         globalData->fbo.unbind();
+//        globalData->program.unbind();
 
         // downloadTexture
         ERR(AEOGLInterop::downloadTexture(pixelsBufferP, output_worldP, pixelType));
