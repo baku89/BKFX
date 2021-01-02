@@ -62,8 +62,7 @@ void uploadTexture(OGL::Texture *tex,
     tex->bind();
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, pixelType,
                     pixelsBufferP);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-
+    //    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     tex->unbind();
 }
 
